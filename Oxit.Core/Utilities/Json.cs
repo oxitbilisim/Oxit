@@ -1,6 +1,5 @@
-﻿using Oxit.Core.Enums;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
+using Oxit.Core.Enums;
 
 namespace Oxit.Core.Utilities
 {
@@ -10,9 +9,9 @@ namespace Oxit.Core.Utilities
         {
 
             if (handler == JsonRefHandlers.None)
-        
+
                 return JsonConvert.SerializeObject(obj);
-        
+
 
             JsonSerializerSettings settings = new JsonSerializerSettings();
 
