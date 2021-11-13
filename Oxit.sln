@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Web.Panel", "Oxit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Mobile", "Oxit.API.Mobile\Oxit.API.Mobile.csproj", "{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Shared", "Oxit.API.Shared\Oxit.API.Shared.csproj", "{4DF15880-4DEB-493A-A91C-998DCF604229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DF15880-4DEB-493A-A91C-998DCF604229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF15880-4DEB-493A-A91C-998DCF604229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF15880-4DEB-493A-A91C-998DCF604229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF15880-4DEB-493A-A91C-998DCF604229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{A391AF81-C1AC-4514-973F-39D4C3311623} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{808C0F3F-2ABC-49A0-A249-23156B70E16A} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
+		{4DF15880-4DEB-493A-A91C-998DCF604229} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6174F6B6-9673-4500-94A3-D69FD683F536}
