@@ -6,15 +6,19 @@ namespace Oxit.DataAccess.EntityFramework
 
     public partial class appDbContext : baseAppDbContext
     {
-        private readonly IHttpContextAccessor _contextAccessor;
 
-        public appDbContext(IHttpContextAccessor _contextAccessor, DbContextOptions<baseAppDbContext> options)
-            : base(_contextAccessor, options)
+
+        public appDbContext()
+            : base()
         {
-            this._contextAccessor = _contextAccessor;
+
         }
 
-        //public virtual DbSet<d> Ds;
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+
     }
 }
 
