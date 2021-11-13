@@ -1,0 +1,28 @@
+{
+  "Database": {
+    "Type": "SqlServer", //or MySql - Oracle - PostgreSql
+    "ConnectionString": "Server=172.16.5.52;Database=Polut_Dev;User Id=sa;Password=admin123?;MultipleActiveResultSets=true;"
+  },
+
+
+  "Cache": {
+    "Enable": true,
+    "Type": "Redis" // or Database
+  },
+  "Redis": {
+    "Enable": false,
+    "Host": "10.0.3.171",
+    "Port": "6379"
+  },
+
+  "Mail": {
+    "Server": "",
+    "Username": "",
+    "Password": ""
+  },
+  "Log": {
+    "Enable": true,
+    "Destination": "Database", // or Disk or Mongo
+    "MongoDbConnectionString": "mongodb://192.168.1.218:27017"
+  }
+}
