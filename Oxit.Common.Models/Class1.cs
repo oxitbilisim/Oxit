@@ -1,4 +1,4 @@
-﻿namespace Oxit.DataAccess
+﻿namespace Oxit.Common.Models
 {
     public class Class1
     {

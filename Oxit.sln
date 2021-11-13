@@ -3,31 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Core", "Oxit.Core\Oxit.Core.csproj", "{56BCD026-9380-45BC-9C60-42ED927D9DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Core", "Oxit.Core\Oxit.Core.csproj", "{56BCD026-9380-45BC-9C60-42ED927D9DA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.DataAccess", "Oxit.DataAccess\Oxit.DataAccess.csproj", "{8B6988C9-2B88-44B9-879F-E553BC3FF851}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.DataAccess", "Oxit.DataAccess\Oxit.DataAccess.csproj", "{8B6988C9-2B88-44B9-879F-E553BC3FF851}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Domain", "Oxit.Domain\Oxit.Domain.csproj", "{88507712-6965-4A7A-8122-7E61618508D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain", "Oxit.Domain\Oxit.Domain.csproj", "{88507712-6965-4A7A-8122-7E61618508D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Domain.Models", "Oxit.Domain.Models\Oxit.Domain.Models.csproj", "{FE8BA794-8528-4DD9-B0B5-0CE09EFE2085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain.Models", "Oxit.Domain.Models\Oxit.Domain.Models.csproj", "{FE8BA794-8528-4DD9-B0B5-0CE09EFE2085}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{A216783E-422A-453A-926D-4E712C9FAE46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{63D77393-D1DB-43AB-9489-27FBFDCE7FA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Infrastructure", "Oxit.Infrastructure\Oxit.Infrastructure.csproj", "{85A52369-CD48-4EC4-925C-FAB658E9860C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Infrastructure", "Oxit.Infrastructure\Oxit.Infrastructure.csproj", "{85A52369-CD48-4EC4-925C-FAB658E9860C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Domain.DTOs", "Oxit.Domain.DTOs\Oxit.Domain.DTOs.csproj", "{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain.DTOs", "Oxit.Domain.DTOs\Oxit.Domain.DTOs.csproj", "{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Domain.Core", "Oxit.Domain.Core\Oxit.Domain.Core.csproj", "{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain.Core", "Oxit.Domain.Core\Oxit.Domain.Core.csproj", "{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Web.Public", "Oxit.API.Web.Public\Oxit.API.Web.Public.csproj", "{A391AF81-C1AC-4514-973F-39D4C3311623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Web.Public", "Oxit.API.Web.Public\Oxit.API.Web.Public.csproj", "{A391AF81-C1AC-4514-973F-39D4C3311623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Web.Panel", "Oxit.API.Web.Panel\Oxit.API.Web.Panel.csproj", "{808C0F3F-2ABC-49A0-A249-23156B70E16A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Web.Panel", "Oxit.API.Web.Panel\Oxit.API.Web.Panel.csproj", "{808C0F3F-2ABC-49A0-A249-23156B70E16A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Mobile", "Oxit.API.Mobile\Oxit.API.Mobile.csproj", "{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Mobile", "Oxit.API.Mobile\Oxit.API.Mobile.csproj", "{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.API.Shared", "Oxit.API.Shared\Oxit.API.Shared.csproj", "{4DF15880-4DEB-493A-A91C-998DCF604229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Shared", "Oxit.API.Shared\Oxit.API.Shared.csproj", "{4DF15880-4DEB-493A-A91C-998DCF604229}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7498CE1E-E235-4F00-ACDD-4B1EF581592F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Models", "Oxit.Common.Models\Oxit.Common.Models.csproj", "{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.DTOs", "Oxit.Common.DTOs\Oxit.Common.DTOs.csproj", "{DF03739A-479E-4930-AAC0-3E060438D18A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,14 @@ Global
 		{4DF15880-4DEB-493A-A91C-998DCF604229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DF15880-4DEB-493A-A91C-998DCF604229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DF15880-4DEB-493A-A91C-998DCF604229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF03739A-479E-4930-AAC0-3E060438D18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF03739A-479E-4930-AAC0-3E060438D18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF03739A-479E-4930-AAC0-3E060438D18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF03739A-479E-4930-AAC0-3E060438D18A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +106,8 @@ Global
 		{808C0F3F-2ABC-49A0-A249-23156B70E16A} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{4DF15880-4DEB-493A-A91C-998DCF604229} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
+		{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
+		{DF03739A-479E-4930-AAC0-3E060438D18A} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6174F6B6-9673-4500-94A3-D69FD683F536}
