@@ -17,19 +17,14 @@ namespace Oxit.Core
         {
             public static bool Enable = bool.Parse(Convert.ToString(settingsJson.Cache.Enable));
             public static string Type = settingsJson.Cache.Type;
-
-        }
-        public class Redis
-        {
-            public static bool Enable = bool.Parse(Convert.ToString(settingsJson.Redis.Enable));
-            public static string Host = settingsJson.Redis.Host;
-            public static string Port = settingsJson.Redis.Port;
+            public static string ConnectionString = settingsJson.Cache.ConnectionString;
         }
 
         public class Log
         {
             public static bool Enable = bool.Parse(Convert.ToString(settingsJson.Log.Enable));
             public static string Destination = settingsJson.Log.Destination;
+            public static string Level = settingsJson.Log.Level;
             public static string MongoDbConnectionString = settingsJson.Log.MongoDbConnectionString;
         }
         public class Password
@@ -42,8 +37,6 @@ namespace Oxit.Core
             public static string Server = settingsJson.Mail.Server;
             public static string Username = settingsJson.Mail.Username;
             public static string Password = settingsJson.Mail.Password;
-
-
         }
     }
 }

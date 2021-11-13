@@ -1,5 +1,6 @@
 ﻿//using ExcelDataReader;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Oxit.Core.Utilities
 {
@@ -43,6 +44,14 @@ namespace Oxit.Core.Utilities
                            .First()
                            .GetCustomAttribute<DisplayAttribute>()
                            .Name;
+        }
+        public static string GetPascalCase(string text)
+        {
+            var r = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z]) |
+                                (?<=[^A-Z])(?=[A-Z]) |
+                                (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+            text = r.Replace(text, "_");
+            return text;
         }
         //public static List<T> ExcelToObject<T>(this Stream stream)
         //{
