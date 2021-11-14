@@ -57,7 +57,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.ToTable("Person", (string)null);
 
                     b.HasData(
                         new

@@ -20,6 +20,13 @@ namespace Oxit.DataAccess.FluentMapping.Common
                     IsDeleted = false,
 
                 });
+                x.ToTable(nameof(Person), x => x.IsTemporal(b =>
+                {
+                    b.HasPeriodStart("ValidFrom");
+                    b.HasPeriodEnd("ValidTo");
+                    b.UseHistoryTable("EmployeeHistoricalData");
+
+                }));
             });
         }
     }
