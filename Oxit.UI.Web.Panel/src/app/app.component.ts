@@ -1,21 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
-  // tslint:disable-next-line
-  selector: 'body',
-  template: '<router-outlet></router-outlet>'
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'CoreUI 2 for Angular 8';
-  constructor(private router: Router) { }
-
-  ngOnInit() {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-      window.scrollTo(0, 0);
-    });
-  }
+export class AppComponent {
+  title = 'public';
 }
