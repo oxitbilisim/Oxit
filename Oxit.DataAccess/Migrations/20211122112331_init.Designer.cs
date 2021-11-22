@@ -12,8 +12,8 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211113213220_init2")]
-    partial class init2
+    [Migration("20211122112331_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,14 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.ToTable("Person", (string)null);
+
+                    b
+                        .HasAnnotation("SqlServer:IsTemporal", true)
+                        .HasAnnotation("SqlServer:TemporalHistoryTableName", "EmployeeHistoricalData")
+                        .HasAnnotation("SqlServer:TemporalHistoryTableSchema", null)
+                        .HasAnnotation("SqlServer:TemporalPeriodEndPropertyName", "ValidTo")
+                        .HasAnnotation("SqlServer:TemporalPeriodStartPropertyName", "ValidFrom");
 
                     b.HasData(
                         new

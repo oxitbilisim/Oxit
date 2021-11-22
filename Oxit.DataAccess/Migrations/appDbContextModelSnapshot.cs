@@ -59,6 +59,13 @@ namespace Oxit.DataAccess.Migrations
 
                     b.ToTable("Person", (string)null);
 
+                    b
+                        .HasAnnotation("SqlServer:IsTemporal", true)
+                        .HasAnnotation("SqlServer:TemporalHistoryTableName", "EmployeeHistoricalData")
+                        .HasAnnotation("SqlServer:TemporalHistoryTableSchema", null)
+                        .HasAnnotation("SqlServer:TemporalPeriodEndPropertyName", "ValidTo")
+                        .HasAnnotation("SqlServer:TemporalPeriodStartPropertyName", "ValidFrom");
+
                     b.HasData(
                         new
                         {
