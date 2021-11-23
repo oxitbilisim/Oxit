@@ -18,8 +18,7 @@ import { PopoverModule } from "ngx-bootstrap/popover";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 // Tooltip Component
 import { TooltipModule } from "ngx-bootstrap/tooltip";
-// navbars
-import { NavbarsComponent } from "./navbars/navbars.component";
+
 // Components Routing
 import { BaseRoutingModule } from "./base-routing.module";
 
@@ -37,6 +36,6 @@ import { BaseRoutingModule } from "./base-routing.module";
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
   ],
-  declarations: [NavbarsComponent],
+  declarations: [],
 })
 export class BaseModule {}
