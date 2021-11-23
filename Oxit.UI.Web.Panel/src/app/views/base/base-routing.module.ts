@@ -1,33 +1,32 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-
-import { NavbarsComponent } from './navbars/navbars.component';
+import { NavbarsComponent } from "./navbars/navbars.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     data: {
-      title: 'Base'
+      title: "Base",
     },
     children: [
       {
-        path: '',
-        redirectTo: 'cards'
+        path: "",
+        redirectTo: "cards",
       },
       {
-        path: 'navbars',
+        path: "navbars",
         component: NavbarsComponent,
         data: {
-          title: 'Navbars'
-        }
-      }
-    ]
-  }
+          title: "Navbars",
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class BaseRoutingModule {}

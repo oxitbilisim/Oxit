@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { ButtonsComponent } from './buttons.component';
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { NgModule } from "@angular/core";
+import { ButtonsComponent } from "./buttons.component";
 // Dropdowns Component
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 // Buttons Routing
-import { ButtonsRoutingModule } from './buttons-routing.module';
+import { ButtonsRoutingModule } from "./buttons-routing.module";
 
 // Angular
 
@@ -14,11 +14,8 @@ import { ButtonsRoutingModule } from './buttons-routing.module';
     CommonModule,
     ButtonsRoutingModule,
     BsDropdownModule.forRoot(),
-    FormsModule
+    FormsModule,
   ],
-  declarations: [
-    ButtonsComponent
-
-  ]
+  declarations: [ButtonsComponent],
 })
-export class ButtonsModule { }
+export class ButtonsModule {}

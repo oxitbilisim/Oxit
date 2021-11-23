@@ -1,27 +1,27 @@
 // Angular
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { NgModule } from "@angular/core";
 // Tabs Component
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsModule } from "ngx-bootstrap/tabs";
 // Carousel Component
-import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { CarouselModule } from "ngx-bootstrap/carousel";
 // Collapse Component
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { CollapseModule } from "ngx-bootstrap/collapse";
 // Dropdowns Component
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 // Pagination Component
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationModule } from "ngx-bootstrap/pagination";
 // Popover Component
-import { PopoverModule } from 'ngx-bootstrap/popover';
+import { PopoverModule } from "ngx-bootstrap/popover";
 // Progress Component
-import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 // Tooltip Component
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 // navbars
-import { NavbarsComponent } from './navbars/navbars.component';
+import { NavbarsComponent } from "./navbars/navbars.component";
 // Components Routing
-import { BaseRoutingModule } from './base-routing.module';
+import { BaseRoutingModule } from "./base-routing.module";
 
 @NgModule({
   imports: [
@@ -35,11 +35,8 @@ import { BaseRoutingModule } from './base-routing.module';
     PaginationModule.forRoot(),
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
   ],
-  declarations: [
-
-    NavbarsComponent
-  ]
+  declarations: [NavbarsComponent],
 })
-export class BaseModule { }
+export class BaseModule {}
