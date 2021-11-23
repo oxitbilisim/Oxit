@@ -15,8 +15,6 @@ const routes: Routes = [
         path: '',
         redirectTo: 'cards'
       },
-
-
       {
         path: 'navbars',
         component: NavbarsComponent,
