@@ -33,13 +33,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7498CE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.Models", "Oxit.Common.Models\Oxit.Common.Models.csproj", "{07CBBCEE-27CC-4ED0-A553-F1E4DD42CE29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.DTOs", "Oxit.Common.DTOs\Oxit.Common.DTOs.csproj", "{DF03739A-479E-4930-AAC0-3E060438D18A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.ViewModels", "Oxit.Common.DTOs\Oxit.Common.ViewModels.csproj", "{DF03739A-479E-4930-AAC0-3E060438D18A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{DDB4B64A-5727-4822-AE97-F7761A9EF992}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Web.Public", "Oxit.Web.Public\Oxit.Web.Public.csproj", "{B3938800-14B7-4F1A-95FB-EA9F3EB76421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Public", "Oxit.Web.Public\Oxit.Web.Public.csproj", "{B3938800-14B7-4F1A-95FB-EA9F3EB76421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Web.Admin", "Oxit.Web.Admin\Oxit.Web.Admin.csproj", "{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Admin", "Oxit.Web.Admin\Oxit.Web.Admin.csproj", "{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

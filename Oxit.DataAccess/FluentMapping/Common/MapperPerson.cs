@@ -17,7 +17,6 @@ namespace Oxit.DataAccess.FluentMapping.Common
                     Id = Guid.Parse("c569ade6-116f-4e63-be5c-b38009299857"),
                     Name = "Ali",
                     Active = true,
-                    IsDeleted = false,
 
                 });
                 x.ToTable(nameof(Person), x => x.IsTemporal(b =>
