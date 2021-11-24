@@ -8,6 +8,7 @@ namespace Oxit.Common.ViewModels.Person
 {
     public class PersonGetallViewModel
     {
+
         public string? Name { get; set; }
         public string? LastName { get; set; }
         public string? NationalId { get; set; }

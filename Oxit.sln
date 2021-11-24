@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Public", "Oxit.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Admin", "Oxit.Web.Admin\Oxit.Web.Admin.csproj", "{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Exception", "Oxit.Common.Exception\Oxit.Common.Exception.csproj", "{F94A9CC3-9C51-4577-8946-263670DF3285}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94A9CC3-9C51-4577-8946-263670DF3285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94A9CC3-9C51-4577-8946-263670DF3285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94A9CC3-9C51-4577-8946-263670DF3285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94A9CC3-9C51-4577-8946-263670DF3285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +130,7 @@ Global
 		{DF03739A-479E-4930-AAC0-3E060438D18A} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
 		{B3938800-14B7-4F1A-95FB-EA9F3EB76421} = {DDB4B64A-5727-4822-AE97-F7761A9EF992}
 		{30784C7C-CE9A-4FBD-9CBE-154B701B83CA} = {DDB4B64A-5727-4822-AE97-F7761A9EF992}
+		{F94A9CC3-9C51-4577-8946-263670DF3285} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6174F6B6-9673-4500-94A3-D69FD683F536}
