@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Oxit.Common.Automapper\Oxit.Common.Automapper.csproj" />
+    <ProjectReference Include="..\Oxit.Common.DTOs\Oxit.Common.ViewModels.csproj" />
+    <ProjectReference Include="..\Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj" />
+    <ProjectReference Include="..\Oxit.Common.Exception\Oxit.Common.Exception.csproj" />
+    <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
+    <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
+    <ProjectReference Include="..\Oxit.DataAccess\Oxit.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Exception", "Ox
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Automapper", "Oxit.Common.Automapper\Oxit.Common.Automapper.csproj", "{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.DataAccess", "Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj", "{2FF5A88D-A41A-4424-B41F-82EB6582437E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Domain", "Oxit.Common.Domain\Oxit.Common.Domain.csproj", "{F452DEF4-3557-478E-B853-8F44E26DD5B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +123,14 @@ Global
 		{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF5A88D-A41A-4424-B41F-82EB6582437E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF5A88D-A41A-4424-B41F-82EB6582437E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF5A88D-A41A-4424-B41F-82EB6582437E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF5A88D-A41A-4424-B41F-82EB6582437E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +150,8 @@ Global
 		{30784C7C-CE9A-4FBD-9CBE-154B701B83CA} = {DDB4B64A-5727-4822-AE97-F7761A9EF992}
 		{F94A9CC3-9C51-4577-8946-263670DF3285} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
 		{1AA9AED5-86DA-44B3-83EE-0BE85C92B672} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
+		{2FF5A88D-A41A-4424-B41F-82EB6582437E} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
+		{F452DEF4-3557-478E-B853-8F44E26DD5B4} = {7498CE1E-E235-4F00-ACDD-4B1EF581592F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6174F6B6-9673-4500-94A3-D69FD683F536}

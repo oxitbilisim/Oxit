@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Oxit.Common.DataAccess.FluentMapping;
 using Oxit.Common.Models;
 using Oxit.Common.Models.Base;
+using Oxit.Core;
 using Oxit.Core.Enums;
-using Oxit.DataAccess.FluentMapping;
-using Oxit.DataAccess.FluentMapping.Common;
 
-namespace Oxit.DataAccess.EntityFramework
+
+namespace Oxit.Common.DataAccess.EntityFramework
 {
 
-    public partial class baseAppDbContext : DbContext
+    public partial class BaseAppDbContext : DbContext
     {
-   
 
-        public baseAppDbContext()
+
+        public BaseAppDbContext()
             : base()
         {
-           
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,8 +32,6 @@ namespace Oxit.DataAccess.EntityFramework
             {
                 optionsBuilder.UseNpgsql(Settings.Database.ConnectionString);
             }
-
-
             optionsBuilder.UseLazyLoadingProxies();
 
 
@@ -96,6 +96,6 @@ namespace Oxit.DataAccess.EntityFramework
             }
             return base.SaveChanges();
         }
-   
+
     }
 }

@@ -4,7 +4,7 @@ using Oxit.Common.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Oxit.DataAccess.FluentMapping.Common
+namespace Oxit.Common.DataAccess.FluentMapping
 {
     public class MapperPerson
     {
@@ -12,6 +12,7 @@ namespace Oxit.DataAccess.FluentMapping.Common
         {
             modelBuilder.Entity<Person>(x =>
             {
+                x.Property(v => v.Name).IsRequired();
                 x.HasData(new Person
                 {
                     Id = Guid.Parse("c569ade6-116f-4e63-be5c-b38009299857"),
@@ -19,13 +20,7 @@ namespace Oxit.DataAccess.FluentMapping.Common
                     Active = true,
 
                 });
-                x.ToTable(nameof(Person), x => x.IsTemporal(b =>
-                {
-                    b.HasPeriodStart("ValidFrom");
-                    b.HasPeriodEnd("ValidTo");
-                    b.UseHistoryTable("EmployeeHistoricalData");
 
-                }));
             });
         }
     }

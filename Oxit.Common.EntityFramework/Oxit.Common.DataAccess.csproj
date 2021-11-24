@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Oxit.Common.DTOs\Oxit.Common.ViewModels.csproj" />
     <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
+    <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
   </ItemGroup>
 
 </Project>

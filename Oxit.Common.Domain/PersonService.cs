@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oxit.Common.Automapper.MappingProfiles
+namespace Oxit.Common.Domain
 {
-    internal class MappingPerson
+    public class PersonService
     {
     }
 }

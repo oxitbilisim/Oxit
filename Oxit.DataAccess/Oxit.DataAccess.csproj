@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FluentMapping\Domain\**" />
+    <EmbeddedResource Remove="FluentMapping\Domain\**" />
+    <None Remove="FluentMapping\Domain\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.0" />
@@ -20,12 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj" />
     <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FluentMapping\Domain\" />
+    <Folder Include="FluentMapping\" />
   </ItemGroup>
 
 </Project>
