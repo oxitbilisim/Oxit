@@ -10,7 +10,13 @@ namespace Oxit.Common.Models
 {
     public class Person : BaseFullModel<Guid>
     {
-        [StringLength(100)]
-        public string Name { get; set; }
+        public Person()
+        {
+
+        }
+        public string? Name { get; set; }
+        public string? LastName { get; set; }
+        public string? NationalId { get; set; }
+        public string? Photo { get; set; }
     }
 }
