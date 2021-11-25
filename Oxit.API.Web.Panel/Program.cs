@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Oxit.Core;
 using Oxit.Core.Enums;
 using Oxit.DataAccess.EntityFramework;
+using Oxit.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<appDbContext>();
+builder.Services.AddAppDependencies();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

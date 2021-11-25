@@ -16,8 +16,5 @@ namespace Oxit.Common.Domain
             return services;
 
         }
-
-
-
     }
 }

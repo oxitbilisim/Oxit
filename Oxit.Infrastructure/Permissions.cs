@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Oxit.Core.Utilities
+namespace Oxit.Infrastructure
 {
     public static class Permissions
     {

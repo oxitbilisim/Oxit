@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Oxit.Common.Automapper;
+using Oxit.Common.DataAccess.EntityFramework;
 using Oxit.Common.Domain;
 using Oxit.DataAccess.EntityFramework;
 using System;
@@ -18,6 +19,7 @@ namespace Oxit.Infrastructure
             services.AddSingleton(CommonMappingProfiles.GetProfiles().CreateMapper());
             services.AddScoped<Random>();
             services.AddDbContext<appDbContext>();
+            services.AddDbContext<CommonDbContext>();
             services.AddCommonServices();
             return services;
         }

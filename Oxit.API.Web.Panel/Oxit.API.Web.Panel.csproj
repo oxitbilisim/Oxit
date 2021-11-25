@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Oxit.Common.Domain\Oxit.Common.Domain.csproj" />
     <ProjectReference Include="..\Oxit.DataAccess\Oxit.DataAccess.csproj" />
+    <ProjectReference Include="..\Oxit.Infrastructure\Oxit.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
