@@ -16,7 +16,7 @@ namespace Oxit.Common.Automapper.MappingProfiles
         {
             CreateMap<Person, PersonGetViewModel>();
             CreateMap<Person, PersonGetAllViewModel>();
-            
+            CreateMap<PersonSaveViewModel, Person>();
         }
     }
 }

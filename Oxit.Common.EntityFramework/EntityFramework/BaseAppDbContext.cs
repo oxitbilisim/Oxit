@@ -18,7 +18,7 @@ namespace Oxit.Common.DataAccess.EntityFramework
         public BaseAppDbContext()
             : base()
         {
-
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,6 +31,8 @@ namespace Oxit.Common.DataAccess.EntityFramework
             if (Settings.Database.Type == DatabaseTypes.PostgreSql)
             {
                 optionsBuilder.UseNpgsql(Settings.Database.ConnectionString);
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
             }
             optionsBuilder.UseLazyLoadingProxies();
 

@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Oxit.Common.Domain;
+using Oxit.Common.Models;
 using Oxit.Common.ViewModels.Person;
 
 namespace Oxit.API.Web.Panel.Controllers
@@ -9,13 +11,13 @@ namespace Oxit.API.Web.Panel.Controllers
     public class PersonController : ControllerBase
     {
         private readonly PersonService person;
+        private readonly IMapper mapper;
 
-        public PersonController(PersonService person)
+        public PersonController(PersonService person, IMapper mapper)
         {
             this.person = person;
+            this.mapper = mapper;
         }
-
-
         [HttpGet]
         public async Task<IActionResult> Get(Guid Id)
         {
@@ -31,6 +33,20 @@ namespace Oxit.API.Web.Panel.Controllers
         {
             return Ok(person.GetAll<PersonGetAllViewModel>(page));
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Post(PersonSaveViewModel model)
+        {
+            return Ok(person.Add(mapper.Map<Person>(model)));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Put(PersonSaveViewModel model)
+        {
+            return Ok(person.Update(mapper.Map<Person>(model)));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            return Ok(person.Delete(Id));
+        }
     }
 }

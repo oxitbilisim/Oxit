@@ -18,6 +18,7 @@ namespace Oxit.Common.Domain.Base
             this.db = db;
             this.mapper = mapper;
         }
+
         public T? Get(int id)
         {
             return db.Set<T>().Find(id);
@@ -59,6 +60,32 @@ namespace Oxit.Common.Domain.Base
         public IEnumerable<M> GetAll<M>(int page) where M : class
         {
             return this.GetAll<M>().Skip((page - 1) * page).Take(10);
+        }
+        public int Add(T model)
+        {
+            db.Set<T>().Add(model);
+            return db.SaveChanges();
+
+        }
+        public int Update(T model)
+        {
+            db.Set<T>().Update(model);
+            return db.SaveChanges();
+        }
+        public int Delete(int id)
+        {
+            db.Set<T>().Remove(db.Set<T>().Find(id));
+            return db.SaveChanges();
+        }
+        public int Delete(long id)
+        {
+            db.Set<T>().Remove(db.Set<T>().Find(id));
+            return db.SaveChanges();
+        }
+        public int Delete(Guid id)
+        {
+            db.Set<T>().Remove(db.Set<T>().Find(id));
+            return db.SaveChanges();
         }
     }
 }

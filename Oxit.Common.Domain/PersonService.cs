@@ -14,17 +14,13 @@ namespace Oxit.Common.Domain
     {
         private readonly CommonDbContext db;
         private readonly IMapper mapper;
-
         public PersonService(CommonDbContext db, IMapper mapper) : base(db, mapper)
         {
             this.db = db;
             this.mapper = mapper;
         }
 
-        public override IQueryable<Person> GetAll()
-        {
-            return base.GetAll();
-        }
+
 
     }
 }
