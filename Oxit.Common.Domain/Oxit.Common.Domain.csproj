@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

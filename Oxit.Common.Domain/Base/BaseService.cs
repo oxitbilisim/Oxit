@@ -1,25 +1,24 @@
 ﻿using Oxit.Common.DataAccess.EntityFramework;
-using Oxit.Common.Domain.Base;
-using Oxit.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oxit.Common.Domain
+namespace Oxit.Common.Domain.Base
 {
-    public class PersonService : BaseService<Person>
+    public class BaseService<T> : IBaseService<T> where T : class
     {
         private readonly CommonDbContext db;
-        public PersonService(CommonDbContext db) : base(db)
+
+        public BaseService(CommonDbContext db)
         {
             this.db = db;
         }
 
-        public override IQueryable<Person> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-            return base.GetAll();
+            return db.Set<T>();
         }
     }
 }
