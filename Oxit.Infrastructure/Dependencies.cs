@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Oxit.Common.Automapper;
 using Oxit.Common.DataAccess.EntityFramework;
 using Oxit.Common.Domain;
@@ -30,6 +34,56 @@ namespace Oxit.Infrastructure
                 x.AddPolicy("Cors", p =>
                 {
                     p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+
+            });
+            services.Configure<FormOptions>(c =>
+            {
+
+                c.ValueLengthLimit = int.MaxValue;
+                c.MultipartBodyLengthLimit = int.MaxValue;
+                c.MemoryBufferThreshold = int.MaxValue;
+            });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+               .AddRoles<IdentityRole>()
+               .AddUserManager<UserManager<IdentityUser>>()
+               .AddRoleManager<RoleManager<IdentityRole>>()
+               .AddEntityFrameworkStores<appDbContext>()
+                  //.AddDefaultTokenProviders()
+                  ;
+            services.Configure<IdentityOptions>(x =>
+            {
+                x.Password.RequireDigit = false;
+                x.Password.RequiredLength = 3;
+                x.Password.RequireLowercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+                x.Password.RequireUppercase = false;
+                x.Password.RequireLowercase = false;
+            });
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings.JWT.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            }); ;
+            services.AddAuthorization(options =>
+            {
+                Permissions.getAllPermissions().ForEach(x =>
+                {
+                    if (!string.IsNullOrEmpty(x.Permission))
+                        options.AddPolicy(x.Permission, policy => policy.RequireClaim(x.Permission));
                 });
 
             });

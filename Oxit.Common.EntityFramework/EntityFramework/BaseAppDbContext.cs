@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Oxit.Common.DataAccess.FluentMapping;
@@ -11,7 +13,7 @@ using Oxit.Core.Enums;
 namespace Oxit.Common.DataAccess.EntityFramework
 {
 
-    public partial class BaseAppDbContext : DbContext
+    public partial class BaseAppDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public BaseAppDbContext()
             : base()
@@ -42,7 +44,39 @@ namespace Oxit.Common.DataAccess.EntityFramework
             if (Settings.Database.Type == DatabaseTypes.SqlServer)
                 builder.UseCollation("Turkish_CI_AS");
             MapperPerson.Initialize(builder);
-
+            #region Identity
+            builder.Entity<IdentityUserToken<string>>(x =>
+            {
+            
+                x.HasKey(c => new
+                {
+                    c.UserId,
+                    c.Value
+                });
+            });
+            builder.Entity<IdentityUserRole<string>>(x =>
+            {
+                x.HasKey(c => new { c.UserId, c.RoleId });
+            });
+            builder.Entity<IdentityUser>(x =>
+            {
+                x.HasKey(c => c.Id);
+            });
+            builder.Entity<IdentityRole>(x =>
+            {
+                x.HasKey(c => c.Id);
+            });
+            builder.Entity<IdentityUserLogin<string>>(x =>
+            {
+                x.HasKey(c => new { c.UserId, c.ProviderKey });
+            });
+            builder.Entity<IdentityUserClaim<string>>(x =>
+            {
+            });
+            builder.Entity<IdentityRoleClaim<string>>(x =>
+            {
+            });
+            #endregion
         }
 
         public virtual DbSet<Person> Person { get; set; }

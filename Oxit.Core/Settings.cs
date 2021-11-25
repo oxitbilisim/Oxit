@@ -38,5 +38,12 @@ namespace Oxit.Core
             public static string Username = settingsJson.Mail.Username;
             public static string Password = settingsJson.Mail.Password;
         }
+
+        public class JWT
+        {
+            public static string ValidAudience = settingsJson.JWT.ValidAudience;
+            public static string ValidIssuer = settingsJson.JWT.ValidIssuer;
+            public static string Secret = settingsJson.JWT.Secret;
+        }
     }
 }

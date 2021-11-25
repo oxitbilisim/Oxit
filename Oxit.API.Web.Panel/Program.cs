@@ -1,5 +1,7 @@
 ﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Oxit.Common.Exception;
 using Oxit.Core.Utilities;
@@ -17,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAppDependencies();
 builder.Services.AddRateLimiting();
 builder.Services.AddTurkishLocalization();
+
 
 var app = builder.Build();
 app.UseClientRateLimiting();
@@ -48,6 +51,8 @@ else
 }
 app.UseCors("Cors");
 app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
