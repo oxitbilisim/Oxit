@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Oxit.API.Shared;
 using Oxit.Common.Domain;
 using Oxit.Common.Models;
 using Oxit.Common.ViewModels.Person;
@@ -20,12 +21,12 @@ namespace Oxit.API.Web.Panel.Controllers
             this.person = person;
             this.mapper = mapper;
         }
-        [HttpGet]
+        [HttpGet, Authorizer]
         public async Task<IActionResult> Get(Guid Id)
         {
             return Ok(person.Get<PersonGetViewModel>(Id));
         }
-        [HttpGet, Authorize(Policy = Permissions.General.All)]
+        [HttpGet, Authorizer(Permissions.General.All)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(person.GetAll<PersonGetAllViewModel>());

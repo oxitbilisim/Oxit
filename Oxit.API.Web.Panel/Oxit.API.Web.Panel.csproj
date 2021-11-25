@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Oxit.API.Shared\Oxit.API.Shared.csproj" />
     <ProjectReference Include="..\Oxit.Common.Domain\Oxit.Common.Domain.csproj" />
     <ProjectReference Include="..\Oxit.DataAccess\Oxit.DataAccess.csproj" />
     <ProjectReference Include="..\Oxit.Infrastructure\Oxit.Infrastructure.csproj" />

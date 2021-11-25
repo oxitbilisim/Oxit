@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Oxit.API.Shared;
+using Oxit.API.Web.Panel;
 using Oxit.Common.Exception;
 using Oxit.Core.Utilities;
 using Oxit.DataAccess.EntityFramework;
@@ -49,10 +51,14 @@ else
     });
 
 }
+app.UseRouting();
 app.UseCors("Cors");
 app.UseStaticFiles();
-app.UseRouting();
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 app.MapControllers();
+
 app.Run();

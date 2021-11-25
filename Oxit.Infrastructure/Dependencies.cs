@@ -49,7 +49,7 @@ namespace Oxit.Infrastructure
                .AddUserManager<UserManager<IdentityUser>>()
                .AddRoleManager<RoleManager<IdentityRole>>()
                .AddEntityFrameworkStores<appDbContext>()
-                  //.AddDefaultTokenProviders()
+                  .AddDefaultTokenProviders()
                   ;
             services.Configure<IdentityOptions>(x =>
             {
@@ -64,9 +64,8 @@ namespace Oxit.Infrastructure
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-
-            }).AddJwtBearer(x =>
+            })
+                .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
