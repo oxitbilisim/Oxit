@@ -59,7 +59,7 @@ namespace Oxit.Common.Domain.Base
         }
         public IEnumerable<M> GetAll<M>(int page) where M : class
         {
-            return this.GetAll<M>().Skip((page - 1) * page).Take(10);
+            return this.GetAll().Skip((page - 1) * page).Take(10).ProjectTo<M>(mapper.ConfigurationProvider);
         }
         public int Add(T model)
         {

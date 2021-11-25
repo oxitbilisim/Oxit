@@ -16,6 +16,9 @@ namespace Oxit.Infrastructure
     {
         public static IServiceCollection AddAppDependencies(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddOptions();
+            services.AddMemoryCache();
             services.AddSingleton(CommonMappingProfiles.GetProfiles().CreateMapper());
             services.AddScoped<Random>();
             services.AddDbContext<appDbContext>();

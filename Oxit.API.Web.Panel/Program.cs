@@ -1,31 +1,52 @@
-using Microsoft.EntityFrameworkCore;
-using Oxit.Core;
-using Oxit.Core.Enums;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Localization;
+using Oxit.Common.Exception;
+using Oxit.Core.Utilities;
 using Oxit.DataAccess.EntityFramework;
 using Oxit.Infrastructure;
+using System.Globalization;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<appDbContext>();
 builder.Services.AddAppDependencies();
+builder.Services.AddRateLimiting();
+builder.Services.AddTurkishLocalization();
 
 var app = builder.Build();
+app.UseClientRateLimiting();
 
-// Configure the HTTP request pipeline.
+
+var cultureInfo = new CultureInfo("tr-TR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseExceptionHandler(errorApp =>
+    {
+        errorApp.Run(async context =>
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
+            var error = context.Features.Get<IExceptionHandlerFeature>();
+            if (error != null)
+                await context.Response.WriteAsync(new GenericExeption("Sistemde beklenmedik bir hata oluştu").ToJson(), Encoding.UTF8);
+        });
+    });
+
+}
 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

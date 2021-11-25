@@ -13,20 +13,16 @@ namespace Oxit.Common.DataAccess.EntityFramework
 
     public partial class BaseAppDbContext : DbContext
     {
-
-
         public BaseAppDbContext()
             : base()
         {
-            
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (Settings.Database.Type == DatabaseTypes.SqlServer)
-            {
                 optionsBuilder.UseSqlServer(Settings.Database.ConnectionString);
-            }
 
             if (Settings.Database.Type == DatabaseTypes.PostgreSql)
             {
@@ -35,8 +31,6 @@ namespace Oxit.Common.DataAccess.EntityFramework
                 AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
             }
             optionsBuilder.UseLazyLoadingProxies();
-
-
 #if DEBUG
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors();
 #endif
@@ -47,8 +41,6 @@ namespace Oxit.Common.DataAccess.EntityFramework
         {
             if (Settings.Database.Type == DatabaseTypes.SqlServer)
                 builder.UseCollation("Turkish_CI_AS");
-
-
             MapperPerson.Initialize(builder);
 
         }

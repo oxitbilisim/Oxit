@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Oxit.Common.Automapper\Oxit.Common.Automapper.csproj" />
     <ProjectReference Include="..\Oxit.Common.Domain\Oxit.Common.Domain.csproj" />
     <ProjectReference Include="..\Oxit.Common.DTOs\Oxit.Common.ViewModels.csproj" />
