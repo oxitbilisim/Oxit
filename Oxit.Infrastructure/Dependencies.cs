@@ -33,7 +33,9 @@ namespace Oxit.Infrastructure
                 //angular icin farkli sunucudan sorgu atmamizi saglar
                 x.AddPolicy("Cors", p =>
                 {
-                    p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    p.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
                 });
 
             });
@@ -49,8 +51,7 @@ namespace Oxit.Infrastructure
                .AddUserManager<UserManager<IdentityUser>>()
                .AddRoleManager<RoleManager<IdentityRole>>()
                .AddEntityFrameworkStores<appDbContext>()
-                  .AddDefaultTokenProviders()
-                  ;
+               .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(x =>
             {
                 x.Password.RequireDigit = false;
@@ -77,15 +78,7 @@ namespace Oxit.Infrastructure
                     ValidateAudience = false
                 };
             }); ;
-            services.AddAuthorization(options =>
-            {
-                Permissions.getAllPermissions().ForEach(x =>
-                {
-                    if (!string.IsNullOrEmpty(x.Permission))
-                        options.AddPolicy(x.Permission, policy => policy.RequireClaim(x.Permission));
-                });
-
-            });
+            services.AddAuthorization();
             return services;
         }
     }
