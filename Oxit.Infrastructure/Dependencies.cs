@@ -24,6 +24,15 @@ namespace Oxit.Infrastructure
             services.AddDbContext<appDbContext>();
             services.AddDbContext<CommonDbContext>();
             services.AddCommonServices();
+            services.AddCors(x =>
+            {
+                //angular icin farkli sunucudan sorgu atmamizi saglar
+                x.AddPolicy("Cors", p =>
+                {
+                    p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+
+            });
             return services;
         }
     }
