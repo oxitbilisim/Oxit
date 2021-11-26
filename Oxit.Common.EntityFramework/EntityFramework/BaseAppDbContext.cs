@@ -45,8 +45,8 @@ namespace Oxit.Common.DataAccess.EntityFramework
                 builder.UseCollation("Turkish_CI_AS");
             if (Settings.Database.Type == DatabaseTypes.PostgreSql)
             {
-                builder.HasCollation("turkish_collection", locale: "LATIN5", provider: "icu", deterministic: false);
-                builder.UseDefaultColumnCollation("my_collation");
+                builder.HasCollation("turkish_collection", locale: "tr_TR.UTF-8", provider: "icu", deterministic: false);
+                builder.UseDefaultColumnCollation("turkish_collection");
             }
             MapperPerson.Initialize(builder);
             MapperIdentity.Initialize(builder);
