@@ -43,40 +43,14 @@ namespace Oxit.Common.DataAccess.EntityFramework
         {
             if (Settings.Database.Type == DatabaseTypes.SqlServer)
                 builder.UseCollation("Turkish_CI_AS");
+            if (Settings.Database.Type == DatabaseTypes.PostgreSql)
+            {
+                builder.HasCollation("turkish_collection", locale: "LATIN5", provider: "icu", deterministic: false);
+                builder.UseDefaultColumnCollation("my_collation");
+            }
             MapperPerson.Initialize(builder);
-            #region Identity
-            builder.Entity<IdentityUserToken<string>>(x =>
-            {
-            
-                x.HasKey(c => new
-                {
-                    c.UserId,
-                    c.Value
-                });
-            });
-            builder.Entity<IdentityUserRole<string>>(x =>
-            {
-                x.HasKey(c => new { c.UserId, c.RoleId });
-            });
-            builder.Entity<IdentityUser>(x =>
-            {
-                x.HasKey(c => c.Id);
-            });
-            builder.Entity<IdentityRole>(x =>
-            {
-                x.HasKey(c => c.Id);
-            });
-            builder.Entity<IdentityUserLogin<string>>(x =>
-            {
-                x.HasKey(c => new { c.UserId, c.ProviderKey });
-            });
-            builder.Entity<IdentityUserClaim<string>>(x =>
-            {
-            });
-            builder.Entity<IdentityRoleClaim<string>>(x =>
-            {
-            });
-            #endregion
+            MapperIdentity.Initialize(builder);
+
         }
 
         public virtual DbSet<Person> Person { get; set; }
