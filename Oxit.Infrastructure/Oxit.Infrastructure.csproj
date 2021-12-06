@@ -20,6 +20,8 @@
     <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
     <ProjectReference Include="..\Oxit.DataAccess\Oxit.DataAccess.csproj" />
+    <ProjectReference Include="..\Oxit.Domain.DTOs\Oxit.Domain.ViewModels.csproj" />
+    <ProjectReference Include="..\Oxit.Domain.Models\Oxit.Domain.Models.csproj" />
   </ItemGroup>
 
 </Project>

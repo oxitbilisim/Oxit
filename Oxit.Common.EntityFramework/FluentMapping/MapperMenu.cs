@@ -6,17 +6,23 @@ using System.Collections.Generic;
 
 namespace Oxit.Common.DataAccess.FluentMapping
 {
-    public class MapperPerson
+    public class MapperMenu
     {
         public static void Initialize(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>(x =>
+            modelBuilder.Entity<Menu>(x =>
             {
                 x.Property(v => v.Name).IsRequired();
-                x.HasData(new Person
+                x.Property(v => v.Text).IsRequired();
+
+                x.HasData(new List<Menu>() {
+                new Menu
                 {
-                    Id = Guid.Parse("c569ade6-116f-4e63-be5c-b38009299857"),
-                    Name = "Ali",
+                    Id = 1,
+                    Name = "Home",
+                    Text = "Anasayfa",
+                    Icon = "fa fa-home"
+                }
                 });
 
             });

@@ -12,6 +12,6 @@ namespace Oxit.Common.Models.Base
         public Guid? CreatorId { get; set; }
         public DateTime? EditDate { get; set; }
         public Guid? EditorId { get; set; }
-        public bool Active { get; set; } = true;
+        
     }
 }

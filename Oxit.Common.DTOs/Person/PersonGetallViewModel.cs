@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oxit.Common.ViewModels.Person
 {
-    public class PersonGetAllViewModel : BaseViewModel
+    public class PersonGetAllViewModel : BaseViewModel<Guid>
     {
        
         public string? Name { get; set; }

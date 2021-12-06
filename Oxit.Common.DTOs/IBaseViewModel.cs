@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Oxit.Common.ViewModels
 {
-    public interface IBaseViewModel
+    public interface IBaseViewModel<T>
     {
-        Guid Id { get; set; }
+        T Id { get; set; }
     }
 }

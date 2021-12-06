@@ -18,7 +18,7 @@ namespace Oxit.Infrastructure
             services.AddOptions();
             services.AddMemoryCache();
             services.AddSingleton(CommonMappingProfiles.GetProfiles().CreateMapper());
-            services.AddScoped<Random>();
+            services.AddSingleton(AutomapperProfiles.GetProfiles().CreateMapper());
             services.AddDbContext<appDbContext>();
             services.AddDbContext<CommonDbContext>();
             services.AddCommonServices();
