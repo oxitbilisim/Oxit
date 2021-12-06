@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Infrastructure", "Oxit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain.ViewModels", "Oxit.Domain.DTOs\Oxit.Domain.ViewModels.csproj", "{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Domain.Core", "Oxit.Domain.Core\Oxit.Domain.Core.csproj", "{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Web.Public", "Oxit.API.Web.Public\Oxit.API.Web.Public.csproj", "{A391AF81-C1AC-4514-973F-39D4C3311623}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.API.Web.Panel", "Oxit.API.Web.Panel\Oxit.API.Web.Panel.csproj", "{808C0F3F-2ABC-49A0-A249-23156B70E16A}"
@@ -41,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Public", "Oxit.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Web.Admin", "Oxit.Web.Admin\Oxit.Web.Admin.csproj", "{30784C7C-CE9A-4FBD-9CBE-154B701B83CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Exception", "Oxit.Common.Exception\Oxit.Common.Exception.csproj", "{F94A9CC3-9C51-4577-8946-263670DF3285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.Exception", "Oxit.Common.Exception\Oxit.Common.Exception.csproj", "{F94A9CC3-9C51-4577-8946-263670DF3285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Automapper", "Oxit.Common.Automapper\Oxit.Common.Automapper.csproj", "{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.Automapper", "Oxit.Common.Automapper\Oxit.Common.Automapper.csproj", "{1AA9AED5-86DA-44B3-83EE-0BE85C92B672}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.DataAccess", "Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj", "{2FF5A88D-A41A-4424-B41F-82EB6582437E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.DataAccess", "Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj", "{2FF5A88D-A41A-4424-B41F-82EB6582437E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Common.Domain", "Oxit.Common.Domain\Oxit.Common.Domain.csproj", "{F452DEF4-3557-478E-B853-8F44E26DD5B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.Domain", "Oxit.Common.Domain\Oxit.Common.Domain.csproj", "{F452DEF4-3557-478E-B853-8F44E26DD5B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +77,6 @@ Global
 		{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D53F806-A3E1-4F46-97E5-59AF9FE9294E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A391AF81-C1AC-4514-973F-39D4C3311623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A391AF81-C1AC-4514-973F-39D4C3311623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A391AF81-C1AC-4514-973F-39D4C3311623}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -139,7 +133,6 @@ Global
 		{88507712-6965-4A7A-8122-7E61618508D0} = {A216783E-422A-453A-926D-4E712C9FAE46}
 		{FE8BA794-8528-4DD9-B0B5-0CE09EFE2085} = {A216783E-422A-453A-926D-4E712C9FAE46}
 		{6D53F806-A3E1-4F46-97E5-59AF9FE9294E} = {A216783E-422A-453A-926D-4E712C9FAE46}
-		{5AD45B96-CE64-4F4D-9D2B-E32F5F2FC1B9} = {A216783E-422A-453A-926D-4E712C9FAE46}
 		{A391AF81-C1AC-4514-973F-39D4C3311623} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{808C0F3F-2ABC-49A0-A249-23156B70E16A} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
 		{C91F419A-AD76-4BD4-8AC6-A6E7F60B1492} = {63D77393-D1DB-43AB-9489-27FBFDCE7FA6}
