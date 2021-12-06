@@ -48,12 +48,12 @@ namespace Oxit.Common.DataAccess.EntityFramework
                 builder.HasCollation("turkish_collection", locale: "tr_TR.UTF-8", provider: "icu", deterministic: false);
                 builder.UseDefaultColumnCollation("turkish_collection");
             }
-            MapperPerson.Initialize(builder);
+           
             MapperIdentity.Initialize(builder);
 
         }
 
-        public virtual DbSet<Person> Person { get; set; }
+     
         public override int SaveChanges()
         {
             var IBaseEntitys = ChangeTracker.Entries().Where(e => e.Entity is IBaseFullModel<Guid> || e.Entity is IBaseSimpleModel<Guid>);

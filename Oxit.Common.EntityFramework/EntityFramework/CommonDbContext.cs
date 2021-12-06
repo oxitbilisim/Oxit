@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Oxit.Common.DataAccess.FluentMapping;
+using Oxit.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,13 @@ namespace Oxit.Common.DataAccess.EntityFramework
         {
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            MapperPerson.Initialize(builder);
+            base.OnModelCreating(builder);
+        }
+
+        public virtual DbSet<Person> Person { get; set; }
     }
 }
