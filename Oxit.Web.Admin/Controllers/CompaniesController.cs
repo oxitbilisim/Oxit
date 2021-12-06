@@ -4,19 +4,15 @@ using System.Diagnostics;
 
 namespace Oxit.Web.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class CompaniesController : Controller
     {
- 
-        public HomeController()
+        public CompaniesController()
         {
-         
-        }
 
+        }
         public IActionResult Index()
         {
             return View();
         }
-
-    
     }
 }
