@@ -15,7 +15,7 @@ namespace Oxit.Common.DataAccess.FluentMapping
                 x.Property(v => v.Name).IsRequired();
                 x.HasData(new Person
                 {
-                    Id = Guid.Parse("c569ade6-116f-4e63-be5c-b38009299857"),
+                    Id = Guid.Parse("1569ade6-116f-4e63-b15c-b38009211857"),
                     Name = "Ali",
                 });
 
