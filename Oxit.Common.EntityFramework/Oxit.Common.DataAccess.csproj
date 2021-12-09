@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="FluentValidation.AspNetCore" />
+    <None Remove="FluentValidation.DependencyInjectionExtensions" />
+  </ItemGroup>
 </Project>
