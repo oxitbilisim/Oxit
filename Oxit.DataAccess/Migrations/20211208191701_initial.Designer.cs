@@ -12,8 +12,8 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211126102707_init")]
-    partial class init
+    [Migration("20211208191701_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -199,9 +199,6 @@ namespace Oxit.DataAccess.Migrations
                         .HasColumnType("uuid")
                         .HasColumnOrder(0);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -234,8 +231,7 @@ namespace Oxit.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c569ade6-116f-4e63-be5c-b38009299857"),
-                            Active = true,
+                            Id = new Guid("1569ade6-116f-4e63-b15c-b38009211857"),
                             Name = "Ali"
                         });
                 });

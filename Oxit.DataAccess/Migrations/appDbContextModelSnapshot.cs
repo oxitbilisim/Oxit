@@ -197,9 +197,6 @@ namespace Oxit.DataAccess.Migrations
                         .HasColumnType("uuid")
                         .HasColumnOrder(0);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -232,8 +229,7 @@ namespace Oxit.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c569ade6-116f-4e63-be5c-b38009299857"),
-                            Active = true,
+                            Id = new Guid("1569ade6-116f-4e63-b15c-b38009211857"),
                             Name = "Ali"
                         });
                 });
