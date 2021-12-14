@@ -31,11 +31,11 @@
     <ProjectReference Include="..\Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj" />
     <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
+    <ProjectReference Include="..\Oxit.Domain.Models\Oxit.Domain.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="FluentMapping\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

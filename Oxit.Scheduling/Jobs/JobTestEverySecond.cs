@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Oxit.Scheduling.Jobs
 {
-    [DisallowConcurrentExecution, JobConfig("JobTestEverySecond", "0/1 * * * * ?", true)]
+    [DisallowConcurrentExecution, JobConfig("JobTestEverySecond", "0/1 * * * * ?", false)]
     public class JobTestEverySecond : IJob
     {
         private appDbContext appDbContext;

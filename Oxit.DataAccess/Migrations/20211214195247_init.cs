@@ -6,12 +6,32 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Oxit.DataAccess.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:CollationDefinition:turkish_collection", "tr_TR.UTF-8,tr_TR.UTF-8,icu,False");
+
+            migrationBuilder.CreateTable(
+                name: "Cari",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Ad = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    Kod = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    DbId = table.Column<int>(type: "integer", nullable: false),
+                    Aktif = table.Column<bool>(type: "boolean", nullable: false),
+                    SonCekilmeTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cari", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Person",
@@ -182,6 +202,9 @@ namespace Oxit.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Cari");
+
             migrationBuilder.DropTable(
                 name: "Person");
 

@@ -12,8 +12,8 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211208191701_initial")]
-    partial class initial
+    [Migration("20211214202830_update2")]
+    partial class update2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,6 +234,39 @@ namespace Oxit.DataAccess.Migrations
                             Id = new Guid("1569ade6-116f-4e63-b15c-b38009211857"),
                             Name = "Ali"
                         });
+                });
+
+            modelBuilder.Entity("Oxit.Domain.Models.Cari", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Aktif")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DbKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Kod")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("SonCekilmeTarihi")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cari");
                 });
 #pragma warning restore 612, 618
         }

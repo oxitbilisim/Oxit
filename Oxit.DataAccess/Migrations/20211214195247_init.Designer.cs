@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Oxit.DataAccess.EntityFramework;
@@ -11,9 +12,10 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    partial class appDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211214195247_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,9 +254,8 @@ namespace Oxit.DataAccess.Migrations
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("DbKey")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("DbId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Kod")
                         .HasColumnType("text");
