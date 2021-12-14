@@ -14,37 +14,21 @@ namespace Oxit.Scheduling.Core
         public static IServiceCollection AddScheduledJobs(this IServiceCollection services)
         {
 
-            QuartzHelper.CheckDatabase();
+           // QuartzHelper.CheckDatabase();
             services.AddQuartz(q =>
             {
-                //var properties = new NameValueCollection
-                //{
-                //    ["quartz.jobStore.type"] = "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz",
-                //    ["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.StdAdoDelegate, Quartz",
-                //    ["quartz.jobStore.tablePrefix"] = "[quartz].",
-                //    ["quartz.jobStore.dataSource"] = "default",
-                //    ["quartz.dataSource.default.connectionString"] = Settings.Database.ConnectionString,
-                //    ["quartz.dataSource.default.provider"] = "SqlServer",
-                //    ["quartz.serializer.type"] = "json",
-                //    ["quartz.jobStore.useProperties"] = "true"
-                //};
 
-                //for (int i = 0; i < properties.Count; i++)
-                //{
-
-                //    q.SetProperty(properties.AllKeys[i], properties.GetValues(i)[0]);
-                //}
-
-                q.UseMicrosoftDependencyInjectionJobFactory(options =>
+                q.SchedulerId = "Scheduler-Core";
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                q.UseSimpleTypeLoader();
+                q.UseInMemoryStore();
+                q.UseDefaultThreadPool(tp =>
                 {
-                    options.AllowDefaultConstructor = true;
+                    tp.MaxConcurrency = 10;
                 });
 
-                q.UseMicrosoftDependencyInjectionScopedJobFactory();
-
-
                 var joblist = Assembly.GetExecutingAssembly().GetTypes()
-                      .Where(t => t.Namespace == "Altay.Jobs.Jobs" && t.GetInterfaces().Any(c => c.Name == "IJob"))
+                      .Where(t => t.Namespace == "Oxit.Scheduling.Jobs" && t.GetInterfaces().Any(c => c.Name == "IJob"))
                       .ToList();
 
                 foreach (Type job in joblist)

@@ -4,6 +4,7 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Oxit.Core.Utilities;
 using Oxit.DataAccess.EntityFramework;
+using Oxit.Scheduling.Core;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Oxit.Scheduling.Core
+namespace Oxit.Scheduling.Jobs
 {
     //her aksam saat 23
-    [DisallowConcurrentExecution, JobConfig("JobLogCleanup", "0 0 23 1/1 * ? *", true)]
+    [DisallowConcurrentExecution, JobConfig("JobLogCleanup", "0 0 23 1/1 * ? *", false)]
     public class JobLogCleanup : IJob
     {
         private appDbContext appDbContext;
