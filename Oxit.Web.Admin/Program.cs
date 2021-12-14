@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAppDependencies();
 builder.Services.AddRateLimiting();
 builder.Services.AddTurkishLocalization();
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,13 +23,18 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 app.Run();

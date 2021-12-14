@@ -7,8 +7,11 @@ namespace Oxit.DataAccess.teknopark
 {
     public partial class Teknopark2021Context : DbContext
     {
-        public Teknopark2021Context()
+
+        private string cn = string.Empty;
+        public Teknopark2021Context(string connectionString)
         {
+            cn = connectionString;
         }
 
         public Teknopark2021Context(DbContextOptions<Teknopark2021Context> options)
@@ -99,8 +102,7 @@ namespace Oxit.DataAccess.teknopark
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Teknopark2021;User Id=sa;Password=yourStrong(!)Password;");
+                optionsBuilder.UseSqlServer(cn);
             }
         }
 
