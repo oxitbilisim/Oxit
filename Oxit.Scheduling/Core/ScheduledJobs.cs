@@ -14,7 +14,7 @@ namespace Oxit.Scheduling.Core
         public static IServiceCollection AddScheduledJobs(this IServiceCollection services)
         {
 
-           // QuartzHelper.CheckDatabase();
+
             services.AddQuartz(q =>
             {
 
@@ -38,7 +38,6 @@ namespace Oxit.Scheduling.Core
                     {
                         var jobKey = new JobKey(jobconfig.Name);
                         var method = typeof(ServiceCollectionExtensions).GetMethods().Where(c => c.Name.Contains("AddJob")).ToList()[1];
-                        var tt = method.GetParameters();
                         MethodInfo generic = method.MakeGenericMethod(job);
                         generic.Invoke(q, new object[] { q, jobKey, null });
                         q.AddTrigger(opts =>
@@ -78,17 +77,10 @@ namespace Oxit.Scheduling.Core
                             }
                             else
                             {
-                                ;
-                                opts
-                                     .ForJob(jobKey)
-                                     .WithIdentity(jobKey + "-trigger").WithCronSchedule(jobconfig.Cron);
-
+                                opts.ForJob(jobKey).WithIdentity(jobKey + "-trigger").WithCronSchedule(jobconfig.Cron);
                             }
-
-
                         });
                     }
-
                 }
             });
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Oxit.Scheduling.Jobs
 {
-    [DisallowConcurrentExecution, JobConfig("DenemeJob", JobPeriod.Minute, 1, true)]
-    public class JobDeneme : IJob
+    [DisallowConcurrentExecution, JobConfig("JobTestEverySecond", "0/1 * * * * ?", true)]
+    public class JobTestEverySecond : IJob
     {
         private appDbContext appDbContext;
-        public JobDeneme(
+        public JobTestEverySecond(
             appDbContext appDbContext
             )
         {
@@ -24,7 +24,7 @@ namespace Oxit.Scheduling.Jobs
         public Task Execute(IJobExecutionContext context)
         {
 
-            Console.WriteLine("DenemeJob: done");
+            Console.WriteLine("JobTestEverySecond: done");
             return Task.CompletedTask;
         }
     }
