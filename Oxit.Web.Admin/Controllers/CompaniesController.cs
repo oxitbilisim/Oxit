@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using System.Diagnostics;
-
 namespace Oxit.Web.Admin.Controllers
 {
     public class CompaniesController : Controller

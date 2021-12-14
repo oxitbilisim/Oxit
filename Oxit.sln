@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.DataAccess", "O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oxit.Common.Domain", "Oxit.Common.Domain\Oxit.Common.Domain.csproj", "{F452DEF4-3557-478E-B853-8F44E26DD5B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxit.Scheduling", "Oxit.Scheduling\Oxit.Scheduling.csproj", "{EFB4F45F-CCDF-4368-97D9-1BF3D97C662B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F452DEF4-3557-478E-B853-8F44E26DD5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB4F45F-CCDF-4368-97D9-1BF3D97C662B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB4F45F-CCDF-4368-97D9-1BF3D97C662B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB4F45F-CCDF-4368-97D9-1BF3D97C662B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB4F45F-CCDF-4368-97D9-1BF3D97C662B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
