@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Oxit.DataAccess.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,8 +29,7 @@ namespace Oxit.DataAccess.Migrations
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
                     EditDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    EditorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Active = table.Column<bool>(type: "boolean", nullable: false)
+                    EditorId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,8 +176,8 @@ namespace Oxit.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Person",
-                columns: new[] { "Id", "Active", "CreateDate", "CreatorId", "EditDate", "EditorId", "LastName", "Name", "NationalId", "Photo" },
-                values: new object[] { new Guid("c569ade6-116f-4e63-be5c-b38009299857"), true, null, null, null, null, null, "Ali", null, null });
+                columns: new[] { "Id", "CreateDate", "CreatorId", "EditDate", "EditorId", "LastName", "Name", "NationalId", "Photo" },
+                values: new object[] { new Guid("1569ade6-116f-4e63-b15c-b38009211857"), null, null, null, null, null, "Ali", null, null });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
