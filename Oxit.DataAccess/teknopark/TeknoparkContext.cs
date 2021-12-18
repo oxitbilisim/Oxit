@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Oxit.DataAccess.teknopark
 {
-    public partial class Teknopark2021Context : DbContext
+    public partial class TeknoparkContext : DbContext
     {
 
         private string cn = string.Empty;
-        public Teknopark2021Context(string connectionString)
+        public TeknoparkContext(string connectionString)
         {
             cn = connectionString;
         }
 
-        public Teknopark2021Context(DbContextOptions<Teknopark2021Context> options)
+        public TeknoparkContext(DbContextOptions<TeknoparkContext> options)
             : base(options)
         {
         }

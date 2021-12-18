@@ -12,7 +12,7 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211218094401_init")]
+    [Migration("20211218103400_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -236,7 +236,58 @@ namespace Oxit.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Oxit.Domain.Models.Cari", b =>
+            modelBuilder.Entity("Oxit.Domain.Models.Fis", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Alacak")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Borc")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DbKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("FisNo")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("FisTip")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("FisTur")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("HesapPlaniId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Tarih")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("YevNo")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HesapPlaniId");
+
+                    b.ToTable("Fis");
+                });
+
+            modelBuilder.Entity("Oxit.Domain.Models.HesapPlani", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -266,7 +317,23 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cari");
+                    b.ToTable("HesapPlani");
+                });
+
+            modelBuilder.Entity("Oxit.Domain.Models.Fis", b =>
+                {
+                    b.HasOne("Oxit.Domain.Models.HesapPlani", "HesapPlani")
+                        .WithMany("Fis")
+                        .HasForeignKey("HesapPlaniId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HesapPlani");
+                });
+
+            modelBuilder.Entity("Oxit.Domain.Models.HesapPlani", b =>
+                {
+                    b.Navigation("Fis");
                 });
 #pragma warning restore 612, 618
         }

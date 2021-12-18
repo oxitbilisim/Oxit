@@ -14,7 +14,7 @@ namespace Oxit.DataAccess.Migrations
                 .Annotation("Npgsql:CollationDefinition:turkish_collection", "tr_TR.UTF-8,tr_TR.UTF-8,icu,False");
 
             migrationBuilder.CreateTable(
-                name: "Cari",
+                name: "HesapPlani",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -31,7 +31,7 @@ namespace Oxit.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cari", x => x.Id);
+                    table.PrimaryKey("PK_HesapPlani", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,16 +195,52 @@ namespace Oxit.DataAccess.Migrations
                     table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.Value });
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Fis",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DbKey = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    HesapPlaniId = table.Column<int>(type: "integer", nullable: false),
+                    Tarih = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    FisTur = table.Column<int>(type: "integer", nullable: true),
+                    FisNo = table.Column<int>(type: "integer", nullable: true),
+                    YevNo = table.Column<int>(type: "integer", nullable: true),
+                    Aciklama = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    Borc = table.Column<double>(type: "double precision", nullable: true),
+                    Alacak = table.Column<double>(type: "double precision", nullable: true),
+                    FisTip = table.Column<int>(type: "integer", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fis", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fis_HesapPlani_HesapPlaniId",
+                        column: x => x.HesapPlaniId,
+                        principalTable: "HesapPlani",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Person",
                 columns: new[] { "Id", "CreateDate", "CreatorId", "EditDate", "EditorId", "LastName", "Name", "NationalId", "Photo" },
                 values: new object[] { new Guid("1569ade6-116f-4e63-b15c-b38009211857"), null, null, null, null, null, "Ali", null, null });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fis_HesapPlaniId",
+                table: "Fis",
+                column: "HesapPlaniId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cari");
+                name: "Fis");
 
             migrationBuilder.DropTable(
                 name: "Person");
@@ -229,6 +265,9 @@ namespace Oxit.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "HesapPlani");
         }
     }
 }

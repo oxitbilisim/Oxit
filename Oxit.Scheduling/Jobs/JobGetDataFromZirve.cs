@@ -16,8 +16,8 @@ namespace Oxit.Scheduling.Jobs
     {
         private appDbContext appDbContext;
         private readonly IConfiguration configuration;
-        private readonly Teknopark2021Context db2021;
-        private readonly Teknopark2021Context db2020;
+        private readonly TeknoparkContext db2021;
+
         public JobGetDataFromZirve(
             appDbContext appDbContext,
             IConfiguration configuration
@@ -27,8 +27,7 @@ namespace Oxit.Scheduling.Jobs
             this.appDbContext = appDbContext;
             this.configuration = configuration;
             var ss = configuration.GetSection("cn2021").Value;
-            db2021 = new Teknopark2021Context(configuration.GetSection("cn2021").Value);
-            // db2020 = new Teknopark2021Context(configuration.GetSection("cn2020").Value);
+            db2021 = new TeknoparkContext(configuration.GetSection("cn2021").Value);
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -36,10 +35,9 @@ namespace Oxit.Scheduling.Jobs
             //cari
             foreach (var cari in db2021.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
-
-                if (!appDbContext.Cari.Any(c => c.DbKey == cari.Kod))
+                if (!appDbContext.HesapPlani.Any(c => c.DbKey == cari.Kod))
                 {
-                    appDbContext.Cari.Add(new Domain.Models.Cari
+                    appDbContext.HesapPlani.Add(new Domain.Models.HesapPlani
                     {
                         DbKey = cari.Kod,
                         Ad = cari.Aciklama,
@@ -51,7 +49,7 @@ namespace Oxit.Scheduling.Jobs
                 }
                 else
                 {
-                    var cr = appDbContext.Cari.FirstOrDefault(c => c.DbKey == cari.Kod);
+                    var cr = appDbContext.HesapPlani.FirstOrDefault(c => c.DbKey == cari.Kod);
 
                     if (cr != null)
                     {
@@ -62,9 +60,7 @@ namespace Oxit.Scheduling.Jobs
                         cr.SonCekilmeTarihi = DateTime.Now;
                     }
                 }
-
                 appDbContext.SaveChanges();
-
             }
             Console.WriteLine("JobTestEveryMinute: done");
             return Task.CompletedTask;

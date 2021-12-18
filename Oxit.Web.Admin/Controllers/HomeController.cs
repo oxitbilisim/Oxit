@@ -10,14 +10,14 @@ namespace Oxit.Web.Admin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly Teknopark2021Context db;
+        private readonly TeknoparkContext db;
         private readonly IConfiguration configuration;
 
         public HomeController(IConfiguration configuration)
         {
             this.configuration = configuration;
             var cn = configuration.GetSection("cn2021").Value;
-            this.db = new Teknopark2021Context(cn);
+            this.db = new TeknoparkContext(cn);
            
         }
         public IActionResult Index()

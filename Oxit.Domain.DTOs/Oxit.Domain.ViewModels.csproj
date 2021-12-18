@@ -11,4 +11,9 @@
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HesapPlani\" />
+    <Folder Include="Fis\" />
+  </ItemGroup>
+
 </Project>
