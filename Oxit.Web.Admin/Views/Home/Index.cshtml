@@ -1,8 +1,41 @@
-﻿@{
+﻿@model IEnumerable<Oxit.Domain.Models.HesapPlani> 
+@{
     ViewData["Title"] = "Anasayfa";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome11111</h1>
-   
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Aktif)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ad)
+                </th>
+                th>
+                @Html.DisplayNameFor(model => model.Kod)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => b.Aktif)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => b.Ad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => b.Kod)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
 </div>

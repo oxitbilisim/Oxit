@@ -12,19 +12,21 @@ namespace Oxit.Web.Admin.Controllers
     {
         private readonly TeknoparkContext db;
         private readonly IConfiguration configuration;
+        private readonly appDbContext appDbContext;
 
-        public HomeController(IConfiguration configuration)
+        
+        public HomeController(IConfiguration configuration, appDbContext appDbContext)
         {
             this.configuration = configuration;
             var cn = configuration.GetSection("cn2021").Value;
             this.db = new TeknoparkContext(cn);
-           
+            this.appDbContext = appDbContext;
+
         }
         public IActionResult Index()
         {
-
-            var ss = db.Yevmiyes.ToList();
-            return View();
+            var firmalar = appDbContext.HesapPlani.ToList();
+            return View(firmalar);
         }
     }
 }

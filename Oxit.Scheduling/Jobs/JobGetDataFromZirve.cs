@@ -18,7 +18,6 @@ namespace Oxit.Scheduling.Jobs
         private appDbContext appDbContext;
         private readonly IConfiguration configuration;
         private readonly TeknoparkContext db2021;
-
         public JobGetDataFromZirve(
             appDbContext appDbContext,
             IConfiguration configuration
