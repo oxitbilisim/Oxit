@@ -48,8 +48,6 @@ namespace Oxit.Scheduling.Jobs
                         SonCekilmeTarihi = DateTime.Now
 
                     });
-
-
                 }
                 else
                 {
@@ -68,8 +66,6 @@ namespace Oxit.Scheduling.Jobs
                 appDbContext.SaveChanges();
 
             }
-
-
             Console.WriteLine("JobTestEveryMinute: done");
             return Task.CompletedTask;
         }

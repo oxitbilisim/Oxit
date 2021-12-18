@@ -13,9 +13,6 @@ namespace Oxit.Scheduling
     {
         public static void Main(string[] args)
         {
-
-            //deneme
-
             CreateHostBuilder(args).Build().Run();
         }
 
