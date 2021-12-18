@@ -1,6 +1,7 @@
 ﻿
 using Oxit.DataAccess.EntityFramework;
 using Oxit.DataAccess.teknopark;
+using Oxit.Domain.Models;
 using Oxit.Scheduling.Core;
 using Quartz;
 using System;
@@ -37,33 +38,85 @@ namespace Oxit.Scheduling.Jobs
             {
                 if (!appDbContext.HesapPlani.Any(c => c.DbKey == cari.Kod))
                 {
-                    appDbContext.HesapPlani.Add(new Domain.Models.HesapPlani
-                    {
-                        DbKey = cari.Kod,
-                        Ad = cari.Aciklama,
-                        Kod = cari.Kod,
-                        Aktif = true,
-                        SonCekilmeTarihi = DateTime.Now
-
-                    });
+                    HesapplaniEkle(cari);
                 }
                 else
                 {
-                    var cr = appDbContext.HesapPlani.FirstOrDefault(c => c.DbKey == cari.Kod);
-
-                    if (cr != null)
-                    {
-                        cr.DbKey = cari.Kod;
-                        cr.Ad = cari.Aciklama;
-                        cr.Kod = cari.Kod;
-                        cr.Aktif = true;
-                        cr.SonCekilmeTarihi = DateTime.Now;
-                    }
+                    HesapplaniGuncelle(cari);
                 }
                 appDbContext.SaveChanges();
             }
             Console.WriteLine("JobTestEveryMinute: done");
             return Task.CompletedTask;
+        }
+
+        private int HesapplaniGuncelle(Hesplan cari)
+        {
+            var cr = appDbContext.HesapPlani.FirstOrDefault(c => c.DbKey == cari.Kod);
+            if (cr != null)
+            {
+                cr.DbKey = cari.Kod;
+                cr.Ad = cari.Aciklama;
+                cr.Kod = cari.Kod;
+                cr.Aktif = true;
+                cr.SonCekilmeTarihi = DateTime.Now;
+            }
+            appDbContext.SaveChanges();
+
+            return cr.Id;
+        }
+        private int HesapplaniEkle(Hesplan cari)
+        {
+            var hesapplani = new Domain.Models.HesapPlani
+            {
+                DbKey = cari.Kod,
+                Ad = cari.Aciklama,
+                Kod = cari.Kod,
+                Aktif = true,
+                SonCekilmeTarihi = DateTime.Now
+            };
+            appDbContext.HesapPlani.Add(hesapplani);
+
+            foreach (var yevmiye in db2021.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            {
+                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
+                if (fis == null)
+                {
+                    FisEkle(yevmiye, hesapplani);
+                }
+                else
+                {
+                    FisEkleGuncelle(yevmiye, hesapplani);
+                }
+            }
+            appDbContext.SaveChanges();
+
+            return hesapplani.Id;
+        }
+        private int FisEkle(Yevmiye yevmiye, HesapPlani hesapPlani)
+        {
+
+
+            var Fis = new Fis()
+            {
+
+            };
+            appDbContext.Fis.Add(new Fis
+            {
+                Aciklama = yevmiye.Aciklama,
+                FisTur = yevmiye.Fistur,
+                Borc = yevmiye.Borclu,
+                Alacak = yevmiye.Alacakli,
+                FisNo= yevmiye.Fisno,
+               Tarih= yevmiye.Fistar,
+               YevNo= yevmiye.Yevno,
+
+            });
+            return default;
+        }
+        private int FisEkleGuncelle(Yevmiye yevmiye, HesapPlani hesapPlani)
+        {
+            return default;
         }
     }
 }

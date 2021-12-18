@@ -13,9 +13,9 @@ namespace Oxit.Domain.Models
         public string DbKey { get; set; }
         public int HesapPlaniId { get; set; }
 
-        public DateTime Tarih { get; set; }
-        public int? FisTur { get; set; }
-        public int? FisNo { get; set; }
+        public DateTime? Tarih { get; set; }
+        public string FisTur { get; set; }
+        public string FisNo { get; set; }
         public int? YevNo { get; set; }
         public string Aciklama { get; set; }
 
