@@ -10,19 +10,15 @@ namespace Oxit.Domain.Models
 {
     public class Fis : BaseSimpleModel<int>
     {
-        public string DbKey { get; set; }
+        public string? DbKey { get; set; }
         public int HesapPlaniId { get; set; }
-
         public DateTime? Tarih { get; set; }
-        public string FisTur { get; set; }
-        public string FisNo { get; set; }
+        public string? FisTur { get; set; }
+        public string? FisNo { get; set; }
         public int? YevNo { get; set; }
-        public string Aciklama { get; set; }
-
+        public string? Aciklama { get; set; }
         public Double? Borc { get; set; }
         public Double? Alacak { get; set; }
-
-
         public FisTip? FisTip { get; set; }
 
         [ForeignKey("HesapPlaniId")]

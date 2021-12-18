@@ -27,12 +27,10 @@ namespace Oxit.Scheduling.Jobs
         {
             this.appDbContext = appDbContext;
             this.configuration = configuration;
-            var ss = configuration.GetSection("cn2021").Value;
             db2021 = new TeknoparkContext(configuration.GetSection("cn2021").Value);
         }
         public Task Execute(IJobExecutionContext context)
         {
-
             //cari
             foreach (var cari in db2021.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
@@ -76,7 +74,7 @@ namespace Oxit.Scheduling.Jobs
                 SonCekilmeTarihi = DateTime.Now
             };
             appDbContext.HesapPlani.Add(hesapplani);
-
+            appDbContext.SaveChanges();
             foreach (var yevmiye in db2021.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
             {
                 var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
@@ -89,30 +87,24 @@ namespace Oxit.Scheduling.Jobs
                     FisEkleGuncelle(yevmiye, hesapplani);
                 }
             }
-            appDbContext.SaveChanges();
-
             return hesapplani.Id;
         }
         private int FisEkle(Yevmiye yevmiye, HesapPlani hesapPlani)
         {
-
-
-            var Fis = new Fis()
-            {
-
-            };
-            appDbContext.Fis.Add(new Fis
+            var Fis = new Fis
             {
                 Aciklama = yevmiye.Aciklama,
                 FisTur = yevmiye.Fistur,
                 Borc = yevmiye.Borclu,
                 Alacak = yevmiye.Alacakli,
-                FisNo= yevmiye.Fisno,
-               Tarih= yevmiye.Fistar,
-               YevNo= yevmiye.Yevno,
-
-            });
-            return default;
+                FisNo = yevmiye.Fisno,
+                Tarih = yevmiye.Fistar,
+                YevNo = yevmiye.Yevno,
+                HesapPlaniId = hesapPlani.Id
+            };
+            appDbContext.Fis.Add(Fis);
+            appDbContext.SaveChanges();
+            return Fis.Id;
         }
         private int FisEkleGuncelle(Yevmiye yevmiye, HesapPlani hesapPlani)
         {
