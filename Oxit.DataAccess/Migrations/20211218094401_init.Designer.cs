@@ -12,8 +12,8 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211214202830_update2")]
-    partial class update2
+    [Migration("20211218094401_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Oxit.DataAccess.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:CollationDefinition:turkish_collection", "tr_TR.UTF-8,tr_TR.UTF-8,icu,False")
                 .HasAnnotation("Npgsql:DefaultColumnCollation", "turkish_collection")
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

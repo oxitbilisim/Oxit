@@ -23,7 +23,8 @@ namespace Oxit.DataAccess.Migrations
                         .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     Kod = table.Column<string>(type: "text", nullable: true)
                         .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
-                    DbId = table.Column<int>(type: "integer", nullable: false),
+                    DbKey = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     Aktif = table.Column<bool>(type: "boolean", nullable: false),
                     SonCekilmeTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)

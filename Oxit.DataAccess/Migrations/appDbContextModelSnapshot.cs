@@ -19,7 +19,7 @@ namespace Oxit.DataAccess.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:CollationDefinition:turkish_collection", "tr_TR.UTF-8,tr_TR.UTF-8,icu,False")
                 .HasAnnotation("Npgsql:DefaultColumnCollation", "turkish_collection")
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
