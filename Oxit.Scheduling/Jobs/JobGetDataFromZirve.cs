@@ -60,7 +60,18 @@ namespace Oxit.Scheduling.Jobs
                 cr.SonCekilmeTarihi = DateTime.Now;
             }
             appDbContext.SaveChanges();
-
+            foreach (var yevmiye in db2021.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            {
+                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
+                if (fis == null)
+                {
+                    FisEkle(yevmiye, cr);
+                }
+                else
+                {
+                    FisEkleGuncelle(fis, yevmiye);
+                }
+            }
             return cr.Id;
         }
         private int HesapplaniEkle(Hesplan cari)
@@ -84,11 +95,12 @@ namespace Oxit.Scheduling.Jobs
                 }
                 else
                 {
-                    FisEkleGuncelle(yevmiye, hesapplani);
+                    FisEkleGuncelle(fis, yevmiye);
                 }
             }
             return hesapplani.Id;
         }
+
         private int FisEkle(Yevmiye yevmiye, HesapPlani hesapPlani)
         {
             var Fis = new Fis
@@ -106,9 +118,19 @@ namespace Oxit.Scheduling.Jobs
             appDbContext.SaveChanges();
             return Fis.Id;
         }
-        private int FisEkleGuncelle(Yevmiye yevmiye, HesapPlani hesapPlani)
+        private int FisEkleGuncelle(Fis fis, Yevmiye yevmiye)
         {
-            return default;
+            fis.FisTur = yevmiye.Fistur;
+            fis.FisNo = yevmiye.Fisno;
+            fis.FisTur = yevmiye.Fistur;
+            fis.Alacak = yevmiye.Alacakli;
+            fis.Borc = yevmiye.Borclu;
+            fis.Tarih = yevmiye.Fistar;
+            fis.YevNo = yevmiye.Yevno;
+
+            appDbContext.SaveChanges();
+            return fis.Id;
+
         }
     }
 }
