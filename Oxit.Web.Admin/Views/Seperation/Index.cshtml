@@ -1,8 +1,75 @@
-﻿@{
-    ViewData["Title"] = "Anasayfa";
+﻿@using Oxit.Domain.Models
+@model Dictionary<string, object>
+@{
+    
+    HesapPlani hesapPlani = (HesapPlani)Model["hesapPlani"];
+    List<Fis> fisList = (List<Fis>)Model["fisList"];
+    int pageCount = (int)Model["pageCount"];
+    
+    ViewData["Title"] = "Şirketler | "+hesapPlani.Ad;
 }
-
-<div class="text-center">
-    <h1 class="display-4">Seperation</h1>
-   
+<div class="callout @(hesapPlani.Aktif ? "callout-success" : "callout-danger")  bg-white" style="border-left-width: 8px;">
+    <h4>@hesapPlani.Ad</h4>
 </div>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+        <th scope="col">Kayıt Türü</th>
+        <th scope="col">Tarih</th>
+        <th scope="col">Alacak</th>
+        <th scope="col">Borç</th>
+        <th scope="col">Açıklama</th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var f in fisList)
+  {
+    <tr>
+        <th scope="row">
+            <select class="form-select" aria-label="Default select example" onchange="comboChange(this,@f.Id)">
+                <!option  @(f.FisTip == null? "selected":"")>Kayıt Türü Seçiniz</!option>
+                <!option @(f.FisTip == FisTip.KiraFaturasi? "selected":"") value="0">Kira Faturası</!option>
+                <!option @(f.FisTip == FisTip.KiraOdemesi? "selected":"") value="3">Kira Ödemesi</!option>
+                <!option @(f.FisTip == FisTip.Proje? "selected":"") value="1">Proje</!option>
+                <!option @(f.FisTip == FisTip.Diger? "selected":"") value="2">Diğer</!option>
+            </select>
+        </th>
+        <td>@Html.DisplayFor(m => f.Tarih, "dd.MM.yyyy")</td>
+        <td>@Html.DisplayFor(modelItem => f.Alacak)@(f.Alacak != null? "₺":"")</td>
+        <td>@Html.DisplayFor(modelItem => f.Borc)@(f.Borc != null? "₺":"")</td>
+        <td>@Html.DisplayFor(modelItem => f.Aciklama)</td>
+      <td></td>
+      <td></td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        @for (int i = 1; i<=pageCount;i++)
+        {
+            <li class="page-item"><a class="page-link" href="@Url.Action("Index","seperation",new {hesapId = hesapPlani.Id ,page = i})">@i</a></li>
+        }
+        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+</nav>
+
+<script>
+function comboChange(this_,fisId){
+    $.ajax({
+             type: "post",
+             url: "@Url.Action("saveStatus","Seperation")",
+             data: { fisId: fisId, status:$(this_).val()},
+             dataType:"json",
+             success: function(response){
+               
+             },
+             error: function(response){
+               
+             }
+    });
+}
+</script>

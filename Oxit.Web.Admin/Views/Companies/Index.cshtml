@@ -10,6 +10,7 @@
   <thead>
   <tr>
     <th scope="col">Aktif</th>
+    <th scope="col">Hesap Detayı</th>
     <th scope="col">Cari Kod</th>
     <th scope="col">Firma Adı</th>
   </tr>
@@ -21,6 +22,11 @@
       <th scope="row">
         <input class="form-check-input companyStatus" id="flexCheckDefault" type="checkbox" @(b.Aktif == true ? "checked" : "") value="@Html.DisplayFor(modelItem => b.Id)">
       </th>
+      <td>
+        <a class="btn btn-sm btn-info" href="@Url.Action("index","seperation",new {hesapId=b.Id})">
+          <i class="icon icon-2xl cil-menu"></i>
+        </a>  
+      </td>
       <td>@Html.DisplayFor(modelItem => b.Kod)</td>
       <td>@Html.DisplayFor(modelItem => b.Ad)</td>
       <td></td>
