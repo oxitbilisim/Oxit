@@ -3,7 +3,7 @@
         "Type": "PostgreSql", //or MySql - Oracle - PostgreSql - MongoDb
         // "ConnectionString": "Server=172.16.5.52;Database=Polut_Dev;User Id=sa;Password=admin123?;MultipleActiveResultSets=true;"
         //"ConnectionString": "Host=localhost;Database=Oxit;Username=postgres;Password=az"
-        "ConnectionString": "Server=185.98.13.192;Port=5432;Database=postgres;UserId=postgres;Password=somePassword"
+        "ConnectionString": "Server=85.98.13.192;Port=5432;Database=Oxit;UserId=postgres;Password=somePassword"
 
     },
   "Cache": {
