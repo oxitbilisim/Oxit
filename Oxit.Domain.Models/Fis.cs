@@ -20,6 +20,7 @@ namespace Oxit.Domain.Models
         public Double? Borc { get; set; }
         public Double? Alacak { get; set; }
         public Double? GecikmeTutari { get; set; }
+        //public Double? GeciktirilenTutar { get; set; }
         public DateTime? SonHesaplananGecikmeTarihi { get; set; }
         public Double? ZamanindaOdenenTutar { get; set; }
         public DateTime? ZamanindaOdemeTarihi { get; set; }

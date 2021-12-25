@@ -33,7 +33,7 @@ namespace Oxit.Web.Admin.Controllers
 
         public void GecikmeHesapla(string hesKod)
         {
-            var kalanTutar = 0.0;
+            var kalanAlacakTutar = 0.0;
             var odenecekTutar = 0.0;
             var fis = appDbContext.Fis
                                   .Include(y => y.HesapPlani)
@@ -54,45 +54,59 @@ namespace Oxit.Web.Admin.Controllers
                                                   .ToList();
 
 
-                kalanTutar = (double)alacakList.FirstOrDefault().Alacak - (double)alacakList.FirstOrDefault().KalanTutar;
+               
                 foreach (var itemAlacak in alacakList)
                 {
-                    var gecikmeGun =
-                                           ((DateTime)itemAlacak.Tarih - (DateTime)item.Tarih).TotalDays;
+                    kalanAlacakTutar = (double)itemAlacak.KalanTutar > 0 ? (double)itemAlacak.KalanTutar : (double)itemAlacak.Alacak;
+                    var gecikmeGun = (DateTime)itemAlacak.Tarih > (DateTime)item.Tarih  ? 
+                                           ((DateTime)itemAlacak.Tarih - (DateTime)item.Tarih).TotalDays : 0;
 
                     if (gecikmeGun > 45)
                     {
-                        item.GecikmeTutari = item.Borc * (0.152 / 30) * gecikmeGun;
+                        item.GeciktirilenAnaFaizTutar = odenecekTutar;
+                        item.GecikmeTutari = ((odenecekTutar * 0.0152) / 30 ) * gecikmeGun;
                         item.SonHesaplananGecikmeTarihi = itemAlacak.Tarih;
+             
 
-
-                        appDbContext.SaveChanges();
-                    }
-                    else
-                    {
-                        if (odenecekTutar >= kalanTutar)
+                        if (odenecekTutar >= kalanAlacakTutar)
                         {
-                            odenecekTutar = odenecekTutar - (double)itemAlacak.Alacak;
+                            odenecekTutar = odenecekTutar - kalanAlacakTutar;
+                            item.GeciktirilenTutar = odenecekTutar;
 
+                            itemAlacak.KalanTutar = (double)itemAlacak.Alacak;
                         }
-
-
-
-
-                        if (odenecekTutar <= kalanTutar)
+                        else
                         {
                             item.KalanTutar = 0;
                             item.ZamanindaOdenenTutar = (double)item.Borc;
                             item.ZamanindaOdemeTarihi = itemAlacak.Tarih;
 
-                            appDbContext.SaveChanges();
+                            itemAlacak.KalanTutar = kalanAlacakTutar - odenecekTutar;
+                        }
+                        appDbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        if (odenecekTutar >= kalanAlacakTutar)
+                        {
+                            odenecekTutar = odenecekTutar - kalanAlacakTutar;
+
+                            itemAlacak.KalanTutar = (double)itemAlacak.Alacak;
                         }
                         else
                         {
-                            itemAlacak.KalanTutar = itemAlacak.Alacak;
-                            appDbContext.SaveChanges();
+                            item.KalanTutar = 0;
+                            item.ZamanindaOdenenTutar = (double)item.Borc;
+                            item.ZamanindaOdemeTarihi = itemAlacak.Tarih;
+
+                            itemAlacak.KalanTutar = kalanAlacakTutar - odenecekTutar;
                         }
+                        appDbContext.SaveChanges();
+
+                         
                     }
+                    if (item.ZamanindaOdenenTutar > 0)
+                        break;
 
                 }
                 Console.WriteLine(item.Tarih + "|" + item.Borc);
