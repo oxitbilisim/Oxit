@@ -18,10 +18,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Oxit.Infrastructure\Oxit.Infrastructure.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Views\Home %28copy%29\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Companies\" />
-  </ItemGroup>
+
 </Project>
