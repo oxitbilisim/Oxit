@@ -25,7 +25,7 @@ namespace Oxit.Web.Admin.Controllers
         }
 
         [HttpGet("GecikmeleriHesapla")]
-        public IActionResult GecikmeleriHesapla(string hesapKodu)
+        public EmptyResult GecikmeleriHesapla(string hesapKodu)
         {
             var gecikmeOrani = Convert.ToDecimal(configuration.GetSection("gecikmeOrani").Value);
             var fisAlacakList = appDbContext.Fis
@@ -83,11 +83,11 @@ namespace Oxit.Web.Admin.Controllers
                 }
             }
 
-            return View();
+            return new EmptyResult();
         }
 
         [HttpGet("GecikmeleriSifirla")]
-        public IActionResult GecikmeleriSifirla(string hesapKodu)
+        public EmptyResult GecikmeleriSifirla(string hesapKodu)
         {
             var fisList = appDbContext.Fis
                                            .Include(y => y.HesapPlani)
@@ -108,7 +108,8 @@ namespace Oxit.Web.Admin.Controllers
                 item.GeciktirilenTutar = 0;
                 appDbContext.SaveChanges();
             }
-            return View();
+
+            return new EmptyResult();
         }
     }
 }

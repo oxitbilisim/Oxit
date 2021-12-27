@@ -9,13 +9,13 @@ using Oxit.Domain.Models;
 
 namespace Oxit.Web.Admin.Controllers
 {
-    public class SeperationController : Controller
+    public class CariController : Controller
     {
         private readonly TeknoparkContext db;
         private readonly IConfiguration configuration;
         private readonly appDbContext appDbContext;
         
-        public SeperationController(IConfiguration configuration, appDbContext appDbContext)
+        public CariController(IConfiguration configuration, appDbContext appDbContext)
         {
             this.configuration = configuration;
             var cn = configuration.GetSection("cn2021").Value;
@@ -24,6 +24,26 @@ namespace Oxit.Web.Admin.Controllers
            
         }
         public IActionResult Index(int? hesapId, int? page)
+        {
+            return View(commonParams(hesapId, page));
+        }
+
+        public IActionResult Edit(int? hesapId, int? page)
+        {
+            return View(commonParams(hesapId, page));
+        }
+        
+        [HttpPost]
+        public EmptyResult SaveStatus(int fisId, int status)
+        {
+            var fis = appDbContext.Fis.Find(fisId);
+            fis.FisTip = (FisTip) status;
+            appDbContext.Fis.Update(fis);
+            appDbContext.SaveChanges();
+            return new EmptyResult();
+        }
+
+        private Dictionary<string, object> commonParams(int? hesapId, int? page)
         {
             int totalCount = appDbContext.Fis.Where(f => f.HesapPlani.Id == hesapId).Count();
             int recordsPerPage = 10;
@@ -42,18 +62,10 @@ namespace Oxit.Web.Admin.Controllers
             Dictionary<string, object> model = new Dictionary<string, object>();
             model["hesapPlani"] = hesapPlani;
             model["fisList"] = fisList;
+            model["page"] = page;
             model["pageCount"] = (totalCount + recordsPerPage - 1) / recordsPerPage;
-            return View(model);
-        }
-        
-        [HttpPost]
-        public EmptyResult SaveStatus(int fisId, int status)
-        {
-            var fis = appDbContext.Fis.Find(fisId);
-            fis.FisTip = (FisTip) status;
-            appDbContext.Fis.Update(fis);
-            appDbContext.SaveChanges();
-            return new EmptyResult();
+
+            return model;
         }
     }
 }

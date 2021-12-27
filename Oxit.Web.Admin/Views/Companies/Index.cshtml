@@ -23,7 +23,7 @@
         <input class="form-check-input companyStatus" id="flexCheckDefault" type="checkbox" @(b.Aktif == true ? "checked" : "") value="@Html.DisplayFor(modelItem => b.Id)">
       </th>
       <td>
-        <a class="btn btn-sm btn-info" href="@Url.Action("index","seperation",new {hesapId=b.Id})">
+        <a class="btn btn-sm btn-info" href="@Url.Action("index","Cari",new {hesapId=b.Id})">
           <i class="icon icon-2xl cil-menu"></i>
         </a>  
       </td>
