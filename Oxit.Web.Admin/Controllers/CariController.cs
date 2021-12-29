@@ -46,7 +46,7 @@ namespace Oxit.Web.Admin.Controllers
         private Dictionary<string, object> commonParams(int? hesapId, int? page)
         {
             int totalCount = appDbContext.Fis.Where(f => f.HesapPlani.Id == hesapId).Count();
-            int recordsPerPage = 10;
+            int recordsPerPage = 50;
             if (page == null)
                 page = 1;
             int skip = (page.Value * recordsPerPage) - recordsPerPage;

@@ -5,6 +5,7 @@ using Oxit.DataAccess.EntityFramework;
 using Oxit.DataAccess.teknopark;
 using System.Diagnostics;
 using System.Transactions;
+using Oxit.Domain.Models;
 
 namespace Oxit.Web.Admin.Controllers
 {
@@ -25,8 +26,16 @@ namespace Oxit.Web.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var firmalar = appDbContext.HesapPlani.ToList();
-            return View(firmalar);
+            var aktifFirmaSayi = appDbContext.HesapPlani.Where(h => h.Aktif).Count();
+            var toplamBorc = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraFaturasi).Sum(b => b.Borc + b.GecikmeTutari);
+            var toplamOdeme = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraOdemesi).Sum(b => b.Alacak);
+
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            model["aktifFirmaSayi"] = aktifFirmaSayi;
+            model["toplamBorc"] = toplamBorc;
+            model["toplamOdeme"] = toplamOdeme;
+            model["kalanAlacak"] = toplamBorc-toplamOdeme;
+            return View(model);
         }
     }
 }

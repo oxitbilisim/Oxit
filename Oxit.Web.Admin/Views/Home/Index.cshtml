@@ -1,9 +1,83 @@
-﻿@model IEnumerable<Oxit.Domain.Models.HesapPlani> 
+﻿@using Oxit.Domain.Models
+@model Dictionary<string, object>
 @{
-    ViewData["Title"] = "Anasayfa";
+  int aktifFirmaSayi = (int)Model["aktifFirmaSayi"];
+  double toplamBorc = (double)Model["toplamBorc"];
+  double toplamOdeme = (double)Model["toplamOdeme"];
+  double kalanAlacak = (double)Model["kalanAlacak"];
+    
+  ViewData["Title"] = "Teknopark Ankara ";
 }
 
 <div class="text-center">
-    
-
+  <div class="row">
+    <div class="col-6 col-lg-3">
+      <div class="card overflow-hidden">
+        <div class="card-body p-0 d-flex align-items-center" style=" height: 150px; ">
+          <div class="bg-primary text-white py-4 px-5 me-3" style=" height: 150px; padding-top: 3.5rem !important; margin-right: 3rem !important;">
+            <svg class="icon icon-xl">
+              <use xlink:href="vendors/coreui/icons/svg/free.svg#cil-building"></use>
+            </svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-primary">@aktifFirmaSayi</div>
+            <div class="text-medium-emphasis text-uppercase fw-semibold small">Aktif Firma</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+    <div class="col-6 col-lg-3">
+      <div class="card overflow-hidden">
+        <div class="card-body p-0 d-flex align-items-center" style=" height: 150px; ">
+          <div class="bg-info text-white py-4 px-5 me-3" style=" height: 150px; padding-top: 3.5rem !important; margin-right: 2.5rem !important;">
+            <svg class="icon icon-xl">
+              <use xlink:href="vendors/coreui/icons/svg/free.svg#cil-money"></use>
+            </svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-info">@String.Format("{0:c}", toplamBorc)</div>
+            <div class="text-medium-emphasis text-uppercase fw-semibold small">Toplam Borç</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+    <div class="col-6 col-lg-3">
+      <div class="card overflow-hidden">
+        <div class="card-body p-0 d-flex align-items-center" style=" height: 150px; ">
+          <div class="bg-warning text-white py-4 px-5 me-3" style=" height: 150px; padding-top: 3.5rem !important; margin-right: 2.5rem !important;">
+            <svg class="icon icon-xl">
+              <use xlink:href="vendors/coreui/icons/svg/free.svg#cil-money"></use>
+            </svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-warning">@String.Format("{0:c}", toplamOdeme)</div>
+            <div class="text-medium-emphasis text-uppercase fw-semibold small">Toplam Ödeme</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+    <div class="col-6 col-lg-3">
+      <div class="card overflow-hidden">
+        <div class="card-body p-0 d-flex align-items-center" style=" height: 150px; ">
+          <div class="bg-danger text-white py-4 px-5 me-3" style=" height: 150px; padding-top: 3.5rem !important; margin-right: 2.5rem !important;">
+            <svg class="icon icon-xl">
+              <use xlink:href="vendors/coreui/icons/svg/free.svg#cil-money"></use>
+            </svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-danger">@String.Format("{0:c}", kalanAlacak)</div>
+            <div class="text-medium-emphasis text-uppercase fw-semibold small">Kalan Alacak</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+  </div>
+  <!-- /.row-->
+  
+  
+  <img class="sidebar-brand-full" src="assets/img/teknopark-ankara-black.png" width="300" style="margin-top: 250px" alt="Teknopark Ankara"/>
 </div>
