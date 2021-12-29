@@ -23,30 +23,35 @@
   <div class="card-body">
     <table class="table table-striped table-hover">
       <thead>
-      <tr>
-            <th scope="col">Fiş Türü</th>
-            <th scope="col">Tarih</th>
-            <th scope="col">Alacak</th>
-            <th scope="col">Borç</th>
-          <th scope="col">Geçikme Tutarı</th>
-          <th scope="col">Geçikme Günü</th>
-            <th scope="col">Açıklama</th>
-      </tr>
+          <tr>
+              <th scope="col">Fiş Türü</th>
+              <th scope="col">Tarih</th>
+              <th scope="col">Borç</th>
+              <th scope="col">Alacak</th>
+
+              <th scope="col">Gecikme Tutarı</th>
+              <th scope="col">Gecikme Günü</th>
+              <th scope="col">Açıklama</th>
+              <th scope="col">Son Hesaplama Tarihi</th>
+              <th scope="col">Kalan Tutar</th>
+          </tr>
       </thead>
       <tbody>
       @foreach (var f in fisList)
       {
-        <tr>
-            <td>@Html.DisplayFor(m => f.FisTip)</td>
-            <td>@Html.DisplayFor(m => f.Tarih, "shortDate")</td>
-            <td>@Html.DisplayFor(m => f.Alacak)@(f.Alacak != null? "₺":"")</td>
-            <td>@Html.DisplayFor(m => f.Borc)@(f.Borc != null? "₺":"")</td>
-            <td>@Html.DisplayFor(m => f.GecikmeTutari)@(f.GecikmeTutari != null? "₺":"")</td>
-            <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
-            <td>@Html.DisplayFor(m => f.Aciklama)</td>
-          <td></td>
-          <td></td>
-        </tr>
+          <tr>
+              <td>@Html.DisplayFor(m => f.FisTip)</td>
+              <td>@Html.DisplayFor(m => f.Tarih)</td>
+              <td>@Html.DisplayFor(m => f.Borc)@(f.Borc != null? " ₺ ":"")</td>
+              <td>@Html.DisplayFor(m => f.Alacak)@(f.Alacak != null? " ₺ ":"")</td>
+              <td>@Html.DisplayFor(m => f.GecikmeTutari)@(f.GecikmeTutari != null? " ₺ ":"")</td>
+              <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
+              <td>@Html.DisplayFor(m => f.Aciklama)</td>
+              <td>@Html.DisplayFor(m => f.SonHesaplananGecikmeTarihi)</td>
+              <td>@Html.DisplayFor(m => f.KalanTutar)</td>
+              <td></td>
+              <td></td>
+          </tr>
       }
       </tbody>
     </table>

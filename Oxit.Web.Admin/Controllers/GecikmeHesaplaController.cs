@@ -26,11 +26,13 @@ namespace Oxit.Web.Admin.Controllers
         public EmptyResult GecikmeleriHesapla(string hesapKodu)
         {
             var gecikmeOrani = Convert.ToDecimal(configuration.GetSection("gecikmeOrani").Value);
+            var gecikmeGunu = Convert.ToInt32(configuration.GetSection("gecikmeGunu").Value);
+
             var fisAlacakList = appDbContext.Fis
                                            .Include(y => y.HesapPlani)
                                            .Where(y => y.HesapPlani.Kod == hesapKodu && 
                                                        y.Alacak >= 0 &&
-                                                       y.FisTip == Domain.Models.FisTip.KiraOdemesi
+                                                       (int)y.FisTip == (int)Domain.Models.FisTip.KiraOdemesi
                                                 )
                                           .OrderBy(c => c.Tarih).ThenBy(n => n.Id)
                                           .ToList();
@@ -43,7 +45,7 @@ namespace Oxit.Web.Admin.Controllers
                 {
                     var fisBorc = appDbContext.Fis
                                           .Where(y => y.HesapPlaniId == itemAlacak.HesapPlaniId && y.Borc > 0 && !y.Odendi &&
-                                                      y.FisTip == Domain.Models.FisTip.KiraFaturasi
+                                                      (int)y.FisTip == (int)Domain.Models.FisTip.KiraFaturasi
                                                       )
                                           .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                                           .FirstOrDefault();
@@ -51,7 +53,7 @@ namespace Oxit.Web.Admin.Controllers
                     var borcTutari = fisBorc.KalanTutar > 0 ? (double)fisBorc.KalanTutar : (double)fisBorc.Borc;
                     var gecikmeGun = (DateTime)itemAlacak.Tarih > (DateTime)fisBorc.Tarih ? ((DateTime)itemAlacak.Tarih - (DateTime)fisBorc.Tarih).TotalDays : 0;
 
-                    if (gecikmeGun >= 45)
+                    if (gecikmeGun >= gecikmeGunu)
                     {
                         fisBorc.GeciktirilenAnaFaizTutar = (double)fisBorc.Borc;
                         fisBorc.GeciktirilenTutar = fisBorc.KalanTutar;
@@ -60,13 +62,12 @@ namespace Oxit.Web.Admin.Controllers
                         fisBorc.SonHesaplananGecikmeTarihi = itemAlacak.Tarih;
                     }
 
-
                     if (borcTutari > alacakTutari)
                     {
                         fisBorc.KalanTutar = Math.Round((double)(borcTutari - alacakTutari),2);
                         alacakTutari = 0;
                         fisBorc.Odendi = false;
-                        itemAlacak.KalanTutar = fisBorc.Id;
+                        //itemAlacak.KalanTutar = fisBorc.Id;
                     }
                     else
                     {
