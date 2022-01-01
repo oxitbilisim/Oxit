@@ -46,7 +46,6 @@ namespace Oxit.Scheduling.Jobs
             Console.WriteLine("JobTestEveryMinute: done");
             return Task.CompletedTask;
         }
-
         private int HesapplaniGuncelle(Hesplan cari)
         {
             var cr = appDbContext.HesapPlani.FirstOrDefault(c => c.DbKey == cari.Kod);
@@ -99,7 +98,6 @@ namespace Oxit.Scheduling.Jobs
             }
             return hesapplani.Id;
         }
-
         private int FisEkle(Yevmiye yevmiye, HesapPlani hesapPlani)
         {
             var Fis = new Fis
