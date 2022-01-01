@@ -1,5 +1,7 @@
 ﻿//using ExcelDataReader;
+using ExcelDataReader;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace Oxit.Core.Utilities
@@ -53,36 +55,45 @@ namespace Oxit.Core.Utilities
             text = r.Replace(text, "_");
             return text;
         }
-        //public static List<T> ExcelToObject<T>(this Stream stream)
-        //{
-        //    using (var reader = ExcelReaderFactory.CreateReader(stream))
-        //    {
-        //        do
-        //        {
-        //            while (reader.Read())
-        //            {
+        public static List<T> ExcelToObject<T>(this Stream stream)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            {
+                do
+                {
+                    while (reader.Read())
+                    {
 
-        //            }
-        //        } while (reader.NextResult());
-        //        var result = reader.AsDataSet();
-        //        var table = result.Tables[0]
-        //            .AsEnumerable()
-        //            .ToList();
+                    }
+                } while (reader.NextResult());
+                var result = reader.AsDataSet();
+                var table = result.Tables[0]
+                    .AsEnumerable()
+                    .ToList();
 
-        //        List<T> templist = new List<T>();
-        //        var props = typeof(T).GetProperties();
+                List<T> templist = new List<T>();
+                var props = typeof(T).GetProperties();
 
-        //        for (int i = 1; i < table.Count; i++)
-        //        {
-        //            var ins = Activator.CreateInstance(typeof(T));
-        //            for (int j = 0; j < props.Count(); j++)
-        //            {
-        //                props[j].SetValue(ins, table[i].ItemArray[j].ToString());
-        //            }
-        //            templist.Add((T)ins);
-        //        }
-        //        return templist;
-        //    }
-        //}
+                for (int i = 1; i < table.Count; i++)
+                {
+                    var ins = Activator.CreateInstance(typeof(T));
+                    for (int j = 0; j < props.Count(); j++)
+                    {
+                        var itemType = typeof(T).GetProperties()[j].PropertyType;
+                        Type? propertyType = null;
+                        propertyType = Nullable.GetUnderlyingType(itemType) != null ? Nullable.GetUnderlyingType(itemType) : itemType;
+                        var parseMethod = propertyType.GetMethod("Parse", new[] { typeof(string) });
+                        object? propertyValuse = null;
+                        propertyValuse = parseMethod != null ?
+                            propertyValuse = parseMethod.Invoke(propertyType, new[] { table[i].ItemArray[j].ToString() }) :
+                            table[i].ItemArray[j].ToString();
+                        props[j].SetValue(ins, propertyValuse);
+                    }
+                    templist.Add((T)ins);
+                }
+                return templist;
+            }
+        }
     }
 }
