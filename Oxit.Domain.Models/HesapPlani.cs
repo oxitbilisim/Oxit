@@ -17,6 +17,7 @@ namespace Oxit.Domain.Models
         public string? Kod { get; set; }
         public string DbKey { get; set; }
         public bool Aktif { get; set; }
+        public Double? GecikmeTutari  { get; set; }
         public DateTime SonCekilmeTarihi { get; set; }
 
         public virtual HashSet<Fis> Fis { get; set; }

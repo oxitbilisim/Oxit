@@ -31,8 +31,8 @@ namespace Oxit.Web.Admin.Controllers
             var fisAlacakList = appDbContext.Fis
                                            .Include(y => y.HesapPlani)
                                            .Where(y => y.HesapPlani.Kod == hesapKodu && 
-                                                       y.Alacak >= 0 &&
-                                                       (int)y.FisTip == (int)Domain.Models.FisTip.KiraOdemesi
+                                                       y.Alacak >= 0 
+                                                      // (int)y.FisTip == (int)Domain.Models.FisTip.KiraOdemesi
                                                 )
                                           .OrderBy(c => c.Tarih).ThenBy(n => n.Id)
                                           .ToList();
@@ -44,9 +44,8 @@ namespace Oxit.Web.Admin.Controllers
                 while (alacakTutari > 0)
                 {
                     var fisBorc = appDbContext.Fis
-                                          .Where(y => y.HesapPlaniId == itemAlacak.HesapPlaniId && y.Borc > 0 && !y.Odendi &&
-                                                      (int)y.FisTip == (int)Domain.Models.FisTip.KiraFaturasi
-                                                      )
+                                          .Where(y => y.HesapPlaniId == itemAlacak.HesapPlaniId && y.Borc > 0 && !y.Odendi)
+                                          //&& (int)y.FisTip == (int)Domain.Models.FisTip.KiraFaturasi          )
                                           .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                                           .FirstOrDefault();
 
@@ -67,7 +66,6 @@ namespace Oxit.Web.Admin.Controllers
                         fisBorc.KalanTutar = Math.Round((double)(borcTutari - alacakTutari),2);
                         alacakTutari = 0;
                         fisBorc.Odendi = false;
-                        //itemAlacak.KalanTutar = fisBorc.Id;
                     }
                     else
                     {

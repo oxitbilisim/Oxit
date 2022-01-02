@@ -25,6 +25,14 @@ namespace Oxit.Web.Admin.Controllers
         public IActionResult Index(string name, string kod)
         {
             List<HesapPlani> firmalar = appDbContext.HesapPlani
+                .Select(x => new HesapPlani
+                {
+                    Id = x.Id,
+                    Ad = x.Ad,
+                    Kod = x.Kod,
+                    GecikmeTutari = appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.GecikmeTutari),
+                    Aktif = x.Aktif
+                })
                 .OrderBy(h => h.Ad)
                 .ToList();
 
