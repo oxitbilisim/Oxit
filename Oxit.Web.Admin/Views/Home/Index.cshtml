@@ -1,10 +1,16 @@
 ﻿@using Oxit.Domain.Models
+@using Newtonsoft.Json
 @model Dictionary<string, object>
 @{
   int aktifFirmaSayi = (int)Model["aktifFirmaSayi"];
   double toplamBorc = (double)Model["toplamBorc"];
   double toplamOdeme = (double)Model["toplamOdeme"];
   double kalanAlacak = (double)Model["kalanAlacak"];
+  
+  List<string> labels = (List<string>)Model["labels"];
+  List<Int32> alacak = (List<Int32>)Model["alacak"];
+  List<Int32> gecikme = (List<Int32>)Model["gecikme"];
+  List<Int32> borc = (List<Int32>)Model["borc"];
     
   ViewData["Title"] = "Teknopark Ankara ";
 }
@@ -77,7 +83,49 @@
     <!-- /.col-->
   </div>
   <!-- /.row-->
-  
-  
-  <img class="sidebar-brand-full" src="assets/img/teknopark-ankara-black.png" width="300" style="margin-top: 250px" alt="Teknopark Ankara"/>
+  <div class="row">
+      <div class="col-12 mt-5" style="height: 300px;">
+        <canvas id="myChart" height="300"></canvas>
+        </div>
+  </div>
+  <img class="sidebar-brand-full mt-5" src="assets/img/teknopark-ankara-black.png" width="300" alt="Teknopark Ankara"/>
+  <script src="vendors/chart.js/js/chart.min.js"></script>
+  <script src="vendors/coreui/chartjs/js/coreui-chartjs.js"></script>
+  <script src="js/charts.js"></script>
+  <script>
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: @Html.Raw(JsonConvert.SerializeObject(labels)), //['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+          label: 'Borç',
+          backgroundColor: 'rgba(220, 220, 220, 0.9)',
+          borderColor: 'rgba(220, 220, 220, 0.8)',
+          highlightFill: 'rgba(220, 220, 220, 0.75)',
+          highlightStroke: 'rgba(220, 220, 220, 1)',
+          data: @Html.Raw(JsonConvert.SerializeObject(borc)) //[random(), random(), random(), random(), random(), random(), random()]
+        },{
+           label: 'Gecikme',
+           backgroundColor: 'rgb(229,83,83,0.5)',
+           borderColor: 'rgba(220, 220, 220, 0.8)',
+           highlightFill: 'rgba(220, 220, 220, 0.75)',
+           highlightStroke: 'rgba(220, 220, 220, 1)',
+           data: @Html.Raw(JsonConvert.SerializeObject(gecikme)) //[random(), random(), random(), random(), random(), random(), random()]
+          },
+          {
+            label: 'Alacak',
+            backgroundColor: 'rgba(151, 187, 205, 0.5)',
+            borderColor: 'rgba(151, 187, 205, 0.8)',
+            highlightFill: 'rgba(151, 187, 205, 0.75)',
+            highlightStroke: 'rgba(151, 187, 205, 1)',
+            data: @Html.Raw(JsonConvert.SerializeObject(alacak)) //[random(), random(), random(), random(), random(), random(), random()]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  </script>
 </div>
