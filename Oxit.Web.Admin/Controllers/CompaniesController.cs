@@ -22,31 +22,13 @@ namespace Oxit.Web.Admin.Controllers
             this.db = new TeknoparkContext(cn);
             this.appDbContext = appDbContext;
         }
-        public IActionResult Index(int? page, string name, string kod)
+        public IActionResult Index(string name, string kod)
         {
-            int totalCount = appDbContext.HesapPlani.Count();
-            int recordsPerPage = 10;
-            if (page == null)
-                page = 1;
-            int skip = (page.Value * recordsPerPage) - recordsPerPage;
-            
             List<HesapPlani> firmalar = appDbContext.HesapPlani
-                .Where(f =>
-                   (name != null ? f.Ad.Contains(name) :
-                   kod != null ?  f.Kod.Contains(kod) :
-                      name != null && kod != null ?
-                         f.Ad.Contains(name) && f.Kod.Contains(kod)
-                         : default
-                ))
                 .OrderBy(h => h.Ad)
-                .Skip(skip)
-                .Take(recordsPerPage)
                 .ToList();
 
-            Dictionary<string, object> model = new Dictionary<string, object>();
-            model["companies"] = firmalar;
-            model["pageCount"] = (totalCount + recordsPerPage - 1) / recordsPerPage;
-            return View(model);
+            return View(firmalar);
         }
         
         [HttpPost]

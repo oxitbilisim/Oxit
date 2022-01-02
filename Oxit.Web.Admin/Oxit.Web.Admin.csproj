@@ -28,6 +28,7 @@
     <None Remove="Swashbuckle.AspNetCore.Swagger" />
     <None Remove="Swashbuckle.AspNetCore.SwaggerUI" />
     <None Remove="Swashbuckle.AspNetCore" />
+    <None Remove="NonFactors.Grid.Mvc6" />
   </ItemGroup>
 
   <ItemGroup>
