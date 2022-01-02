@@ -5,6 +5,7 @@ using Oxit.DataAccess.EntityFramework;
 using Oxit.DataAccess.teknopark;
 using System.Diagnostics;
 using System.Transactions;
+using OfficeOpenXml;
 using Oxit.Domain.Models;
 
 namespace Oxit.Web.Admin.Controllers
@@ -66,6 +67,43 @@ namespace Oxit.Web.Admin.Controllers
             model["pageCount"] = (totalCount + recordsPerPage - 1) / recordsPerPage;
 
             return model;
+        }
+        
+        public IActionResult DownloadExcel(int hesapId)
+        {
+            List<Fis> fisList = appDbContext.Fis
+                .Where(f => f.HesapPlani.Id == hesapId)
+                .OrderByDescending(h => h.Tarih)
+                .ToList();
+
+            List<FisDto> list = new List<FisDto>();
+            foreach (var item in fisList)
+            {
+                list.Add(new FisDto(){ FirmaAdi = item.HesapPlani.Ad,
+                    CariKodu = item.HesapPlani.Kod,
+                    Aciklama = item.Aciklama,
+                    Borc = item.Borc,
+                    Alacak = item.Alacak,
+                    GecikmeTutari = item.GecikmeTutari,
+                    GecikenGun = item.GecikmeGunu
+                });
+            }
+            
+            var stream = new MemoryStream();
+            //required using OfficeOpenXml;
+            // If you use EPPlus in a noncommercial context
+            // according to the Polyform Noncommercial license:
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                workSheet.Cells.LoadFromCollection(list, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            return File(stream, "application/octet-stream", excelName);  
+            //return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }
 }
