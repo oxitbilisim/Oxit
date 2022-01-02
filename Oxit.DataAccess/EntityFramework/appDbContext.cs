@@ -19,8 +19,9 @@ namespace Oxit.DataAccess.EntityFramework
             base.OnConfiguring(optionsBuilder);
         }
 
-      public virtual DbSet<Fis> Fis { get; set; }
-      public virtual DbSet<HesapPlani> HesapPlani { get; set; }
+        public virtual DbSet<Fis> Fis { get; set; }
+        public virtual DbSet<HesapPlani> HesapPlani { get; set; }
+        public virtual DbSet<Kira> Kira { get; set; }
     }
 }
 

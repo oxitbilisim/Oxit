@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Dosya Ekle";
+}
+
+<form method="post" enctype="multipart/form-data" action="@Url.Action("upload","rents")">
+    <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="kira" />
+    <button class="btn btn-success" type="submit"><i class="fa fa-upload"></i> Yükle</button>
+</form>
+

@@ -1,0 +1,44 @@
+﻿@using Oxit.Domain.Models
+@model ICollection<Oxit.Domain.Models.Kira>
+@{
+    ViewData["Title"] = "Kiralar";
+    int pageCount = (int)ViewData["pageCount"];
+}
+<a class="btn btn-success text-light" href="@Url.Action("upload","rents")"><i class="fa fa-plus"></i> Ekle</a>
+<a class="btn btn-primary text-light" href="@Url.Action("getfile","rents")"><i class="fa fa-download"></i> Dosya İndir</a>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Firma Adı</th>
+            <th scope="col">Başlama Tarihi</th>
+            <th scope="col">Bitiş Tairih</th>
+            <th scope="col">Metrekare</th>
+            <th scope="col">Metrekare Fiyatı</th>
+            <th scope="col">Toplam Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ToList())
+        {
+            <tr>
+                <td>@item.FirmaAdi</td>
+                <td>@(item.BaslamaTarihi.HasValue? item.BaslamaTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
+                <td>@(item.BitisTarihi.HasValue? item.BitisTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
+                <td>@item.Metrekare</td>
+                <td>@item.MetrekareFiyati ₺</td>
+                <td>@item.ToplamFiyat ₺</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        @for (int i = 1; i <= pageCount; i++)
+        {
+            <li class="page-item"><a class="page-link" href="@Url.Action("Index","rents",new {page = i})">@i</a></li>
+        }
+        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+</nav>
+
