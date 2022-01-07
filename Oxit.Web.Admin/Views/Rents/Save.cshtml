@@ -1,0 +1,93 @@
+﻿@model Oxit.Domain.Models.Kira
+@{
+    ViewData["Title"] = Model != null ? "Yeni Kayıt" : "Kayıt Güncelle";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <form method="post" action="@Url.Action("save","rents")">
+            <div class="row">
+
+                <input type="hidden" value="@(Model!=null?Model.Id:null)" />
+                <div class="col-6">
+                    <label class="form-label">Firma Adı</label>
+                    <input class="form-control" name="FirmaAdi" type="text" placeholder="Firma Adı" value="@(Model!=null?Model.FirmaAdi:null)" />
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Metrekare</label>
+                    <input class="form-control" name="Metrekare" type="number" min="0" step="0.01" placeholder="Metrekare" value="@(Model!=null?Model.Metrekare:null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Sözleşme Başlama Tarihi</label>
+                    <input class="form-control" name="BaslamaTarihi" type="date" placeholder="Sözleşme Başlama Tarihi" value="@(Model!=null && Model.BaslamaTarihi.HasValue ?Model.BaslamaTarihi.Value.ToString("yyyy-MM-dd"):null)" />
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">Sözleşme Bitiş Tarihi</label>
+                    <input class="form-control" name="BitisTarihi" type="date" placeholder="Sözleşme Bitiş Tarihi" value="@(Model!=null  && Model.BitisTarihi.HasValue ?Model.BitisTarihi.Value.ToString("yyyy-MM-dd"):null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira Bedeli</label>
+                    <input class="form-control" name="KiraBedeli" type="number" min="0" step="0.01" placeholder="Kira Bedeli" value="@(Model!=null?Model.KiraBedeli:null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">İşletme Bedeli</label>
+                    <input class="form-control" name="IsletmeBedeli" type="number" min="0" step="0.01" placeholder="İşletme Bedeli" value="@(Model!=null?Model.IsletmeBedeli:null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira Metrekare Fiyat</label>
+                    <input class="form-control" name="MetrekareKiraFiyati" type="number" min="0" step="0.01" placeholder="Kira Metrekare Fiyat" value="@(Model!=null?Model.MetrekareKiraFiyati:null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">İşletme Metrekare Fiyat</label>
+                    <input class="form-control" name="MetrekareIsletmeFiyati" type="number" min="0" step="0.01" placeholder="İşletme Metrekare Fiyat" value="@(Model!=null?Model.MetrekareIsletmeFiyati:null)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira ve KDV Toplam</label>
+                    <input class="form-control" name="KiraKDVToplam" type="number" min="0" step="0.01" placeholder="Kira ve KDV Toplam" value="@(Model!=null?Model.KiraKDVToplam:null)" />
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">İşletme ve KDV Toplam</label>
+                    <input class="form-control" name="IsletmeKDVToplam" type="number" min="0" step="0.01" placeholder="İşletme ve KDV Toplam" value="@(Model!=null?Model.IsletmeKDVToplam:null)" />
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">Kira ve İşletme KDV'siz Toplam</label>
+                    <input class="form-control" name="KiraVeIsletmeKDVSizToplam" type="number" min="0" step="0.01" placeholder="Kira ve İşletme KDV'siz Toplam" value="@(Model!=null?Model.KiraVeIsletmeKDVSizToplam:null)" />
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">Kira ve İşletme KDV'li Toplam</label>
+                    <input class="form-control" name="KiraVeIsletmeKDVliToplam" type="number" min="0" step="0.01" placeholder="Kira ve İşletme KDV'li Toplam" value="@(Model!=null?Model.KiraVeIsletmeKDVSizToplam:null)" />
+                </div>
+
+
+
+                <div class="col-12">
+                    <label class="form-label">Açıklama</label>
+                    <textarea class="form-control" name="Aciklama" placeholder="Açıklama">@(Model!=null?Model.Aciklama:null)</textarea>
+
+                </div>
+
+
+                <div class="col-12">
+                    <button class="btn btn-success text-light " type="submit"><i class="fa fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

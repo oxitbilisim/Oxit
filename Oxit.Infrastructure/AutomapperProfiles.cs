@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Oxit.Common.Automapper.MappingProfiles;
+using Oxit.Infrastructure.MappingProfiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Oxit.Infrastructure
             return new MapperConfiguration(x =>
             {
                 x.AddProfile<PersonMappingProfile>();
+            x.AddProfile<KiraMappingProfile>();
             });
         }
     }

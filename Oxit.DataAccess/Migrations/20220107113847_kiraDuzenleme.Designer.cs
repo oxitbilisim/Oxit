@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Oxit.DataAccess.EntityFramework;
@@ -11,9 +12,10 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    partial class appDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220107113847_kiraDuzenleme")]
+    partial class kiraDuzenleme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +42,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -62,7 +64,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -114,7 +116,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -136,7 +138,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -155,7 +157,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("UserId", "ProviderKey");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -168,7 +170,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -187,7 +189,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("UserId", "Value");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("Oxit.Common.Models.Person", b =>
@@ -224,7 +226,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person", (string)null);
+                    b.ToTable("Person");
 
                     b.HasData(
                         new
@@ -307,7 +309,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasIndex("HesapPlaniId");
 
-                    b.ToTable("Fis", (string)null);
+                    b.ToTable("Fis");
                 });
 
             modelBuilder.Entity("Oxit.Domain.Models.HesapPlani", b =>
@@ -343,7 +345,7 @@ namespace Oxit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HesapPlani", (string)null);
+                    b.ToTable("HesapPlani");
                 });
 
             modelBuilder.Entity("Oxit.Domain.Models.Kira", b =>
@@ -354,10 +356,6 @@ namespace Oxit.DataAccess.Migrations
                         .HasColumnOrder(0);
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Aciklama")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateOnly?>("BaslamaTarihi")
                         .HasColumnType("date");
@@ -374,33 +372,39 @@ namespace Oxit.DataAccess.Migrations
                     b.Property<double?>("IsletmeBedeli")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("IsletmeKDVToplam")
+                    b.Property<double?>("IsletmeKDV")
                         .HasColumnType("double precision");
 
                     b.Property<double?>("KiraBedeli")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("KiraKDVToplam")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("KiraVeIsletmeKDVSizToplam")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("KiraVeIsletmeKDVliToplam")
+                    b.Property<double?>("KiraKDV")
                         .HasColumnType("double precision");
 
                     b.Property<double?>("Metrekare")
                         .HasColumnType("double precision");
 
+                    b.Property<double?>("MetrekareFiyati")
+                        .HasColumnType("double precision");
+
                     b.Property<double?>("MetrekareIsletmeFiyati")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("MetrekareKiraFiyati")
+                    b.Property<double?>("ToplamIsletme")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("ToplamKira")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("ToplamKiraVeIsletme")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("ToplamKiraVeIsletmeKDVli")
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kira", (string)null);
+                    b.ToTable("Kira");
                 });
 
             modelBuilder.Entity("Oxit.Domain.Models.Fis", b =>
