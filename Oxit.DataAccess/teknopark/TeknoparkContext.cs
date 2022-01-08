@@ -7,11 +7,8 @@ namespace Oxit.DataAccess.teknopark
 {
     public partial class TeknoparkContext : DbContext
     {
-
-        private string cn = string.Empty;
-        public TeknoparkContext(string connectionString)
+        public TeknoparkContext()
         {
-            cn = connectionString;
         }
 
         public TeknoparkContext(DbContextOptions<TeknoparkContext> options)
@@ -102,7 +99,8 @@ namespace Oxit.DataAccess.teknopark
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(cn);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=85.98.13.192;Database=AANKARATEKNOPARKAŞ_2022;User Id=sa;Password=yourStrong(!)Password;");
             }
         }
 
@@ -1268,6 +1266,8 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.BelgeTuru).HasMaxLength(50);
 
+                entity.Property(e => e.BeyanEdilecekKdv).HasColumnName("BeyanEdilecekKDV");
+
                 entity.Property(e => e.Dahilharic).HasMaxLength(1);
 
                 entity.Property(e => e.DbKayitTarihi)
@@ -1275,6 +1275,10 @@ namespace Oxit.DataAccess.teknopark
                     .HasColumnName("DB_KayitTarihi");
 
                 entity.Property(e => e.DefterBeyanGuncelle).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.DigerIslemlerKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("digerIslemlerKodu");
 
                 entity.Property(e => e.Faturano).HasMaxLength(16);
 
@@ -1288,6 +1292,14 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.Heskod).HasMaxLength(20);
 
+                entity.Property(e => e.IhracKayitliTeslimKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("ihracKayitliTeslimKodu");
+
+                entity.Property(e => e.IhracKayitliTeslimOrani)
+                    .HasColumnName("ihracKayitliTeslimOrani")
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Islemetarihi).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.IstisnaKodu).HasMaxLength(50);
@@ -1299,6 +1311,14 @@ namespace Oxit.DataAccess.teknopark
                 entity.Property(e => e.KayitTuru).HasMaxLength(50);
 
                 entity.Property(e => e.KdvsizIslem).HasColumnName("kdvsizIslem");
+
+                entity.Property(e => e.KismiIstisnaKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("kismiIstisnaKodu");
+
+                entity.Property(e => e.KismiIstisnaOrani)
+                    .HasColumnName("kismiIstisnaOrani")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Kod).HasMaxLength(2);
 
@@ -1344,7 +1364,17 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.BelgeTuru).HasMaxLength(50);
 
+                entity.Property(e => e.BeyanEdilecekKdv).HasColumnName("BeyanEdilecekKDV");
+
                 entity.Property(e => e.Dahilharic).HasMaxLength(1);
+
+                entity.Property(e => e.DbKayitTarihi)
+                    .HasColumnType("smalldatetime")
+                    .HasColumnName("DB_KayitTarihi");
+
+                entity.Property(e => e.DigerIslemlerKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("digerIslemlerKodu");
 
                 entity.Property(e => e.Faturano).HasMaxLength(16);
 
@@ -1358,19 +1388,41 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.Heskod).HasMaxLength(20);
 
+                entity.Property(e => e.IhracKayitliTeslimKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("ihracKayitliTeslimKodu");
+
+                entity.Property(e => e.IhracKayitliTeslimOrani)
+                    .HasColumnName("ihracKayitliTeslimOrani")
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Islemetarihi).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.IstisnaKodu).HasMaxLength(50);
 
                 entity.Property(e => e.KayitAltTuru).HasMaxLength(50);
 
+                entity.Property(e => e.KayitTarihi).HasColumnType("datetime");
+
                 entity.Property(e => e.KayitTuru).HasMaxLength(50);
 
                 entity.Property(e => e.KdvsizIslem).HasColumnName("kdvsizIslem");
 
+                entity.Property(e => e.KismiIstisnaKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("kismiIstisnaKodu");
+
+                entity.Property(e => e.KismiIstisnaOrani)
+                    .HasColumnName("kismiIstisnaOrani")
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Kod).HasMaxLength(2);
 
                 entity.Property(e => e.Kullanici).HasMaxLength(50);
+
+                entity.Property(e => e.NaceKodu).HasMaxLength(10);
+
+                entity.Property(e => e.OncekiKullanici).HasMaxLength(50);
 
                 entity.Property(e => e.Ref)
                     .ValueGeneratedOnAdd()
@@ -1401,6 +1453,8 @@ namespace Oxit.DataAccess.teknopark
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.Property(e => e.UlkeKodu).HasMaxLength(3);
+
                 entity.Property(e => e.Vergino).HasMaxLength(11);
             });
 
@@ -1418,6 +1472,8 @@ namespace Oxit.DataAccess.teknopark
                     .IsConcurrencyToken();
 
                 entity.Property(e => e.BelgeTuru).HasMaxLength(50);
+
+                entity.Property(e => e.BeyanEdilecekKdv).HasColumnName("BeyanEdilecekKDV");
 
                 entity.Property(e => e.Dahilharic).HasMaxLength(1);
 
@@ -1437,6 +1493,8 @@ namespace Oxit.DataAccess.teknopark
                     .HasMaxLength(50)
                     .HasColumnName("gibRef");
 
+                entity.Property(e => e.GumrukBeyannameNo).HasMaxLength(20);
+
                 entity.Property(e => e.Heskod).HasMaxLength(20);
 
                 entity.Property(e => e.Islemetarihi).HasColumnType("smalldatetime");
@@ -1449,6 +1507,8 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.KayitTuru).HasMaxLength(50);
 
+                entity.Property(e => e.Kdvm).HasColumnName("KDVM");
+
                 entity.Property(e => e.KdvsizIslem).HasColumnName("kdvsizIslem");
 
                 entity.Property(e => e.Kod).HasMaxLength(2);
@@ -1456,6 +1516,10 @@ namespace Oxit.DataAccess.teknopark
                 entity.Property(e => e.Kullanici).HasMaxLength(50);
 
                 entity.Property(e => e.NaceKodu).HasMaxLength(10);
+
+                entity.Property(e => e.OdemeTuruKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("odemeTuruKodu");
 
                 entity.Property(e => e.RefGuid).HasColumnName("refGuid");
 
@@ -1493,7 +1557,13 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.BelgeTuru).HasMaxLength(50);
 
+                entity.Property(e => e.BeyanEdilecekKdv).HasColumnName("BeyanEdilecekKDV");
+
                 entity.Property(e => e.Dahilharic).HasMaxLength(1);
+
+                entity.Property(e => e.DbKayitTarihi)
+                    .HasColumnType("smalldatetime")
+                    .HasColumnName("DB_KayitTarihi");
 
                 entity.Property(e => e.Faturano).HasMaxLength(16);
 
@@ -1505,6 +1575,8 @@ namespace Oxit.DataAccess.teknopark
                     .HasMaxLength(50)
                     .HasColumnName("gibRef");
 
+                entity.Property(e => e.GumrukBeyannameNo).HasMaxLength(20);
+
                 entity.Property(e => e.Heskod).HasMaxLength(20);
 
                 entity.Property(e => e.Islemetarihi).HasColumnType("smalldatetime");
@@ -1513,13 +1585,25 @@ namespace Oxit.DataAccess.teknopark
 
                 entity.Property(e => e.KayitAltTuru).HasMaxLength(50);
 
+                entity.Property(e => e.KayitTarihi).HasColumnType("datetime");
+
                 entity.Property(e => e.KayitTuru).HasMaxLength(50);
+
+                entity.Property(e => e.Kdvm).HasColumnName("KDVM");
 
                 entity.Property(e => e.KdvsizIslem).HasColumnName("kdvsizIslem");
 
                 entity.Property(e => e.Kod).HasMaxLength(2);
 
                 entity.Property(e => e.Kullanici).HasMaxLength(50);
+
+                entity.Property(e => e.NaceKodu).HasMaxLength(10);
+
+                entity.Property(e => e.OdemeTuruKodu)
+                    .HasMaxLength(50)
+                    .HasColumnName("odemeTuruKodu");
+
+                entity.Property(e => e.OncekiKullanici).HasMaxLength(50);
 
                 entity.Property(e => e.Ref)
                     .ValueGeneratedOnAdd()
@@ -1547,6 +1631,8 @@ namespace Oxit.DataAccess.teknopark
                     .HasMaxLength(6)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.UlkeKodu).HasMaxLength(3);
 
                 entity.Property(e => e.Vergino).HasMaxLength(11);
             });
@@ -2244,7 +2330,7 @@ namespace Oxit.DataAccess.teknopark
             modelBuilder.Entity<TbEdefterKontrol>(entity =>
             {
                 entity.HasKey(e => e.EdefterKontrolId)
-                    .HasName("PK__tbEDefte__FAD0FFAF20EF2BB2");
+                    .HasName("PK__tbEDefte__FAD0FFAF03A67F89");
 
                 entity.ToTable("tbEDefterKontrol");
 
@@ -2262,7 +2348,7 @@ namespace Oxit.DataAccess.teknopark
             modelBuilder.Entity<TbEdefterKontrolDetay>(entity =>
             {
                 entity.HasKey(e => e.EdefterKontrolDetayId)
-                    .HasName("PK__tbEDefte__408AE856298471B3");
+                    .HasName("PK__tbEDefte__408AE8560C3BC58A");
 
                 entity.ToTable("tbEDefterKontrolDetay");
 
@@ -2277,13 +2363,13 @@ namespace Oxit.DataAccess.teknopark
                 entity.HasOne(d => d.EdefterKontrol)
                     .WithMany(p => p.TbEdefterKontrolDetays)
                     .HasForeignKey(d => d.EdefterKontrolId)
-                    .HasConstraintName("FK__tbEDefter__EDeft__2D550297");
+                    .HasConstraintName("FK__tbEDefter__EDeft__100C566E");
             });
 
             modelBuilder.Entity<TbEdefterKontrolDetayFi>(entity =>
             {
                 entity.HasKey(e => e.EdefterKontrolDetayFisId)
-                    .HasName("PK__tbEDefte__49E04C7F30316F42");
+                    .HasName("PK__tbEDefte__49E04C7F12E8C319");
 
                 entity.ToTable("tbEDefterKontrolDetayFis");
 
@@ -2294,13 +2380,13 @@ namespace Oxit.DataAccess.teknopark
                 entity.HasOne(d => d.EdefterKontrolDetay)
                     .WithMany(p => p.TbEdefterKontrolDetayFis)
                     .HasForeignKey(d => d.EdefterKontrolDetayId)
-                    .HasConstraintName("FK__tbEDefter__EDeft__3219B7B4");
+                    .HasConstraintName("FK__tbEDefter__EDeft__14D10B8B");
             });
 
             modelBuilder.Entity<TbEdefterKontrolDetayFisYevmiye>(entity =>
             {
                 entity.HasKey(e => e.EdefterKontrolDetayFisYevmiyeId)
-                    .HasName("PK__tbEDefte__244CB81734F6245F");
+                    .HasName("PK__tbEDefte__244CB81717AD7836");
 
                 entity.ToTable("tbEDefterKontrolDetayFisYevmiye");
 
@@ -2311,7 +2397,7 @@ namespace Oxit.DataAccess.teknopark
                 entity.HasOne(d => d.EdefterKontrolDetayFis)
                     .WithMany(p => p.TbEdefterKontrolDetayFisYevmiyes)
                     .HasForeignKey(d => d.EdefterKontrolDetayFisId)
-                    .HasConstraintName("FK__tbEDefter__EDeft__36DE6CD1");
+                    .HasConstraintName("FK__tbEDefter__EDeft__1995C0A8");
             });
 
             modelBuilder.Entity<TbHesapPlaniCache>(entity =>
@@ -2405,7 +2491,7 @@ namespace Oxit.DataAccess.teknopark
                     .WithMany(p => p.TbInvoiceHeads)
                     .HasForeignKey(d => d.InvoiceSourceAppId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__tbInvoice__Invoi__0683B78B");
+                    .HasConstraintName("FK__tbInvoice__Invoi__75586032");
             });
 
             modelBuilder.Entity<TbInvoiceLine>(entity =>
@@ -2518,7 +2604,7 @@ namespace Oxit.DataAccess.teknopark
             modelBuilder.Entity<TbInvoiceSourceApp>(entity =>
             {
                 entity.HasKey(e => e.InvoiceSourceAppId)
-                    .HasName("PK__tbInvoic__1822517303A74AE0");
+                    .HasName("PK__tbInvoic__18225173727BF387");
 
                 entity.ToTable("tbInvoiceSourceApp", "hub");
 
@@ -2530,7 +2616,7 @@ namespace Oxit.DataAccess.teknopark
             modelBuilder.Entity<TbMuhasebelestirIsletmeDefteriAyarlari>(entity =>
             {
                 entity.HasKey(e => e.MuhasebelestirIsletmeDefteriAyarlariId)
-                    .HasName("PK__tbMuhase__D34610767C86175C");
+                    .HasName("PK__tbMuhase__D34610767928F116");
 
                 entity.ToTable("tbMuhasebelestirIsletmeDefteriAyarlari");
 

@@ -1,11 +1,9 @@
-{
-    "Database": {
-        "Type": "PostgreSql", //or MySql - Oracle - PostgreSql - MongoDb
-        // "ConnectionString": "Server=172.16.5.52;Database=Polut_Dev;User Id=sa;Password=admin123?;MultipleActiveResultSets=true;"
-        //"ConnectionString": "Host=localhost;Database=Oxit;Username=postgres;Password=az"
-        "ConnectionString": "Server=85.98.13.192;Port=5432;Database=Oxit;UserId=postgres;Password=somePassword"
+﻿{
+  "Database": {
+    "Type": "PostgreSql", //or MySql - Oracle - PostgreSql - MongoDb
+    "ConnectionString": "Server=85.98.13.192;Port=5432;Database=Oxit;UserId=postgres;Password=somePassword"
 
-    },
+  },
   "Cache": {
     "Enable": true,
     "Type": "Redis", // or Database - MemCache
@@ -26,5 +24,6 @@
     "ValidAudience": "http://localhost:4200",
     "ValidIssuer": "http://localhost:61955",
     "Secret": "ByYM000OLlMQG6VVVp1OH7Xzyr7gHuw1qvUC5dcGt3SNM"
-  }
+  },
+  "TeknoparkConnectionstring": "Server=85.98.13.192;Database=AANKARATEKNOPARKAŞ_2022;User Id=sa;Password=yourStrong(!)Password;"
 }

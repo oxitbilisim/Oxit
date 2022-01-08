@@ -17,21 +17,22 @@ namespace Oxit.Scheduling.Jobs
     {
         private appDbContext appDbContext;
         private readonly IConfiguration configuration;
-        private readonly TeknoparkContext db2021;
+        private readonly TeknoparkContext teknoparkContext;
         public JobGetDataFromZirve(
             appDbContext appDbContext,
-            IConfiguration configuration
+            IConfiguration configuration,
+            TeknoparkContext teknoparkContext
 
             )
         {
             this.appDbContext = appDbContext;
             this.configuration = configuration;
-            db2021 = new TeknoparkContext(configuration.GetSection("cn2021").Value);
+            this.teknoparkContext = teknoparkContext;
         }
         public Task Execute(IJobExecutionContext context)
         {
             //cari
-            foreach (var cari in db2021.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
+            foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
                 if (!appDbContext.HesapPlani.Any(c => c.DbKey == cari.Kod))
                 {
@@ -58,7 +59,7 @@ namespace Oxit.Scheduling.Jobs
                 cr.SonCekilmeTarihi = DateTime.Now;
             }
             appDbContext.SaveChanges();
-            foreach (var yevmiye in db2021.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
             {
                 var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
                 if (fis == null)
@@ -84,7 +85,7 @@ namespace Oxit.Scheduling.Jobs
             };
             appDbContext.HesapPlani.Add(hesapplani);
             appDbContext.SaveChanges();
-            foreach (var yevmiye in db2021.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
             {
                 var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
                 if (fis == null)

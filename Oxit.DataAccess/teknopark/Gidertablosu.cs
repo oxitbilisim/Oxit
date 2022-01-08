@@ -52,5 +52,11 @@ namespace Oxit.DataAccess.teknopark
         public DateTime? KayitTarihi { get; set; }
         public double? TevkifatTutar { get; set; }
         public string? UlkeKodu { get; set; }
+        public string? OdemeTuruKodu { get; set; }
+        public string? GumrukBeyannameNo { get; set; }
+        public double? Kdvm { get; set; }
+        public double? EkOdemeler { get; set; }
+        public double? MalHizmetBedeli { get; set; }
+        public double? BeyanEdilecekKdv { get; set; }
     }
 }

@@ -20,19 +20,33 @@ namespace Oxit.Common.DataAccess.EntityFramework
         {
 
         }
+        public BaseAppDbContext(DbContextOptions options)
+     : base(options)
+        {
+
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (Settings.Database.Type == DatabaseTypes.SqlServer)
-                optionsBuilder.UseSqlServer(Settings.Database.ConnectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                if (Settings.Database.Type == DatabaseTypes.SqlServer)
+                    optionsBuilder.UseSqlServer(Settings.Database.ConnectionString);
 
+                if (Settings.Database.Type == DatabaseTypes.PostgreSql)
+                {
+                    optionsBuilder.UseNpgsql(Settings.Database.ConnectionString);
+                    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                    AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+                }
+                optionsBuilder.UseLazyLoadingProxies();
+            }
             if (Settings.Database.Type == DatabaseTypes.PostgreSql)
             {
-                optionsBuilder.UseNpgsql(Settings.Database.ConnectionString);
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
             }
-            optionsBuilder.UseLazyLoadingProxies();
+
 #if DEBUG
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors();
 #endif
@@ -48,12 +62,12 @@ namespace Oxit.Common.DataAccess.EntityFramework
                 builder.HasCollation("turkish_collection", locale: "tr_TR.UTF-8", provider: "icu", deterministic: false);
                 builder.UseDefaultColumnCollation("turkish_collection");
             }
-           
+
             MapperIdentity.Initialize(builder);
 
         }
 
-     
+
         public override int SaveChanges()
         {
             var IBaseEntitys = ChangeTracker.Entries().Where(e => e.Entity is IBaseFullModel<Guid> || e.Entity is IBaseSimpleModel<Guid>);

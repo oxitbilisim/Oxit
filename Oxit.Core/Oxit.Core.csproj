@@ -21,7 +21,7 @@
     <None Update="Settings.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.json">
+    <None Update="Settings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -11,11 +11,19 @@
     <thead class="table-dark">
         <tr>
             <th scope="col">Firma Adı</th>
-            <th scope="col">Başlama Tarihi</th>
-            <th scope="col">Bitiş Tairih</th>
             <th scope="col">Metrekare</th>
-            <th scope="col">Metrekare Fiyatı</th>
-            <th scope="col">Toplam Fiyat</th>
+            <th scope="col">Sözleşme Başlama Tarihi</th>
+            <th scope="col">Sözleşme Bitiş Tarihi</th>
+            <th scope="col">Kira Bedeli</th>
+            <th scope="col">İşletme Bedeli</th>
+            <th scope="col">Kira Metrekare Fiyat</th>
+            <th scope="col">İşletme Metrekare Fiyat</th>
+            <th scope="col">Kira ve KDV Toplam</th>
+            <th scope="col">İşletme ve KDV Toplam</th>
+            <th scope="col">Kira ve İşletme KDV'siz Toplam</th>
+            <th scope="col">Kira ve İşletme KDV'li Toplam</th>
+            <th scope="col">Açıklama</th>
+
             <th scope="col">İşlem</th>
         </tr>
     </thead>
@@ -24,11 +32,18 @@
         {
             <tr>
                 <td>@item.FirmaAdi</td>
+                <td>@item.Metrekare</td>
                 <td>@(item.BaslamaTarihi.HasValue? item.BaslamaTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
                 <td>@(item.BitisTarihi.HasValue? item.BitisTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
-                <td>@item.Metrekare</td>
-                <td> ₺</td>
-                <td> ₺</td>
+                <td>@(item.KiraBedeli is not null? item.KiraBedeli +" ₺":"")</td>
+                <td>@item.IsletmeBedeli ₺</td>
+                <td>@item.MetrekareKiraFiyati ₺</td>
+                <td>@item.MetrekareIsletmeFiyati ₺</td>
+                <td>@item.KiraKDVToplam ₺</td>
+                <td>@item.IsletmeKDVToplam ₺</td>
+                <td>@item.KiraVeIsletmeKDVSizToplam ₺</td>
+                <td>@item.KiraVeIsletmeKDVliToplam ₺</td>
+                <td>@item.Aciklama</td>
                 <td>
                     <a href="@Url.Action("save","rents",new{Id=item.Id})" class="btn btn-primary">Düzenle</a>
                     <a href="@Url.Action("delete","rents",new{Id=item.Id})" class="btn btn-danger">Sil</a>

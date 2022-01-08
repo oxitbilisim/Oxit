@@ -13,6 +13,11 @@ namespace Oxit.DataAccess.EntityFramework
              : base()
         {
         }
+        public appDbContext(DbContextOptions<appDbContext> options)
+            : base(options)
+         
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

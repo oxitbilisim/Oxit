@@ -6,7 +6,8 @@ namespace Oxit.Core
     public static class Settings
     {
         public static bool IsDevelopment { get { return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"; } }
-        private static readonly dynamic settingsJson = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Settings" + (IsDevelopment ? ".Development" : "") + ".json"));
+        public static string EnvName { get { return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToString(); } }
+        private static readonly dynamic settingsJson = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Settings." + EnvName + ".json"));
 
         public class Database
         {
@@ -38,12 +39,13 @@ namespace Oxit.Core
             public static string Username = settingsJson.Mail.Username;
             public static string Password = settingsJson.Mail.Password;
         }
-
         public class JWT
         {
             public static string ValidAudience = settingsJson.JWT.ValidAudience;
             public static string ValidIssuer = settingsJson.JWT.ValidIssuer;
             public static string Secret = settingsJson.JWT.Secret;
         }
+
+        public static string TeknoparkConnectionstring = settingsJson.TeknoparkConnectionstring;
     }
 }

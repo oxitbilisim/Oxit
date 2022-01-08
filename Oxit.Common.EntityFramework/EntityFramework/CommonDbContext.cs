@@ -17,6 +17,13 @@ namespace Oxit.Common.DataAccess.EntityFramework
 
         }
 
+
+        public CommonDbContext(DbContextOptions options)
+           : base(options)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
