@@ -15,11 +15,14 @@ namespace Oxit.Web.Admin.Controllers
         private readonly IConfiguration configuration;
         private readonly appDbContext appDbContext;
 
-        public CompaniesController(IConfiguration configuration, appDbContext appDbContext)
+        public CompaniesController(
+            IConfiguration configuration,
+            appDbContext appDbContext,
+            TeknoparkContext db
+            )
         {
             this.configuration = configuration;
-            var cn = configuration.GetSection("cn2021").Value;
-            this.db = new TeknoparkContext(cn);
+            this.db = db;
             this.appDbContext = appDbContext;
         }
         public IActionResult Index(string name, string kod)

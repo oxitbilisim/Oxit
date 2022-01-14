@@ -1,7 +1,7 @@
 ﻿{
   "Database": {
     "Type": "PostgreSql", //or MySql - Oracle - PostgreSql - MongoDb
-    "ConnectionString": "Server=85.98.13.192;Port=5432;Database=Oxit;UserId=postgres;Password=somePassword"
+    "ConnectionString": "Host=85.98.13.192;Port=5432;Database=Oxit;UserId=postgres;Password=somePassword"
 
   },
   "Cache": {

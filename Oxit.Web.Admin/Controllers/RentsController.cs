@@ -33,13 +33,12 @@ namespace Oxit.Web.Admin.Controllers
         public RentsController(
             IConfiguration configuration,
             appDbContext appDbContext,
-            IMapper mapper
-
+            IMapper mapper,
+            TeknoparkContext db
             )
         {
             _configuration = configuration;
-            var cn = configuration.GetSection("cn2021").Value;
-            _db = new TeknoparkContext(cn);
+            _db = db;
             _appDbContext = appDbContext;
             _mapper = mapper;
         }

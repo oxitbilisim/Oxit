@@ -7,6 +7,7 @@ using Oxit.Common.Automapper;
 using Oxit.Common.DataAccess.EntityFramework;
 using Oxit.Common.Domain;
 using Oxit.DataAccess.EntityFramework;
+using Oxit.DataAccess.teknopark;
 
 namespace Oxit.Infrastructure
 {
@@ -19,7 +20,7 @@ namespace Oxit.Infrastructure
             services.AddMemoryCache();
             services.AddSingleton(CommonMappingProfiles.GetProfiles().CreateMapper());
             services.AddSingleton(AutomapperProfiles.GetProfiles().CreateMapper());
-            services.AddDbContext<appDbContext>();
+
             services.AddDbContext<CommonDbContext>();
             services.AddCommonServices();
             services.AddCors(x =>
@@ -73,6 +74,17 @@ namespace Oxit.Infrastructure
                 };
             }); ;
             services.AddAuthorization();
+
+            services.AddDbContext<appDbContext>(x =>
+            {
+                x.UseNpgsql(Settings.Database.ConnectionString);
+
+            });
+            services.AddDbContext<TeknoparkContext>(x =>
+            {
+                x.UseSqlServer(Settings.TeknoparkConnectionstring);
+
+            });
             return services;
         }
     }
