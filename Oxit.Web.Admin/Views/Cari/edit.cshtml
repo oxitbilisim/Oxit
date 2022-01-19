@@ -30,26 +30,37 @@
               </tr>
           </thead>
           <tbody>
-          @foreach (var f in fisList)
-          {
-              <tr>
-                  <th scope="row">
-                      <select class="form-select" aria-label="Default select example" onchange="comboChange(this,@f.Id)">
-                          <!option @(f.FisTip == null ? "selected" : "")>Kayıt Türü Seçiniz</!option>
-                          <!option @(f.FisTip == FisTip.KiraFaturasi ? "selected" : "") value="0">Kira Faturası</!option>
-                          <!option @(f.FisTip == FisTip.KiraOdemesi ? "selected" : "") value="3">Kira Ödemesi</!option>
-                          <!option @(f.FisTip == FisTip.Proje ? "selected" : "") value="1">Proje</!option>
-                          <!option @(f.FisTip == FisTip.Diger ? "selected" : "") value="2">Diğer</!option>
-                      </select>
-                  </th>
-                  <td>@Html.DisplayFor(m => f.Tarih, "dd.MM.yyyy")</td>
-                  <td>@Html.DisplayFor(modelItem => f.Borc)@(f.Borc != null? " ₺":"")</td>
-                  <td>@Html.DisplayFor(modelItem => f.Alacak)@(f.Alacak != null? " ₺":"")</td>
-                  <td>@Html.DisplayFor(modelItem => f.Aciklama)</td>
-                  <td></td>
-                  <td></td>
-              </tr>
-          }
+              
+              @foreach (var f in fisList)
+              {
+                  string selectedClass = "";
+                  if (!f.Odendi)
+                  {
+                      selectedClass = "white";
+                  }
+                  else
+                  {
+                      selectedClass = "green";
+                  }
+
+                  <tr bgcolor="@selectedClass">
+                      <th scope="row">
+                          <select class="form-select" aria-label="Default select example" onchange="comboChange(this,@f.Id)">
+                              <!option @(f.FisTip == null ? "selected" : "")>Kayıt Türü Seçiniz</!option>
+                              <!option @(f.FisTip == FisTip.KiraFaturasi ? "selected" : "") value="0">Kira Faturası</!option>
+                              <!option @(f.FisTip == FisTip.KiraOdemesi ? "selected" : "") value="3">Kira Ödemesi</!option>
+                              <!option @(f.FisTip == FisTip.Proje ? "selected" : "") value="1">Proje</!option>
+                              <!option @(f.FisTip == FisTip.Diger ? "selected" : "") value="2">Diğer</!option>
+                          </select>
+                      </th>
+                      <td>@Html.DisplayFor(m => f.Tarih, "dd.MM.yyyy")</td>
+                      <td>@Html.DisplayFor(modelItem => f.Borc)@(f.Borc != null? " ₺":"")</td>
+                      <td>@Html.DisplayFor(modelItem => f.Alacak)@(f.Alacak != null? " ₺":"")</td>
+                      <td>@Html.DisplayFor(modelItem => f.Aciklama)</td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+              }
           </tbody>
         </table>
 </div>

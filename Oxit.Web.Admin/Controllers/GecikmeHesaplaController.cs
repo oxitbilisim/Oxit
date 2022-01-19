@@ -83,6 +83,40 @@ namespace Oxit.Web.Admin.Controllers
             return new EmptyResult();
         }
 
+        [HttpGet("AlacaksizGecikmeHesapla")]
+        public EmptyResult AlacaksizGecikmeHesapla(string hesapKodu)
+        {
+            var gecikmeOrani = Convert.ToDecimal(configuration.GetSection("gecikmeOrani").Value);
+            var gecikmeGunu = Convert.ToInt32(configuration.GetSection("gecikmeGunu").Value);
+
+
+            var fisBorc = appDbContext.Fis
+                               .Include(y => y.HesapPlani)
+                               .Where(y => y.HesapPlani.Kod == hesapKodu
+                               && y.Borc > 0 && !y.Odendi)
+                               .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                               .ToList();
+
+            foreach (var item in fisBorc)
+            {
+
+                var borcTutari = item.KalanTutar > 0 ? (double)item.KalanTutar : (double)item.Borc;
+                var gecikmeGun = (DateTime.Now - (DateTime)item.Tarih).TotalDays;
+
+                if (gecikmeGun >= gecikmeGunu)
+                {
+                    item.GeciktirilenAnaFaizTutar = (double)item.Borc;
+                    item.GeciktirilenTutar = item.KalanTutar;
+                    item.GecikmeGunu = (int)gecikmeGun;
+                    item.GecikmeTutari = Math.Round(((borcTutari * (double)gecikmeOrani) / 30) * (int)gecikmeGun, 2);
+                    item.SonHesaplananGecikmeTarihi = DateTime.Now;
+                }
+                appDbContext.SaveChanges();
+            }
+            return new EmptyResult();
+        }
+
+
         [HttpGet("GecikmeleriSifirla")]
         public EmptyResult GecikmeleriSifirla(string hesapKodu)
         {
