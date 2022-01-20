@@ -52,7 +52,7 @@ namespace Oxit.Web.Admin.Controllers
                 gecikme.Add(Convert.ToInt32((item.Gecikme.Value)));
             }
             
-            List<HesapPlaniDto> gecikmesiOlanFirmalar = appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi).GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
+            List<HesapPlaniDto> gecikmesiOlanFirmalar = _appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi).GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
             {
                 Ad = cl.First().HesapPlani.Ad,
                 Kod = cl.First().HesapPlani.Kod,
