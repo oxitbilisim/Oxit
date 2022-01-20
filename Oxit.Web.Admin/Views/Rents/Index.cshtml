@@ -46,7 +46,7 @@
                 <td>@item.Aciklama</td>
                 <td>
                     <a href="@Url.Action("save","rents",new{Id=item.Id})" class="btn btn-primary">Düzenle</a>
-                    <a href="@Url.Action("delete","rents",new{Id=item.Id})" class="btn btn-danger">Sil</a>
+                    <a onclick="return confirm('Silmek istediğinizden emin misiniz?')" href="@Url.Action("delete","rents",new{Id=item.Id})" class="btn btn-danger">Sil</a>
                 </td>
             </tr>
         }

@@ -13,6 +13,8 @@ namespace Oxit.Domain.Models
         {
             this.Fis = new();
         }
+        
+        public int Id { get; set; }
         public string? Ad { get; set; }
         public string? Kod { get; set; }
         public string DbKey { get; set; }

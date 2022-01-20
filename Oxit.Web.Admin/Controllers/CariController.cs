@@ -82,8 +82,9 @@ namespace Oxit.Web.Admin.Controllers
             List<FisDto> list = new List<FisDto>();
             foreach (var item in fisList)
             {
-                list.Add(new FisDto(){ FirmaAdi = item.HesapPlani.Ad,
-                    CariKodu = item.HesapPlani.Kod,
+                HesapPlani hesapPlani = appDbContext.HesapPlani.FirstOrDefault(i => i.Id == hesapId);
+                list.Add(new FisDto(){ FirmaAdi = hesapPlani.Ad,
+                    CariKodu = hesapPlani.Kod,
                     Aciklama = item.Aciklama,
                     Borc = item.Borc,
                     Alacak = item.Alacak,

@@ -51,6 +51,16 @@ namespace Oxit.Web.Admin.Controllers
                 gecikme.Add(Convert.ToInt32((item.Gecikme.Value)));
             }
             
+            List<HesapPlaniDto> gecikmesiOlanFirmalar = appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi).GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
+            {
+                Ad = cl.First().HesapPlani.Ad,
+                Kod = cl.First().HesapPlani.Kod,
+                GecikmeTutari = Math.Round(cl.Sum(c => c.GecikmeTutari).Value,2)
+                
+            }).ToList();
+
+            
+            
             Dictionary<string, object> model = new Dictionary<string, object>();
             model["aktifFirmaSayi"] = aktifFirmaSayi;
             model["toplamBorc"] = toplamBorc;
@@ -60,6 +70,7 @@ namespace Oxit.Web.Admin.Controllers
             model["borc"] = borc;
             model["alacak"] = alacak;
             model["gecikme"] = gecikme;
+            model["gecikmesiOlanFirmalar"] = gecikmesiOlanFirmalar;
             return View(model);
         }
     }

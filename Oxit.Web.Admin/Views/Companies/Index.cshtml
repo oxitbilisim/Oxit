@@ -48,10 +48,22 @@
     });
 
      $('.companyStatus').change(function () {
+         var status = $(this).prop('checked');
+         var msg = "";
+         if (status){
+             msg = 'Firmayı aktif hale getirmek istediğinizden emin misiniz?';
+         }else{
+             msg = 'Firmayı pasif hale getirmek istediğinizden emin misiniz?';
+         }
+         var sr = confirm(msg);     
+         if (!sr){
+             $(this).prop('checked',!status);
+             return;
+         }else
               $.ajax({
                 type: "post",
                 url: "@Url.Action("saveStatus","Companies")",
-                data: { companyId: $(this).val(), status:$(this).prop('checked')},
+                data: { companyId: $(this).val(), status: status},
                 dataType:"json",
                 success: function(response){
 

@@ -7,6 +7,7 @@
   double toplamOdeme = (double)Model["toplamOdeme"];
   double kalanAlacak = (double)Model["kalanAlacak"];
   
+  List<HesapPlaniDto> gecikmesiOlanFirmalar = (List<HesapPlaniDto>)Model["gecikmesiOlanFirmalar"];
   List<string> labels = (List<string>)Model["labels"];
   List<Int32> alacak = (List<Int32>)Model["alacak"];
   List<Int32> gecikme = (List<Int32>)Model["gecikme"];
@@ -82,12 +83,44 @@
     </div>
     <!-- /.col-->
   </div>
+  
   <!-- /.row-->
   <div class="row">
-      <div class="col-12 mt-5" style="height: 300px;">
-        <canvas id="myChart" height="300"></canvas>
-        </div>
+    <div class="col-12 mt-5">
+      <canvas id="myChart" height="300"></canvas>
+    </div>
   </div>
+  <div class="row">
+          <div class="col-12 mt-5">
+              <div class="card">
+                  <div class="card-header">
+                      Gecikmesi Olan Firmalar
+                  </div>
+                  <div class="card-body">
+                      <table class="table table-striped table-hover">
+                          <thead>
+                          <tr>
+                              <td>Kodu</td>
+                              <td>Firma Adı</td>
+                              <td>Gecikme Tutarı</td>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          @foreach (var f in gecikmesiOlanFirmalar)
+                          {
+                              <tr>
+                                  <td>@Html.DisplayFor(m => f.Kod)</td>
+                                  <td>@Html.DisplayFor(m => f.Ad)</td>
+                                  <td>@Html.DisplayFor(m => f.GecikmeTutari) ₺</td>
+                              </tr>
+                          }
+                          </tbody>
+  
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
   <img class="sidebar-brand-full mt-5" src="assets/img/teknopark-ankara-black.png" width="300" alt="Teknopark Ankara"/>
   <script src="vendors/chart.js/js/chart.min.js"></script>
   <script src="vendors/coreui/chartjs/js/coreui-chartjs.js"></script>
