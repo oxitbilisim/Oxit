@@ -11,9 +11,9 @@ namespace Oxit.Web.Admin.Controllers
 {
     public class CompaniesController : Controller
     {
-        private readonly TeknoparkContext db;
-        private readonly IConfiguration configuration;
-        private readonly appDbContext appDbContext;
+        private readonly TeknoparkContext _db;
+        private readonly IConfiguration _configuration;
+        private readonly appDbContext _appDbContext;
 
         public CompaniesController(
             IConfiguration configuration,
@@ -21,19 +21,19 @@ namespace Oxit.Web.Admin.Controllers
             TeknoparkContext db
             )
         {
-            this.configuration = configuration;
-            this.db = db;
-            this.appDbContext = appDbContext;
+            _configuration = configuration;
+            _db = db;
+            _appDbContext = appDbContext;
         }
         public IActionResult Index(string name, string kod)
         {
-            List<HesapPlani> firmalar = appDbContext.HesapPlani
+            List<HesapPlani> firmalar = _appDbContext.HesapPlani
                 .Select(x => new HesapPlani
                 {
                     Id = x.Id,
                     Ad = x.Ad,
                     Kod = x.Kod,
-                    GecikmeTutari = appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.GecikmeTutari),
+                    GecikmeTutari = _appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.GecikmeTutari),
                     Aktif = x.Aktif
                 })
                 .OrderBy(h => h.Ad)
@@ -41,16 +41,16 @@ namespace Oxit.Web.Admin.Controllers
 
             return View(firmalar);
         }
-        
+
         [HttpPost]
         public EmptyResult SaveStatus(int companyId, bool status)
         {
-            var firma = appDbContext.HesapPlani.Find(companyId);
+            var firma = _appDbContext.HesapPlani.Find(companyId);
             firma.Aktif = status;
-            appDbContext.HesapPlani.Update(firma);
-            appDbContext.SaveChanges();
+            _appDbContext.HesapPlani.Update(firma);
+            _appDbContext.SaveChanges();
             return new EmptyResult();
         }
-      
+
     }
 }

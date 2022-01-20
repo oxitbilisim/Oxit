@@ -4,15 +4,39 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Oxit.Infrastructure;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+    })
+    .AddJsonOptions(x =>
+{
+
+    x.JsonSerializerOptions.PropertyNamingPolicy = null;
+
+});
 builder.Services.AddAppDependencies();
 builder.Services.AddRateLimiting();
 builder.Services.AddTurkishLocalization();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+           ;
+        });
+});
 
 var app = builder.Build();
 
@@ -30,7 +54,7 @@ else
     app.UseHsts();
 }
 app.UseExceptionHandler("/Home/Error");
-
+app.UseCors("AllowAll");
 //var locale = "tr-TR";
 //RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
 //{

@@ -12,23 +12,23 @@ namespace Oxit.Web.Admin.Controllers
     [Route("api/[controller]")]
     public class GecikmeHesaplaController : Controller
     {
-        private readonly appDbContext appDbContext;
-        private readonly IConfiguration configuration;
+        private readonly appDbContext _appDbContext;
+        private readonly IConfiguration _configuration;
 
         public GecikmeHesaplaController(IConfiguration configuration, appDbContext appDbContext)
         {
-            this.appDbContext = appDbContext;
-            this.configuration = configuration;
+            _appDbContext = appDbContext;
+            _configuration = configuration;
             
         }
 
         [HttpGet("GecikmeleriHesapla")]
         public EmptyResult GecikmeleriHesapla(string hesapKodu)
         {
-            var gecikmeOrani = Convert.ToDecimal(configuration.GetSection("gecikmeOrani").Value);
-            var gecikmeGunu = Convert.ToInt32(configuration.GetSection("gecikmeGunu").Value);
+            var gecikmeOrani = Convert.ToDecimal(_configuration.GetSection("gecikmeOrani").Value);
+            var gecikmeGunu = Convert.ToInt32(_configuration.GetSection("gecikmeGunu").Value);
 
-            var fisAlacakList = appDbContext.Fis
+            var fisAlacakList = _appDbContext.Fis
                                            .Include(y => y.HesapPlani)
                                            .Where(y => y.HesapPlani.Kod == hesapKodu && 
                                                        y.Alacak >= 0 
@@ -43,7 +43,7 @@ namespace Oxit.Web.Admin.Controllers
 
                 while (alacakTutari > 0)
                 {
-                    var fisBorc = appDbContext.Fis
+                    var fisBorc = _appDbContext.Fis
                                           .Where(y => y.HesapPlaniId == itemAlacak.HesapPlaniId && y.Borc > 0 && !y.Odendi)
                                           //&& (int)y.FisTip == (int)Domain.Models.FisTip.KiraFaturasi          )
                                           .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
@@ -76,7 +76,7 @@ namespace Oxit.Web.Admin.Controllers
                         fisBorc.ZamanindaOdemeTarihi = itemAlacak.Tarih;
                        
                     }
-                    appDbContext.SaveChanges();
+                    _appDbContext.SaveChanges();
                 }
             }
 
@@ -86,11 +86,11 @@ namespace Oxit.Web.Admin.Controllers
         [HttpGet("AlacaksizGecikmeHesapla")]
         public EmptyResult AlacaksizGecikmeHesapla(string hesapKodu)
         {
-            var gecikmeOrani = Convert.ToDecimal(configuration.GetSection("gecikmeOrani").Value);
-            var gecikmeGunu = Convert.ToInt32(configuration.GetSection("gecikmeGunu").Value);
+            var gecikmeOrani = Convert.ToDecimal(_configuration.GetSection("gecikmeOrani").Value);
+            var gecikmeGunu = Convert.ToInt32(_configuration.GetSection("gecikmeGunu").Value);
 
 
-            var fisBorc = appDbContext.Fis
+            var fisBorc = _appDbContext.Fis
                                .Include(y => y.HesapPlani)
                                .Where(y => y.HesapPlani.Kod == hesapKodu
                                && y.Borc > 0 && !y.Odendi)
@@ -111,7 +111,7 @@ namespace Oxit.Web.Admin.Controllers
                     item.GecikmeTutari = Math.Round(((borcTutari * (double)gecikmeOrani) / 30) * (int)gecikmeGun, 2);
                     item.SonHesaplananGecikmeTarihi = DateTime.Now;
                 }
-                appDbContext.SaveChanges();
+                _appDbContext.SaveChanges();
             }
             return new EmptyResult();
         }
@@ -120,7 +120,7 @@ namespace Oxit.Web.Admin.Controllers
         [HttpGet("GecikmeleriSifirla")]
         public EmptyResult GecikmeleriSifirla(string hesapKodu)
         {
-            var fisList = appDbContext.Fis
+            var fisList = _appDbContext.Fis
                                            .Include(y => y.HesapPlani)
                                            .Where(y => y.HesapPlani.Kod == hesapKodu )
                                            .OrderBy(c => c.Tarih).ThenBy(n => n.Id)
@@ -137,7 +137,7 @@ namespace Oxit.Web.Admin.Controllers
                 item.ZamanindaOdemeTarihi = null;
                 item.SonHesaplananGecikmeTarihi = null;
                 item.GeciktirilenTutar = 0;
-                appDbContext.SaveChanges();
+                _appDbContext.SaveChanges();
             }
 
             return new EmptyResult();

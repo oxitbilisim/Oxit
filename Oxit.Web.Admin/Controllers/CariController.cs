@@ -12,9 +12,9 @@ namespace Oxit.Web.Admin.Controllers
 {
     public class CariController : Controller
     {
-        private readonly TeknoparkContext db;
-        private readonly IConfiguration configuration;
-        private readonly appDbContext appDbContext;
+        private readonly TeknoparkContext _db;
+        private readonly IConfiguration _configuration;
+        private readonly appDbContext _appDbContext;
         
         public CariController(
             IConfiguration configuration,
@@ -22,9 +22,9 @@ namespace Oxit.Web.Admin.Controllers
             TeknoparkContext db
             )
         {
-            this.configuration = configuration;
-            this.db = db;
-            this.appDbContext = appDbContext;
+            _configuration = configuration;
+            _db = db;
+            _appDbContext = appDbContext;
            
         }
         public IActionResult Index(int? hesapId, int? page)
@@ -40,29 +40,29 @@ namespace Oxit.Web.Admin.Controllers
         [HttpPost]
         public EmptyResult SaveStatus(int fisId, int status)
         {
-            var fis = appDbContext.Fis.Find(fisId);
+            var fis = _appDbContext.Fis.Find(fisId);
             fis.FisTip = (FisTip) status;
-            appDbContext.Fis.Update(fis);
-            appDbContext.SaveChanges();
+            _appDbContext.Fis.Update(fis);
+            _appDbContext.SaveChanges();
             return new EmptyResult();
         }
 
         private Dictionary<string, object> commonParams(int? hesapId, int? page)
         {
-            int totalCount = appDbContext.Fis.Where(f => f.HesapPlani.Id == hesapId).Count();
+            int totalCount = _appDbContext.Fis.Where(f => f.HesapPlani.Id == hesapId).Count();
             int recordsPerPage = 50;
             if (page == null)
                 page = 1;
             int skip = (page.Value * recordsPerPage) - recordsPerPage;
 
-            List<Fis> fisList = appDbContext.Fis
+            List<Fis> fisList = _appDbContext.Fis
                 .Where(f => f.HesapPlani.Id == hesapId)
                 .OrderByDescending(h => h.Tarih)
                 .Skip(skip)
                 .Take(recordsPerPage)
                 .ToList();
             
-            HesapPlani hesapPlani = appDbContext.HesapPlani.FirstOrDefault(i => i.Id == hesapId);
+            HesapPlani hesapPlani = _appDbContext.HesapPlani.FirstOrDefault(i => i.Id == hesapId);
             Dictionary<string, object> model = new Dictionary<string, object>();
             model["hesapPlani"] = hesapPlani;
             model["fisList"] = fisList;
@@ -74,7 +74,7 @@ namespace Oxit.Web.Admin.Controllers
         
         public IActionResult DownloadExcel(int hesapId)
         {
-            List<Fis> fisList = appDbContext.Fis
+            List<Fis> fisList = _appDbContext.Fis
                 .Where(f => f.HesapPlani.Id == hesapId)
                 .OrderByDescending(h => h.Tarih)
                 .ToList();

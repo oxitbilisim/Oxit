@@ -12,9 +12,9 @@ namespace Oxit.Web.Admin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly TeknoparkContext db;
-        private readonly IConfiguration configuration;
-        private readonly appDbContext appDbContext;
+        private readonly TeknoparkContext _db;
+        private readonly IConfiguration _configuration;
+        private readonly appDbContext _appDbContext;
 
 
         public HomeController(
@@ -23,17 +23,17 @@ namespace Oxit.Web.Admin.Controllers
             TeknoparkContext db
             )
         {
-            this.configuration = configuration;
-            this.db = db;
-            this.appDbContext = appDbContext;
+            _configuration = configuration;
+            _db = db;
+            _appDbContext = appDbContext;
 
         }
         public IActionResult Index()
         {
-            var aktifFirmaSayi = appDbContext.HesapPlani.Where(h => h.Aktif).Count();
-            var toplamBorc = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraFaturasi).Sum(b => b.Borc + b.GecikmeTutari);
-            var toplamOdeme = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraOdemesi).Sum(b => b.Alacak);
-            List<ChartLine> chartData = appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih)).Select(cl => new ChartLine
+            var aktifFirmaSayi = _appDbContext.HesapPlani.Where(h => h.Aktif).Count();
+            var toplamBorc = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraFaturasi).Sum(b => b.Borc + b.GecikmeTutari);
+            var toplamOdeme = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraOdemesi).Sum(b => b.Alacak);
+            List<ChartLine> chartData = _appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih)).Select(cl => new ChartLine
             {
                 Date = String.Format("{0:MM-yyyy}", cl.First().Tarih),
                 Alacak = cl.Sum(c => c.Alacak),

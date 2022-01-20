@@ -150,6 +150,27 @@ namespace Oxit.Web.Admin.Controllers
 
         }
 
+        [HttpGet]
+        public JsonResult GetRents(int take, int skip, int page, int pagesize)
+        {
+
+            List<Kira> kiralar = _appDbContext
+                .Kira
+             .OrderBy(h => h.Id)
+             .Skip(skip)
+             .Take(take)
+             .ToList();
+
+            return Json(new
+            {
+                Data = kiralar,
+                Total = _appDbContext.Kira.Count(),
+                Page = page,
+
+
+            });
+        }
+
         private void update(KiraExcel model)
         {
             var oldData = _appDbContext.Kira.Find(model.Id);

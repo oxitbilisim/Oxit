@@ -7,27 +7,44 @@
 <a class="btn btn-success text-light" href="@Url.Action("save","rents")"><i class="fa fa-plus"></i> Ekle</a>
 <a class="btn btn-primary text-light" href="@Url.Action("getfile","rents")"><i class="fa fa-download"></i> Dosya İndir</a>
 <a class="btn btn-success text-light" href="@Url.Action("upload","rents")"><i class="fa fa-arrow-down"></i> İçe Aktar</a>
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th scope="col">Firma Adı</th>
-            <th scope="col">Metrekare</th>
-            <th scope="col">Sözleşme Başlama Tarihi</th>
-            <th scope="col">Sözleşme Bitiş Tarihi</th>
-            <th scope="col">Kira Bedeli</th>
-            <th scope="col">İşletme Bedeli</th>
-            <th scope="col">Kira Metrekare Fiyat</th>
-            <th scope="col">İşletme Metrekare Fiyat</th>
-            <th scope="col">Kira ve KDV Toplam</th>
-            <th scope="col">İşletme ve KDV Toplam</th>
-            <th scope="col">Kira ve İşletme KDV'siz Toplam</th>
-            <th scope="col">Kira ve İşletme KDV'li Toplam</th>
-            <th scope="col">Açıklama</th>
+@*<table id="grid" style="width:1024px;">
+    <colgroup>
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:200px" />
+    <col style="width:300px" />
+    <col style="width:700px" />
 
-            <th scope="col">İşlem</th>
-        </tr>
+    </colgroup>
+    <thead class="table-dark">
+    <tr>
+    <th scope="col">Firma Adı</th>
+    <th scope="col">Metrekare</th>
+    <th scope="col">Sözleşme Başlama Tarihi</th>
+    <th scope="col">Sözleşme Bitiş Tarihi</th>
+    <th scope="col">Kira Bedeli</th>
+    <th scope="col">İşletme Bedeli</th>
+    <th scope="col">Kira Metrekare Fiyat</th>
+    <th scope="col">İşletme Metrekare Fiyat</th>
+    <th scope="col">Kira ve KDV Toplam</th>
+    <th scope="col">İşletme ve KDV Toplam</th>
+    <th scope="col">Kira ve İşletme KDV'siz Toplam</th>
+    <th scope="col">Kira ve İşletme KDV'li Toplam</th>
+    <th scope="col">Açıklama</th>
+    <th scope="col">İşlem</th>
+    </tr>
     </thead>
     <tbody>
+<<<<<<< Updated upstream
         @foreach (var item in Model.ToList())
         {
             <tr>
@@ -50,16 +67,81 @@
                 </td>
             </tr>
         }
+=======
+    @foreach (var item in Model.ToList())
+    {
+    <tr>
+    <td>@item.FirmaAdi</td>
+    <td>@item.Metrekare</td>
+    <td>@(item.BaslamaTarihi.HasValue? item.BaslamaTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
+    <td>@(item.BitisTarihi.HasValue? item.BitisTarihi.Value.ToString("dd.MM.yyyy"):"-")</td>
+    <td>@(item.KiraBedeli is not null? item.KiraBedeli +" ₺":"")</td>
+    <td>@item.IsletmeBedeli ₺</td>
+    <td>@item.MetrekareKiraFiyati ₺</td>
+    <td>@item.MetrekareIsletmeFiyati ₺</td>
+    <td>@item.KiraKDVToplam ₺</td>
+    <td>@item.IsletmeKDVToplam ₺</td>
+    <td>@item.KiraVeIsletmeKDVSizToplam ₺</td>
+    <td>@item.KiraVeIsletmeKDVliToplam ₺</td>
+    <td>@item.Aciklama</td>
+    <td>
+    <a href="@Url.Action("save","rents",new{Id=item.Id})" class="btn btn-sm btn-primary text-light"><i class="fa fa-save"></i> Düzenle</a>
+    <a href="@Url.Action("delete","rents",new{Id=item.Id})" class="btn btn-sm btn-danger  text-light"><i class="fa fa-times"></i> Sil</a>
+    </td>
+    </tr>
+    }
+>>>>>>> Stashed changes
     </tbody>
-</table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-        @for (int i = 1; i <= pageCount; i++)
-        {
-            <li class="page-item"><a class="page-link" href="@Url.Action("Index","rents",new {page = i})">@i</a></li>
-        }
-        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-    </ul>
-</nav>
+    </table>
+*@
+<div id="grid">
+</div>
 
+@section Scripts{
+<script>
+    $(document).ready(function(){
+
+      $("#grid").kendoGrid({
+                dataSource: {
+                    type: "aspnet-ajax",
+                    transport: {
+                        read: "@Url.Action("getRents","rents")"
+                    },
+                    schema: {
+                              data:'Data',
+                            total:'Total',
+               model: {
+                          id: "Id",
+               }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                pageable: true,
+                columns: 
+                [
+                     {
+                        field: "FirmaAdi",
+                        title: "Firma Adı",
+                        with:150
+                    },
+                     {
+                        field: "Metrekare",
+                        title: "Metrekare",
+                        with:150
+                    },
+
+                    {
+                        title: "İşlem",
+                        template:"<a href='@Url.Action("save","rents")/?Id=#=Id#' class='btn btn-sm btn-primary text-light'><i class='fa fa-save'></i> Güncelle</a> <a href='@Url.Action("delete","rents")/?Id=#=Id#' class='btn btn-sm btn-danger text-light'><i class='fa fa-times'></i> Sil</a>"
+                    }
+                ]
+            });
+
+    });
+</script>
+
+}

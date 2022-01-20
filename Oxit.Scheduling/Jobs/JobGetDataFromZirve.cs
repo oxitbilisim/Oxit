@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Oxit.Scheduling.Jobs
 {
-    [DisallowConcurrentExecution, JobConfig("JobGetDataFromZirve", JobPeriod.Minute, 5, true)]
+    [DisallowConcurrentExecution, JobConfig("JobGetDataFromZirve", JobPeriod.Hour, 1, true)]
     public class JobGetDataFromZirve : IJob
     {
         private appDbContext appDbContext;
