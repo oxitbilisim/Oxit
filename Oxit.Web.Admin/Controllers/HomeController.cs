@@ -6,6 +6,7 @@ using Oxit.DataAccess.teknopark;
 using System.Diagnostics;
 using System.Transactions;
 using Oxit.Domain.Models;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Oxit.Web.Admin.Controllers
 {
@@ -32,9 +33,9 @@ namespace Oxit.Web.Admin.Controllers
             var aktifFirmaSayi = appDbContext.HesapPlani.Where(h => h.Aktif).Count();
             var toplamBorc = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraFaturasi).Sum(b => b.Borc + b.GecikmeTutari);
             var toplamOdeme = appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraOdemesi).Sum(b => b.Alacak);
-            List<ChartLine> chartData = appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}",f.Tarih)).Select(cl => new ChartLine
+            List<ChartLine> chartData = appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih)).Select(cl => new ChartLine
             {
-                Date = String.Format("{0:MM-yyyy}",cl.First().Tarih),
+                Date = String.Format("{0:MM-yyyy}", cl.First().Tarih),
                 Alacak = cl.Sum(c => c.Alacak),
                 Borc = cl.Sum(c => c.Borc),
                 Gecikme = cl.Sum(c => c.GecikmeTutari)
@@ -50,17 +51,27 @@ namespace Oxit.Web.Admin.Controllers
                 alacak.Add(Convert.ToInt32((item.Alacak.Value)));
                 gecikme.Add(Convert.ToInt32((item.Gecikme.Value)));
             }
-            
+
             Dictionary<string, object> model = new Dictionary<string, object>();
             model["aktifFirmaSayi"] = aktifFirmaSayi;
             model["toplamBorc"] = toplamBorc;
             model["toplamOdeme"] = toplamOdeme;
-            model["kalanAlacak"] = toplamBorc-toplamOdeme;
+            model["kalanAlacak"] = toplamBorc - toplamOdeme;
             model["labels"] = labels;
             model["borc"] = borc;
             model["alacak"] = alacak;
             model["gecikme"] = gecikme;
             return View(model);
         }
+
+
+        [HttpGet,Route("/Home/Error")]
+        public IActionResult Error()
+        {
+            var exceptionHandlerPathFeature =
+           HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            return View(exceptionHandlerPathFeature);
+        }
     }
 }
+
