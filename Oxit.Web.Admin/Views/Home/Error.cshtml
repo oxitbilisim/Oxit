@@ -1,0 +1,4 @@
+﻿@using Microsoft.AspNetCore.Diagnostics
+@model IExceptionHandlerPathFeature
+
+<span>@(Model.Error.InnerException!=null? Model.Error.InnerException.Message:Model.Error.Message)</span>

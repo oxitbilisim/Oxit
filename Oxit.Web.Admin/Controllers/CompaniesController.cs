@@ -51,7 +51,6 @@ namespace Oxit.Web.Admin.Controllers
             appDbContext.SaveChanges();
             return new EmptyResult();
         }
-        
-        
+      
     }
 }
