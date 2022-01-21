@@ -12,8 +12,8 @@ using Oxit.DataAccess.EntityFramework;
 namespace Oxit.DataAccess.Migrations
 {
     [DbContext(typeof(appDbContext))]
-    [Migration("20211218103400_init")]
-    partial class init
+    [Migration("20220120202447_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Oxit.DataAccess.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:CollationDefinition:turkish_collection", "tr_TR.UTF-8,tr_TR.UTF-8,icu,False")
                 .HasAnnotation("Npgsql:DefaultColumnCollation", "turkish_collection")
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -246,7 +246,6 @@ namespace Oxit.DataAccess.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Aciklama")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double?>("Alacak")
@@ -259,26 +258,52 @@ namespace Oxit.DataAccess.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DbKey")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("FisNo")
-                        .HasColumnType("integer");
+                    b.Property<string>("FisNo")
+                        .HasColumnType("text");
 
                     b.Property<int?>("FisTip")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("FisTur")
+                    b.Property<string>("FisTur")
+                        .HasColumnType("text");
+
+                    b.Property<int>("GecikmeGunu")
                         .HasColumnType("integer");
+
+                    b.Property<double?>("GecikmeTutari")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("GeciktirilenAnaFaizTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("GeciktirilenTutar")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("HesapPlaniId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Tarih")
+                    b.Property<double?>("KalanTutar")
+                        .HasColumnType("double precision");
+
+                    b.Property<bool>("Odendi")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("SonHesaplananGecikmeTarihi")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("Tarih")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("YevNo")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ZamanindaOdemeTarihi")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double?>("ZamanindaOdenenTutar")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -291,8 +316,7 @@ namespace Oxit.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(0);
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -309,6 +333,9 @@ namespace Oxit.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<double?>("GecikmeTutari")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("Kod")
                         .HasColumnType("text");
 
@@ -318,6 +345,57 @@ namespace Oxit.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HesapPlani");
+                });
+
+            modelBuilder.Entity("Oxit.Domain.Models.Kira", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("BaslamaTarihi")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("BitisTarihi")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FirmaAdi")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("IsletmeBedeli")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("IsletmeKDVOrani")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KiraBedeli")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("KiraKDVOrani")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Metrekare")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("MetrekareIsletmeFiyati")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("MetrekareKiraFiyati")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Kira");
                 });
 
             modelBuilder.Entity("Oxit.Domain.Models.Fis", b =>

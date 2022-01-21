@@ -8,71 +8,95 @@
         <form method="post" action="@Url.Action("save","rents")">
             <div class="row">
 
-                <input type="hidden" value="@(Model!=null?Model.Id:null)" />
+                <input type="hidden" name="Id" value="@(Model!=null?Model.Id:null)" />
                 <div class="col-6">
                     <label class="form-label">Firma Adı</label>
                     <input class="form-control" name="FirmaAdi" type="text" placeholder="Firma Adı" value="@(Model!=null?Model.FirmaAdi:null)" />
                 </div>
                 <div class="col-6">
                     <label class="form-label">Metrekare</label>
-                    <input class="form-control" name="Metrekare" type="number" min="0" step="0.01" placeholder="Metrekare" value="@(Model!=null?Model.Metrekare:null)" />
+                    <input class="form-control" id="Metrekare" name="Metrekare" type="number" min="0" step="0.01" placeholder="Metrekare" value="@(Model!=null?Model.Metrekare:0)" />
                 </div>
 
 
                 <div class="col-6">
                     <label class="form-label">Sözleşme Başlama Tarihi</label>
-                    <input class="form-control" name="BaslamaTarihi" type="date" placeholder="Sözleşme Başlama Tarihi" value="@(Model!=null && Model.BaslamaTarihi.HasValue ?Model.BaslamaTarihi.Value.ToString("yyyy-MM-dd"):null)" />
+                    <input class="form-control" name="BaslamaTarihi" type="date" placeholder="Sözleşme Başlama Tarihi" value="@(Model!=null && Model.BaslamaTarihi.HasValue ?Model.BaslamaTarihi.Value.ToString("yyyy-MM-dd"):DateTime.Now.ToString("yyyy-MM-dd"))" />
                 </div>
 
                 <div class="col-6">
                     <label class="form-label">Sözleşme Bitiş Tarihi</label>
-                    <input class="form-control" name="BitisTarihi" type="date" placeholder="Sözleşme Bitiş Tarihi" value="@(Model!=null  && Model.BitisTarihi.HasValue ?Model.BitisTarihi.Value.ToString("yyyy-MM-dd"):null)" />
+                    <input class="form-control" name="BitisTarihi" type="date" placeholder="Sözleşme Bitiş Tarihi" value="@(Model!=null  && Model.BitisTarihi.HasValue ?Model.BitisTarihi.Value.ToString("yyyy-MM-dd"):DateTime.Now.AddYears(1).ToString("yyyy-MM-dd"))" />
                 </div>
-
-
-                <div class="col-6">
-                    <label class="form-label">Kira Bedeli</label>
-                    <input class="form-control" name="KiraBedeli" type="number" min="0" step="0.01" placeholder="Kira Bedeli" value="@(Model!=null?Model.KiraBedeli:null)" />
-                </div>
-
-
-                <div class="col-6">
-                    <label class="form-label">İşletme Bedeli</label>
-                    <input class="form-control" name="IsletmeBedeli" type="number" min="0" step="0.01" placeholder="İşletme Bedeli" value="@(Model!=null?Model.IsletmeBedeli:null)" />
-                </div>
-
-
                 <div class="col-6">
                     <label class="form-label">Kira Metrekare Fiyat</label>
-                    <input class="form-control" name="MetrekareKiraFiyati" type="number" min="0" step="0.01" placeholder="Kira Metrekare Fiyat" value="@(Model!=null?Model.MetrekareKiraFiyati:null)" />
+                    <input class="form-control" id="MetrekareKiraFiyati" name="MetrekareKiraFiyati" type="number" min="0" step="0.01" placeholder="Kira Metrekare Fiyat" value="@(Model!=null?Model.MetrekareKiraFiyati:0)" />
                 </div>
 
 
                 <div class="col-6">
                     <label class="form-label">İşletme Metrekare Fiyat</label>
-                    <input class="form-control" name="MetrekareIsletmeFiyati" type="number" min="0" step="0.01" placeholder="İşletme Metrekare Fiyat" value="@(Model!=null?Model.MetrekareIsletmeFiyati:null)" />
+                    <input class="form-control" id="MetrekareIsletmeFiyati" name="MetrekareIsletmeFiyati" type="number" min="0" step="0.01" placeholder="İşletme Metrekare Fiyat" value="@(Model!=null?Model.MetrekareIsletmeFiyati:0)" />
                 </div>
+
+
+
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira KDV Oranı</label>
+                    <input class="form-control" id="KiraKDVOrani" name="KiraKDVOrani" type="number" min="0" step="0.01" placeholder="Kira KDV Oranı" value="18" />
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">İşletme KDV Oranı</label>
+                    <input class="form-control" id="IsletmeKDVOrani" name="IsletmeKDVOrani" type="number" min="0" step="0.01" placeholder="İşletme KDV Oranı" value="18" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira Bedeli</label>
+                    <input disabled class="form-control" id="KiraBedeli" name="KiraBedeli" type="number" min="0" step="0.01" placeholder="Kira Bedeli" value="@(Model!=null?Model.KiraBedeli:0)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">İşletme Bedeli</label>
+                    <input disabled class="form-control" id="IsletmeBedeli" name="IsletmeBedeli" type="number" min="0" step="0.01" placeholder="İşletme Bedeli" value="@(Model!=null?Model.IsletmeBedeli:0)" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">Kira KDV</label>
+                    <input disabled class="form-control" id="KiraKDV" name="KiraKDV" type="number" min="0" step="0.01" placeholder="Kira KDV" value="0" />
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label">İşletme KDV</label>
+                    <input disabled class="form-control" id="IsletmeKDV" name="IsletmeKDV" type="number" min="0" step="0.01" placeholder="İşletme KDV" value="0" />
+                </div>
+
+
+
 
 
                 <div class="col-6">
                     <label class="form-label">Kira ve KDV Toplam</label>
-                    <input class="form-control" name="KiraKDVToplam" type="number" min="0" step="0.01" placeholder="Kira ve KDV Toplam" value="@(Model!=null?Model.KiraKDVToplam:null)" />
+                    <input disabled class="form-control" id="KiraKDVToplam" name="KiraKDVToplam" type="number" min="0" step="0.01" placeholder="Kira ve KDV Toplam" value="0" />
                 </div>
 
                 <div class="col-6">
                     <label class="form-label">İşletme ve KDV Toplam</label>
-                    <input class="form-control" name="IsletmeKDVToplam" type="number" min="0" step="0.01" placeholder="İşletme ve KDV Toplam" value="@(Model!=null?Model.IsletmeKDVToplam:null)" />
+                    <input disabled class="form-control" id="IsletmeKDVToplam" name="IsletmeKDVToplam" type="number" min="0" step="0.01" placeholder="İşletme ve KDV Toplam" value="0" />
                 </div>
 
                 <div class="col-6">
-                    <label class="form-label">Kira ve İşletme KDV'siz Toplam</label>
-                    <input class="form-control" name="KiraVeIsletmeKDVSizToplam" type="number" min="0" step="0.01" placeholder="Kira ve İşletme KDV'siz Toplam" value="@(Model!=null?Model.KiraVeIsletmeKDVSizToplam:null)" />
+                    <label class="form-label">Toplam</label>
+                    <input disabled class="form-control" id="Toplam" name="Toplam" type="number" min="0" step="0.01" placeholder="Toplam" value="0" />
                 </div>
 
-                <div class="col-6">
-                    <label class="form-label">Kira ve İşletme KDV'li Toplam</label>
-                    <input class="form-control" name="KiraVeIsletmeKDVliToplam" type="number" min="0" step="0.01" placeholder="Kira ve İşletme KDV'li Toplam" value="@(Model!=null?Model.KiraVeIsletmeKDVSizToplam:null)" />
-                </div>
+
 
 
 
@@ -90,4 +114,46 @@
         </form>
     </div>
 </div>
+
+@section Scripts{
+<script>
+    $(document).ready(function  (){
+        hesapla();
+        $('input').keyup(function(){
+            hesapla();
+        });
+
+
+        function hesapla(){
+
+            metrekare= parseFloat($('#Metrekare').val());
+            metrekarekirabedeli = parseFloat($('#MetrekareKiraFiyati').val());
+            metrekareisletmebedeli = parseFloat($('#MetrekareIsletmeFiyati').val());
+            kirakdvorani=parseFloat($('#KiraKDVOrani').val());
+            isletmekdvorani=parseFloat($('#IsletmeKDVOrani').val());
+
+            kirabedeli =metrekare*metrekarekirabedeli;
+            isletmebedeli =metrekare*metrekareisletmebedeli;
+
+            kirakdv =  (kirabedeli* (kirakdvorani/100)) ;
+            isletmekdv =  (isletmebedeli* (isletmekdvorani/100));
+
+
+            kirakdvtoplam=kirabedeli+kirakdv;
+            isletmekdvtoplam= isletmebedeli+isletmekdv;
+            toplma = kirakdvtoplam+isletmekdvtoplam;
+            $('#KiraBedeli').val(kirabedeli.toString());
+            $('#IsletmeBedeli').val(isletmebedeli.toString());
+            $('#KiraKDV').val(kirakdv.toString());
+            $('#IsletmeKDV').val(isletmekdv.toString());
+
+
+            $('#KiraKDVToplam').val(kirakdvtoplam.toString());
+            $('#IsletmeKDVToplam').val(isletmekdvtoplam.toString());
+            $('#Toplam').val(toplma.toString());
+        }
+
+    });
+</script>
+}
 

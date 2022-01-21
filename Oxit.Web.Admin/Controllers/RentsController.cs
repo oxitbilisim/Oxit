@@ -43,23 +43,9 @@ namespace Oxit.Web.Admin.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult Index(int? page)
+        public IActionResult Index()
         {
-            int totalCount = _appDbContext.Kira.Count();
-            int recordsPerPage = 10;
-            if (page == null)
-                page = 1;
-            int skip = (page.Value * recordsPerPage) - recordsPerPage;
-
-            List<Kira> kiralar = _appDbContext.Kira
-
-               .OrderBy(h => h.Id)
-               .Skip(skip)
-               .Take(recordsPerPage)
-               .ToList();
-
-            ViewData["pageCount"] = (totalCount + recordsPerPage - 1) / recordsPerPage;
-            return View(kiralar);
+            return View();
         }
         [HttpGet, ActionName("Upload")]
         public IActionResult Upload_get()
@@ -177,18 +163,17 @@ namespace Oxit.Web.Admin.Controllers
             if (oldData != null)
             {
                 oldData.FirmaAdi = model.FirmaAdi;
-                oldData.Aciklama = model.Aciklama;
+                oldData.Aciklama = model.Aciklama??String.Empty;
                 oldData.BaslamaTarihi = DateOnly.Parse(model.BaslamaTarihi);
                 oldData.BitisTarihi = DateOnly.Parse(model.BitisTarihi);
-                oldData.IsletmeBedeli = model.IsletmeBedeli;
-                oldData.IsletmeKDVToplam = model.IsletmeKDVToplam;
-                oldData.KiraBedeli = model.KiraBedeli;
-                oldData.KiraKDVToplam = model.KiraKDVToplam;
-                oldData.KiraVeIsletmeKDVliToplam = model.KiraVeIsletmeKDVliToplam;
-                oldData.KiraVeIsletmeKDVSizToplam = model.KiraVeIsletmeKDVSizToplam;
                 oldData.Metrekare = model.Metrekare;
                 oldData.MetrekareIsletmeFiyati = model.MetrekareIsletmeFiyati;
                 oldData.MetrekareKiraFiyati = model.MetrekareKiraFiyati;
+                oldData.KiraKDVOrani = model.KiraKDVOrani;
+                oldData.IsletmeKDVOrani = model.IsletmeKDVOrani;
+                oldData.IsletmeBedeli = model.Metrekare * model.MetrekareIsletmeFiyati;
+                oldData.KiraBedeli = model.Metrekare * model.MetrekareKiraFiyati;
+
                 _appDbContext.SaveChanges();
 
             }
@@ -200,18 +185,16 @@ namespace Oxit.Web.Admin.Controllers
             _appDbContext.Kira.Add(new Kira
             {
                 FirmaAdi = model.FirmaAdi,
-                Aciklama = model.Aciklama,
+                Aciklama = model.Aciklama ?? String.Empty,
                 BaslamaTarihi = DateOnly.Parse(model.BaslamaTarihi),
                 BitisTarihi = DateOnly.Parse(model.BitisTarihi),
-                IsletmeBedeli = model.IsletmeBedeli,
-                IsletmeKDVToplam = model.IsletmeKDVToplam,
-                KiraBedeli = model.KiraBedeli,
-                KiraKDVToplam = model.KiraKDVToplam,
-                KiraVeIsletmeKDVliToplam = model.KiraVeIsletmeKDVliToplam,
-                KiraVeIsletmeKDVSizToplam = model.KiraVeIsletmeKDVSizToplam,
                 Metrekare = model.Metrekare,
                 MetrekareIsletmeFiyati = model.MetrekareIsletmeFiyati,
-                MetrekareKiraFiyati = model.MetrekareKiraFiyati
+                MetrekareKiraFiyati = model.MetrekareKiraFiyati,
+                IsletmeBedeli = model.Metrekare * model.MetrekareIsletmeFiyati,
+                KiraBedeli = model.Metrekare * model.MetrekareKiraFiyati,
+                IsletmeKDVOrani = model.IsletmeKDVOrani,
+                KiraKDVOrani = model.KiraKDVOrani,
             });
             _appDbContext.SaveChanges();
         }

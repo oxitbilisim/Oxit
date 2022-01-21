@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Oxit.DataAccess.Migrations
 {
-    public partial class init : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,12 +26,39 @@ namespace Oxit.DataAccess.Migrations
                     DbKey = table.Column<string>(type: "text", nullable: false)
                         .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     Aktif = table.Column<bool>(type: "boolean", nullable: false),
+                    GecikmeTutari = table.Column<double>(type: "double precision", nullable: true),
                     SonCekilmeTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HesapPlani", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kira",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FirmaAdi = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    Metrekare = table.Column<double>(type: "double precision", nullable: true),
+                    BaslamaTarihi = table.Column<DateOnly>(type: "date", nullable: true),
+                    BitisTarihi = table.Column<DateOnly>(type: "date", nullable: true),
+                    MetrekareKiraFiyati = table.Column<double>(type: "double precision", nullable: true),
+                    MetrekareIsletmeFiyati = table.Column<double>(type: "double precision", nullable: true),
+                    KiraKDVOrani = table.Column<double>(type: "double precision", nullable: true),
+                    IsletmeKDVOrani = table.Column<double>(type: "double precision", nullable: true),
+                    KiraBedeli = table.Column<double>(type: "double precision", nullable: true),
+                    IsletmeBedeli = table.Column<double>(type: "double precision", nullable: true),
+                    Aciklama = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kira", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,17 +228,28 @@ namespace Oxit.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DbKey = table.Column<string>(type: "text", nullable: false)
+                    DbKey = table.Column<string>(type: "text", nullable: true)
                         .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     HesapPlaniId = table.Column<int>(type: "integer", nullable: false),
-                    Tarih = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    FisTur = table.Column<int>(type: "integer", nullable: true),
-                    FisNo = table.Column<int>(type: "integer", nullable: true),
+                    Tarih = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    FisTur = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
+                    FisNo = table.Column<string>(type: "text", nullable: true)
+                        .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     YevNo = table.Column<int>(type: "integer", nullable: true),
-                    Aciklama = table.Column<string>(type: "text", nullable: false)
+                    Aciklama = table.Column<string>(type: "text", nullable: true)
                         .Annotation("Npgsql:DefaultColumnCollation", "turkish_collection"),
                     Borc = table.Column<double>(type: "double precision", nullable: true),
                     Alacak = table.Column<double>(type: "double precision", nullable: true),
+                    GecikmeTutari = table.Column<double>(type: "double precision", nullable: true),
+                    GecikmeGunu = table.Column<int>(type: "integer", nullable: false),
+                    Odendi = table.Column<bool>(type: "boolean", nullable: false),
+                    GeciktirilenTutar = table.Column<double>(type: "double precision", nullable: true),
+                    GeciktirilenAnaFaizTutar = table.Column<double>(type: "double precision", nullable: true),
+                    SonHesaplananGecikmeTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ZamanindaOdenenTutar = table.Column<double>(type: "double precision", nullable: true),
+                    ZamanindaOdemeTarihi = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    KalanTutar = table.Column<double>(type: "double precision", nullable: true),
                     FisTip = table.Column<int>(type: "integer", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -241,6 +279,9 @@ namespace Oxit.DataAccess.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Fis");
+
+            migrationBuilder.DropTable(
+                name: "Kira");
 
             migrationBuilder.DropTable(
                 name: "Person");
