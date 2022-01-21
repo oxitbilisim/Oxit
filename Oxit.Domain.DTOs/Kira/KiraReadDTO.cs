@@ -1,23 +1,14 @@
-﻿using Oxit.Common.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Oxit.Domain.Models
+﻿namespace Oxit.Domain.ViewModels.Kira
 {
-    public class Kira : BaseSimpleModel<int>
+    public class KiraReadDTO
     {
-        public Kira()
-        { }
-
+        public int Id { get; set; }
         public string? FirmaAdi { get; set; }
         public double? Metrekare { get; set; }
         public DateTime? BaslamaTarihi { get; set; }
         public DateTime? BitisTarihi { get; set; }
 
-    
+
         public double? MetrekareKiraFiyati { get; set; }
         public double? MetrekareIsletmeFiyati { get; set; }
 
@@ -27,5 +18,9 @@ namespace Oxit.Domain.Models
         public double? IsletmeBedeli { get; set; }
         public string? Aciklama { get; set; }
 
+        public int KalanGun { get; set; }
     }
+
+
+
 }

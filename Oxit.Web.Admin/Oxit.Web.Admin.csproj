@@ -33,10 +33,4 @@
     <None Remove="Swashbuckle.AspNetCore" />
     <None Remove="NonFactors.Grid.Mvc6" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="files\kira.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

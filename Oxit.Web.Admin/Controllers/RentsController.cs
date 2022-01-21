@@ -75,11 +75,16 @@ namespace Oxit.Web.Admin.Controllers
                             {
 
                                 FirmaAdi = item.FirmaAdi,
-                                // BaslamaTarihi = item.BaslamaTarihi,
-                                //  BitisTarihi = item.BitisTarihi,
-                                Metrekare = item.Metrekare,
-                                //MetrekareFiyati = item.MetrekareFiyati,
-                                //  ToplamFiyat = item.ToplamFiyat,
+                                Aciklama = String.Empty,
+                                BaslamaTarihi = DateTime.Parse(item.BaslamaTarihi.Split(" ")[0]),
+                                BitisTarihi = DateTime.Parse(item.BitisTarihi.Split(" ")[0]),
+                                Metrekare = double.Parse(item.Metrekare),
+                                MetrekareIsletmeFiyati = double.Parse(item.IsletmeMetreKareFiyat),
+                                MetrekareKiraFiyati = double.Parse(item.KiraMetreKareFiyat),
+                                IsletmeBedeli = double.Parse(item.Metrekare) * double.Parse(item.IsletmeMetreKareFiyat),
+                                KiraBedeli = double.Parse(item.Metrekare) * double.Parse(item.KiraMetreKareFiyat),
+                                IsletmeKDVOrani = 18,
+                                KiraKDVOrani = 18,
 
                             });
 
@@ -116,7 +121,7 @@ namespace Oxit.Web.Admin.Controllers
         }
 
         [HttpPost, ActionName("Save")]
-        public IActionResult Save_Post(KiraExcel model)
+        public IActionResult Save_Post(KiraSaveDTO model)
         {
 
             if (model.Id is not null or > 0)
@@ -137,11 +142,38 @@ namespace Oxit.Web.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult DeleteConfirm(int Id)
+        {
+            return View(_appDbContext.Kira.Find(Id));
+
+        }
+
+        [HttpGet]
         public JsonResult GetRents(int take, int skip, int page, int pagesize)
         {
 
-            List<Kira> kiralar = _appDbContext
+
+
+            List<KiraReadDTO> kiralar =
+                _appDbContext
                 .Kira
+                .Select(x => new KiraReadDTO
+                {
+                    Aciklama = x.Aciklama,
+                    BaslamaTarihi = x.BaslamaTarihi,
+                    BitisTarihi = x.BitisTarihi,
+                    FirmaAdi = x.FirmaAdi,
+                    Id = x.Id,
+                    IsletmeBedeli = x.IsletmeBedeli,
+                    IsletmeKDVOrani = x.IsletmeKDVOrani,
+                    KiraBedeli = x.KiraBedeli,
+                    KiraKDVOrani = x.KiraKDVOrani,
+                    Metrekare = x.Metrekare,
+                    MetrekareIsletmeFiyati = x.MetrekareIsletmeFiyati,
+                    MetrekareKiraFiyati = x.MetrekareKiraFiyati,
+                    KalanGun = (x.BitisTarihi.Value - x.BaslamaTarihi.Value).Days
+
+                })
              .OrderBy(h => h.Id)
              .Skip(skip)
              .Take(take)
@@ -157,15 +189,15 @@ namespace Oxit.Web.Admin.Controllers
             });
         }
 
-        private void update(KiraExcel model)
+        private void update(KiraSaveDTO model)
         {
             var oldData = _appDbContext.Kira.Find(model.Id);
             if (oldData != null)
             {
                 oldData.FirmaAdi = model.FirmaAdi;
-                oldData.Aciklama = model.Aciklama??String.Empty;
-                oldData.BaslamaTarihi = DateOnly.Parse(model.BaslamaTarihi);
-                oldData.BitisTarihi = DateOnly.Parse(model.BitisTarihi);
+                oldData.Aciklama = model.Aciklama ?? String.Empty;
+                oldData.BaslamaTarihi = DateTime.Parse(model.BaslamaTarihi);
+                oldData.BitisTarihi = DateTime.Parse(model.BitisTarihi);
                 oldData.Metrekare = model.Metrekare;
                 oldData.MetrekareIsletmeFiyati = model.MetrekareIsletmeFiyati;
                 oldData.MetrekareKiraFiyati = model.MetrekareKiraFiyati;
@@ -180,14 +212,14 @@ namespace Oxit.Web.Admin.Controllers
 
         }
 
-        private void insert(KiraExcel model)
+        private void insert(KiraSaveDTO model)
         {
             _appDbContext.Kira.Add(new Kira
             {
                 FirmaAdi = model.FirmaAdi,
                 Aciklama = model.Aciklama ?? String.Empty,
-                BaslamaTarihi = DateOnly.Parse(model.BaslamaTarihi),
-                BitisTarihi = DateOnly.Parse(model.BitisTarihi),
+                BaslamaTarihi = DateTime.Parse(model.BaslamaTarihi),
+                BitisTarihi = DateTime.Parse(model.BitisTarihi),
                 Metrekare = model.Metrekare,
                 MetrekareIsletmeFiyati = model.MetrekareIsletmeFiyati,
                 MetrekareKiraFiyati = model.MetrekareKiraFiyati,

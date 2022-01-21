@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Kiralar";
 
 }
@@ -33,8 +32,31 @@
                 },
                 height: 550,
                 pageable: true,
-                columns: 
+
+                dataBound:function(e){
+                var grid = this;
+                var rows = e.sender.tbody.children();
+
+                 var columns = e.sender.columns;
+                 var columnIndex = this.wrapper.find(".k-grid-header [data-field=" + "KalanGun" + "]").index();
+                   for (var j = 0; j < rows.length; j++) {
+              var row = $(rows[j]);
+              var dataItem = e.sender.dataItem(row);
+
+
+              if(dataItem.KalanGun<30 && dataItem.KalanGun>10){
+                   row.addClass("otuzgun");
+              }
+
+                if(dataItem.KalanGun<10 ){
+                   row.addClass("ongun");
+              }
+
+
+     }},
+                columns:
                 [
+                      
                      {
                         field: "FirmaAdi",
                         title: "Firma Adı",
@@ -45,15 +67,41 @@
                         title: "Metrekare",
                         with:150
                     },
+                      {
+                        field: "KiraBedeli",
+                        title: "Kira Bedeli",
+                        with:150
+                    },
+                     {
+                        field: "IsletmeBedeli",
+                        title: "İşletme Bedeli",
+                        with:150
+                    },   {
+                        field: "KalanGun",
+                        title: "Kalan Gün",
+                        
+                        with:150
+                    },
 
                     {
                         title: "İşlem",
-                        template:"<a href='@Url.Action("save","rents")/?Id=#=Id#' class='btn btn-sm btn-primary text-light'><i class='fa fa-save'></i> Güncelle</a> <a href='@Url.Action("delete","rents")/?Id=#=Id#' class='btn btn-sm btn-danger text-light'><i class='fa fa-times'></i> Sil</a>"
+                        template:"<a href='@Url.Action("save","rents")/?Id=#=Id#' class='btn btn-sm btn-primary text-light'><i class='fa fa-save'></i> Güncelle</a> <a href='@Url.Action("DeleteConfirm","rents")/?Id=#=Id#' class='btn btn-sm btn-danger text-light'><i class='fa fa-times'></i> Sil</a>"
                     }
                 ]
             });
 
     });
 </script>
+<style>
 
+
+    .ongun {
+       background-color:#ff7979;
+     
+    }
+    .otuzgun {
+       background-color:#f6e58d;
+     
+    }
+</style>
 }

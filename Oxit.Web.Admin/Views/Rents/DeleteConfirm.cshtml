@@ -1,0 +1,12 @@
+﻿@model Oxit.Domain.Models.Kira
+@{
+    ViewData["Title"] = "Uyarı";
+}
+
+
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Uyarı</h4>
+    <p>@Model.FirmaAdi Kaydını silmek istiyor musunuz?</p>
+    <hr>
+    <a class="btn btn-sm btn-success" href="@Url.Action("delete","rents",new{Id=Model.Id})">Evet</a> <a class="btn btn-sm alert-primary" href="@Url.Action("index","rents")">Hayır</a>
+</div>

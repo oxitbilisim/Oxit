@@ -18,7 +18,7 @@ namespace Oxit.Infrastructure.MappingProfiles
         public KiraMappingProfile()
         {
 
-            CreateMap<KiraExcel, Kira>()
+            CreateMap<KiraSaveDTO, Kira>()
         
                 ;
       
