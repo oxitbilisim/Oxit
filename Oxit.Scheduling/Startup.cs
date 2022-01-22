@@ -21,7 +21,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
-
+using Oxit.Infrastructure;
 namespace Oxit.Scheduling
 {
     public class Startup
@@ -59,6 +59,7 @@ namespace Oxit.Scheduling
             });
 
             services.AddScheduledJobs();
+            services.AddAppDependencies();
         }
 
 

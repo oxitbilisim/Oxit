@@ -8,6 +8,7 @@ using Oxit.Common.DataAccess.EntityFramework;
 using Oxit.Common.Domain;
 using Oxit.DataAccess.EntityFramework;
 using Oxit.DataAccess.teknopark;
+using Oxit.Domain;
 
 namespace Oxit.Infrastructure
 {
@@ -83,8 +84,9 @@ namespace Oxit.Infrastructure
             services.AddDbContext<TeknoparkContext>(x =>
             {
                 x.UseSqlServer(Settings.TeknoparkConnectionstring);
-
             });
+
+            services.AddScoped<HesapPlaniService>();
             return services;
         }
     }

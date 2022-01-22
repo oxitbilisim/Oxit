@@ -11,12 +11,14 @@ using System.Reflection;
 using Oxit.Core.Utilities;
 using Oxit.Domain.ViewModels.Kira;
 using AutoMapper;
+using Oxit.Domain;
 
 namespace Oxit.Web.Admin.Controllers
 {
     public partial class RentsController : Controller
     {
         private readonly TeknoparkContext _db;
+        private readonly HesapPlaniService _hesapPlaniService;
         private readonly IConfiguration _configuration;
         private readonly appDbContext _appDbContext;
         private readonly IMapper _mapper;
@@ -34,11 +36,13 @@ namespace Oxit.Web.Admin.Controllers
             IConfiguration configuration,
             appDbContext appDbContext,
             IMapper mapper,
-            TeknoparkContext db
+            TeknoparkContext db,
+            HesapPlaniService hesapPlaniService
             )
         {
             _configuration = configuration;
             _db = db;
+            _hesapPlaniService = hesapPlaniService;
             _appDbContext = appDbContext;
             _mapper = mapper;
         }
@@ -66,8 +70,7 @@ namespace Oxit.Web.Admin.Controllers
                     try
                     {
 
-                        _appDbContext.Kira.RemoveRange(_appDbContext.Kira);
-                        _appDbContext.SaveChanges();
+
 
                         foreach (var item in excelData)
                         {
