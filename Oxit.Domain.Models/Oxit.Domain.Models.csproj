@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
     <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
   </ItemGroup>
 
