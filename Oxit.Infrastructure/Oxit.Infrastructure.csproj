@@ -12,9 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Oxit.Common.Automapper\Oxit.Common.Automapper.csproj" />
     <ProjectReference Include="..\Oxit.Common.Domain\Oxit.Common.Domain.csproj" />
-    <ProjectReference Include="..\Oxit.Core\Oxit.Common.csproj" />
+    <ProjectReference Include="..\Oxit.Common.DTOs\Oxit.Common.ViewModels.csproj" />
+    <ProjectReference Include="..\Oxit.Common.EntityFramework\Oxit.Common.DataAccess.csproj" />
+    <ProjectReference Include="..\Oxit.Common.Exception\Oxit.Common.Exception.csproj" />
+    <ProjectReference Include="..\Oxit.Common.Models\Oxit.Common.Models.csproj" />
+    <ProjectReference Include="..\Oxit.Core\Oxit.Core.csproj" />
     <ProjectReference Include="..\Oxit.DataAccess\Oxit.DataAccess.csproj" />
+    <ProjectReference Include="..\Oxit.Domain.DTOs\Oxit.Domain.ViewModels.csproj" />
+    <ProjectReference Include="..\Oxit.Domain.Models\Oxit.Domain.Models.csproj" />
+    <ProjectReference Include="..\Oxit.Domain\Oxit.Domain.csproj" />
   </ItemGroup>
 
 </Project>
