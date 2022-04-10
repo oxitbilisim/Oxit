@@ -27,13 +27,18 @@ namespace Oxit.Web.Admin.Controllers
         }
         public IActionResult Index(string name, string kod)
         {
-            List<HesapPlani> firmalar = _appDbContext.HesapPlani
-                .Select(x => new HesapPlani
+            List<HesapPlaniDto> firmalar = _appDbContext.HesapPlani
+                .Select(x => new HesapPlaniDto
                 {
                     Id = x.Id,
                     Ad = x.Ad,
                     Kod = x.Kod,
-                    GecikmeTutari = _appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.GecikmeTutari),
+                    Borc =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.Borc)),
+                    Alacak =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.Alacak)),
+                    GecikmeTutari = Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.GecikmeTutari)),
+                    ToplamGecikmeTutari = Convert.ToDouble(_appDbContext.Fis.Sum(y => y.GecikmeTutari)),
+                    ToplamBorcTutari = Convert.ToDouble(_appDbContext.Fis.Sum(y => y.Borc)),
+                    ToplamAlacakTutari = Convert.ToDouble(_appDbContext.Fis.Sum(y => y.Alacak)),
                     Aktif = x.Aktif
                 })
                 .OrderBy(h => h.Ad)

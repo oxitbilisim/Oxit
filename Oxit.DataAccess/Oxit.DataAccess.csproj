@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="FluentMapping\" />
+    <Folder Include="Migrations" />
   </ItemGroup>
 
 </Project>

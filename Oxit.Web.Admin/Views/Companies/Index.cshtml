@@ -1,31 +1,38 @@
 ﻿@using Oxit.Domain.Models
-@model IEnumerable<HesapPlani>
+@model IEnumerable<HesapPlaniDto>
 @{
     ViewData["Title"] = "Şirketler";
-
+    double Tborc = 0.00;
+    double Talacak = 0.00;
+    double Tgecikme = 0.00;
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
 <table class="table table-dark table-striped" id="table_id">
     <thead class="table-dark">
-        <tr>
-            <th scope="col">Aktif</th>
-            <th scope="col">Firma Kodu</th>
-            <th scope="col">Firma Adı</th>
-            <th scope="col">Gecikme Tutari</th>
-            <th scope="col">Hesap Detayı</th>
-        </tr>
+    <tr>
+        <th scope="col">Aktif</th>
+        <th scope="col">Firma Kodu</th>
+        <th scope="col">Firma Adı</th>
+        <th scope="col">Borç </th>
+        <th scope="col">Alacak</th>
+        <th scope="col">Gecikme</th>
+        <th scope="col">Hesap Detayı</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var b in Model)
-        {
+    @foreach (var b in Model)
+    {
         <tr>
             <th scope="row">
                 <input class="form-check-input companyStatus" id="flexCheckDefault" type="checkbox" @(b.Aktif == true ? "checked" : "") value="@Html.DisplayFor(modelItem => b.Id)">
             </th>
             <td>@Html.DisplayFor(modelItem => b.Kod)</td>
             <td>@Html.DisplayFor(modelItem => b.Ad)</td>
-            <td style="text-align: right;">@Html.DisplayFor(modelItem => b.GecikmeTutari)</td>
+            <td style="text-align: center;">@Convert.ToDouble(b.Borc).ToString("n2")@(b.Borc != null ? " ₺ " : "")</td>
+             <td style="text-align: center;">@Convert.ToDouble(b.Alacak).ToString("n2")@(b.Alacak != null ? " ₺ " : "")</td>
+            <td style="text-align: center;">@Convert.ToDouble(b.GecikmeTutari).ToString("n2")@(b.GecikmeTutari != null ? " ₺ " : "")</td>
+            
             <td style="text-align: center;">
                 <a class="btn btn-sm btn-danger" href="@Url.Action("index","Cari",new {hesapId=b.Id})">
                     Detay
@@ -33,9 +40,37 @@
                 </a>
             </td>
         </tr>
-        }
+        Tborc = @Convert.ToDouble(b.ToplamBorcTutari);
+        Talacak = @Convert.ToDouble(b.ToplamAlacakTutari);
+        Tgecikme = @Convert.ToDouble(b.ToplamGecikmeTutari);
+    }
+   
     </tbody>
+    
+    
 </table>
+<br/>
+
+<table>
+    <tr>
+        <th style="width: 150px">
+            Toplam Borç 
+        </th>
+         <th style="width: 150px">
+        Toplam Alacak 
+                </th>
+        <th style="width: 150px">
+            Toplam Gecikme 
+        </th>
+    </tr>
+     <tr>
+   
+         <td style="text-align: right;">@Tborc.ToString("n2")@(Tborc != null ? " ₺ " : "")</td>      
+          <td style="text-align: right;">@Talacak.ToString("n2")@(Talacak != null ? " ₺ " : "")</td>      
+         <td style="text-align: right;">@Tgecikme.ToString("n2")@(Tgecikme != null ? " ₺ " : "")</td>
+        </tr>
+</table>
+<br/>
 
 <script>$(document).ready(function () {
 

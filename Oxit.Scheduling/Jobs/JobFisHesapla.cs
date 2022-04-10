@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace Oxit.Scheduling.Jobs
 {
-    [DisallowConcurrentExecution, JobConfig("JobFisHesapla", JobPeriod.Hour, 2, true)]
+    [DisallowConcurrentExecution, JobConfig("JobFisHesapla", JobPeriod.Hour, 1, true)]
+
     public class JobFisHesapla : IJob
     {
         private appDbContext appDbContext;
@@ -35,8 +36,11 @@ namespace Oxit.Scheduling.Jobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            _hesapPlaniService.AlacaksizGecikmeHesapla(String.Empty);
-            _hesapPlaniService.GecikmeleriHesapla(String.Empty);
+            // foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
+            // {
+            //  _hesapPlaniService.AlacaksizGecikmeHesapla(cari.Kod);
+            //  _hesapPlaniService.GecikmeleriHesapla(cari.Kod);
+            // }
             return Task.CompletedTask;
         }
         

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Oxit.Domain;
 
 namespace Oxit.Scheduling.Jobs
 {
@@ -18,16 +19,20 @@ namespace Oxit.Scheduling.Jobs
         private appDbContext appDbContext;
         private readonly IConfiguration configuration;
         private readonly TeknoparkContext teknoparkContext;
+        private readonly HesapPlaniService _hesapPlaniService;
+        
         public JobGetDataFromZirve(
             appDbContext appDbContext,
             IConfiguration configuration,
-            TeknoparkContext teknoparkContext
+            TeknoparkContext teknoparkContext,
+            HesapPlaniService hesapPlaniService
 
             )
         {
             this.appDbContext = appDbContext;
             this.configuration = configuration;
             this.teknoparkContext = teknoparkContext;
+            _hesapPlaniService= hesapPlaniService;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -44,6 +49,20 @@ namespace Oxit.Scheduling.Jobs
                 }
                 appDbContext.SaveChanges();
             }
+            
+            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Fistar == new DateTime(2022,1,1)).ToList())
+            {
+                var cr = appDbContext.HesapPlani.Where(c => c.DbKey == yevmiye.Gmkod).FirstOrDefault();
+    
+                if (cr!= null )
+                    FisEkle(yevmiye, cr);
+            }
+            Console.WriteLine("JobTestEveryMinute: done");
+            
+            foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
+            {
+                _hesapPlaniService.AlacaksizGecikmeHesapla(cari.Kod);
+            } 
             Console.WriteLine("JobTestEveryMinute: done");
             return Task.CompletedTask;
         }
@@ -59,9 +78,11 @@ namespace Oxit.Scheduling.Jobs
                 cr.SonCekilmeTarihi = DateTime.Now;
             }
             appDbContext.SaveChanges();
+            
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
             {
-                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
+                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
+                                                               && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
                 if (fis == null)
                 {
                     FisEkle(yevmiye, cr);
@@ -85,9 +106,11 @@ namespace Oxit.Scheduling.Jobs
             };
             appDbContext.HesapPlani.Add(hesapplani);
             appDbContext.SaveChanges();
+            
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
             {
-                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
+                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
+                    && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
                 if (fis == null)
                 {
                     FisEkle(yevmiye, hesapplani);
@@ -128,7 +151,6 @@ namespace Oxit.Scheduling.Jobs
 
             appDbContext.SaveChanges();
             return fis.Id;
-
         }
     }
 }

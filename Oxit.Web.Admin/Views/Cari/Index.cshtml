@@ -61,16 +61,16 @@
                       }
 
           <tr bgcolor="@selectedClass">
-              <td>@Convert.ToDateTime(f.Tarih).ToString("dd/MM/yyyy")</td>
-              <td>@Html.DisplayFor(m => f.Borc)@(f.Borc != null ? " ₺ " : "")</td>
-              <td>@Html.DisplayFor(m => f.Alacak)@(f.Alacak != null ? " ₺ " : "")</td>
-              <td>@Html.DisplayFor(m => f.GecikmeTutari)@(f.GecikmeTutari != null ? " ₺ " : "")</td>
+              <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
+              <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
+              <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
+              <td>@Convert.ToDouble(f.GecikmeTutari).ToString("n2")@(f.GecikmeTutari != null ? " ₺ " : "")</td>
               <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
               <td>@Html.DisplayFor(m => f.Aciklama)</td>
               <td>
                   @if (f.SonHesaplananGecikmeTarihi != null)
                       {
-                      @Convert.ToDateTime(f.SonHesaplananGecikmeTarihi).ToString("dd/MM/yyyy")
+                      @Convert.ToDateTime(f.SonHesaplananGecikmeTarihi).ToString("dd.MM.yyyy")
                       }
               </td>
               <td>@Html.DisplayFor(m => f.KalanTutar)</td>
@@ -82,17 +82,17 @@
               <tr>
                   <td> Borç</td>
                   <td> Alacak</td>
-                  <td> Gecikme Tutarı</td>
+                  <td> Gecikme</td>
               </tr>
               <tr>
                
-                  <td>@totalBorc </td>
+                  <td>@totalBorc.ToString("n2") </td>
 
                  
-                  <td>@totalAlacak</td>
+                  <td>@totalAlacak.ToString("n2")</td>
 
                   
-                  <td>@totalGecikmeTutari</td>
+                  <td>@totalGecikmeTutari.ToString("n2")</td>
               </tr>
 
           </tfoot>

@@ -38,11 +38,9 @@ namespace Oxit.Domain
 
             if (string.IsNullOrEmpty(hesapkodu))
             {
-
-
                 fisBorc = _dbContext.Fis
                                         .Include(y => y.HesapPlani)
-                                        .Where(y => y.Borc > 0 && !y.Odendi)
+                                        .Where(y => y.Borc > 0 && !y.Odendi && y.FisTur == "3")
                                         .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                                         .ToList();
             }
@@ -50,7 +48,7 @@ namespace Oxit.Domain
             {
                 fisBorc = _dbContext.Fis
                         .Include(y => y.HesapPlani)
-                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0 && !y.Odendi)
+                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0 && !y.Odendi && y.FisTur == "3")
                         .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                         .ToList();
             }
@@ -83,7 +81,7 @@ namespace Oxit.Domain
             {
                 fisBorc = _dbContext.Fis
                       .Include(y => y.HesapPlani)
-                      .Where(y => y.Borc > 0 && !y.Odendi)
+                      .Where(y => y.Borc > 0 && !y.Odendi  && y.FisTur == "3" )
                       .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                       .ToList();
             }
@@ -91,13 +89,11 @@ namespace Oxit.Domain
             {
                 fisBorc = _dbContext.Fis
                         .Include(y => y.HesapPlani)
-                        .Where(y => y.HesapPlani.Kod == hesapkodu
-                        && y.Borc > 0 && !y.Odendi)
+                        .Where(y => y.HesapPlani.Kod == hesapkodu  && y.FisTur == "3"
+                                                                   && y.Borc > 0 && !y.Odendi)
                         .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                         .ToList();
             }
-
-
 
             foreach (var item in fisBorc)
             {
