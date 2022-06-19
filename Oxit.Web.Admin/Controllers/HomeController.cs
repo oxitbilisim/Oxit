@@ -31,9 +31,11 @@ namespace Oxit.Web.Admin.Controllers
         public IActionResult Index()
         {
             var aktifFirmaSayi = _appDbContext.HesapPlani.Where(h => h.Aktif).Count();
-            var toplamBorc = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraFaturasi).Sum(b => b.Borc + b.GecikmeTutari);
-            var toplamOdeme = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTip == FisTip.KiraOdemesi).Sum(b => b.Alacak);
-            List<ChartLine> chartData = _appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih)).Select(cl => new ChartLine
+            var toplamBorc = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(b => b.Borc );
+            var toplamOdeme = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(b => b.Alacak);
+            
+            List<ChartLine> chartData = _appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih))
+                .Select(cl => new ChartLine
             {
                 Date = String.Format("{0:MM-yyyy}", cl.First().Tarih),
                 Alacak = cl.Sum(c => c.Alacak),
@@ -52,7 +54,8 @@ namespace Oxit.Web.Admin.Controllers
                 gecikme.Add(Convert.ToInt32((item.Gecikme.Value)));
             }
             
-            List<HesapPlaniDto> gecikmesiOlanFirmalar = _appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi).GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
+            List<HesapPlaniDto> gecikmesiOlanFirmalar = _appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi)
+                .GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
             {
                 Ad = cl.First().HesapPlani.Ad,
                 Kod = cl.First().HesapPlani.Kod,

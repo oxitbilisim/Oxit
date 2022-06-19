@@ -20,7 +20,7 @@ namespace Oxit.Scheduling.Jobs
         private readonly IConfiguration configuration;
         private readonly TeknoparkContext teknoparkContext;
         private readonly HesapPlaniService _hesapPlaniService;
-        
+        private DateTime? fisAktarilansonTarih;
         public JobGetDataFromZirve(
             appDbContext appDbContext,
             IConfiguration configuration,
@@ -37,6 +37,8 @@ namespace Oxit.Scheduling.Jobs
         public Task Execute(IJobExecutionContext context)
         {
             //cari
+            fisAktarilansonTarih = appDbContext.Fis?.OrderBy(x=> x.Tarih).LastOrDefault()?.Tarih;
+            
             foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
                 if (!appDbContext.HesapPlani.Any(c => c.DbKey == cari.Kod))
@@ -49,7 +51,9 @@ namespace Oxit.Scheduling.Jobs
                 }
                 appDbContext.SaveChanges();
             }
+            Console.WriteLine("Hesaplar Aktarıldı: done");
             
+            if (appDbContext.Fis?.Where(x=> x.FisTur == "0").ToList().Count() <= 5)
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Fistar == new DateTime(2022,1,1)).ToList())
             {
                 var cr = appDbContext.HesapPlani.Where(c => c.DbKey == yevmiye.Gmkod).FirstOrDefault();
@@ -57,13 +61,13 @@ namespace Oxit.Scheduling.Jobs
                 if (cr!= null )
                     FisEkle(yevmiye, cr);
             }
-            Console.WriteLine("JobTestEveryMinute: done");
+            Console.WriteLine("Acilis Fisi Aktarıldı: done");
             
             foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
-                _hesapPlaniService.AlacaksizGecikmeHesapla(cari.Kod);
+                _hesapPlaniService.GecikmeleriHesapla(cari.Kod);
             } 
-            Console.WriteLine("JobTestEveryMinute: done");
+            Console.WriteLine("Gecikmeler Hesaplandı.");
             return Task.CompletedTask;
         }
         private int HesapplaniGuncelle(Hesplan cari)
@@ -79,18 +83,21 @@ namespace Oxit.Scheduling.Jobs
             }
             appDbContext.SaveChanges();
             
-            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod 
+                                                                         && c.Fistur == "3"
+                                                                         && c.Fistar > fisAktarilansonTarih).ToList())
             {
-                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
-                                                               && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
-                if (fis == null)
-                {
-                    FisEkle(yevmiye, cr);
-                }
-                else
-                {
-                    FisEkleGuncelle(fis, yevmiye);
-                }
+                FisEkle(yevmiye, cr);
+                // var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
+                //                                                && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
+                // if (fis == null)
+                // {
+                //     FisEkle(yevmiye, cr);
+                // }
+                // else
+                // {
+                //     FisEkleGuncelle(fis, yevmiye);
+                // }
             }
             return cr.Id;
         }
@@ -107,18 +114,20 @@ namespace Oxit.Scheduling.Jobs
             appDbContext.HesapPlani.Add(hesapplani);
             appDbContext.SaveChanges();
             
-            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod).ToList())
+            foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod 
+                                                                         && c.Fistur == "3"
+                                                                         && c.Fistar > fisAktarilansonTarih).ToList())
             {
-                var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
-                    && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
-                if (fis == null)
-                {
-                    FisEkle(yevmiye, hesapplani);
-                }
-                else
-                {
-                    FisEkleGuncelle(fis, yevmiye);
-                }
+                FisEkle(yevmiye, hesapplani);
+                // var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih );
+                // if (fis == null)
+                // {
+                //     FisEkle(yevmiye, hesapplani);
+                // }
+                // else
+                // {
+                //     FisEkleGuncelle(fis, yevmiye);
+                // }
             }
             return hesapplani.Id;
         }

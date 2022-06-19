@@ -7,6 +7,7 @@
     int pageCount = (int)Model["pageCount"];
     int page = (int)Model["page"];
     double totalBorc = 0.00;
+    double totalBakiye = 0.00;
 
     double totalAlacak = 0.00;
     double totalGecikmeTutari = 0.00;
@@ -20,83 +21,90 @@
 
 <div class="card text-center">
     <div class="card-header non-printable">
-        <button class="btn btn-sm btn-light" type="button" id="gecikmeBorcHesapla" onclick="gecikmeBorcHesapla()">Borç Tutarı Gecikme Hesapla</button>
-        <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button>
-        <button class="btn btn-sm btn-danger" type="button" id="gecikmeHesapla" onclick="gecikmeleriSifirla()">Gecikmeleri Sıfırla</button>
-        @*<a class="btn btn-sm btn-info" href="@Url.Action("Edit","Cari",new {hesapId = hesapPlani.Id ,page = page})">Düzenle</a>*@
-        <a class="btn btn-sm btn-warning" href="@Url.Action("Index","Companies")">Geri Dön</a>
+        @* <button class="btn btn-sm btn-light" type="button" id="gecikmeBorcHesapla" onclick="gecikmeBorcHesapla()">Borç Tutarı Gecikme Hesapla</button> *@
+         <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button>
+         <button class="btn btn-sm btn-danger" type="button" id="gecikmeHesapla" onclick="gecikmeleriSifirla()">Gecikmeleri Sıfırla</button>
+        <a class="btn btn-sm btn-info" href="@Url.Action("Edit","Cari",new {hesapId = hesapPlani.Id ,page = page})">Düzenle</a>
+        @* <a class="btn btn-sm btn-warning" href="@Url.Action("Index","Companies")">Geri Dön</a> *@
         <button class="btn btn-sm btn-info float-end" type="button" onclick="window.print();">Yazdır</button>
         <a class="btn btn-sm btn-warning float-end me-1 ms-1" href="@Url.Action("DownloadExcel","Cari",new {hesapId = hesapPlani.Id })">Excel İndir</a>
     </div>
   <div class="card-body">
       <table class="table table-striped table-hover printable">
           <thead>
-              <tr>
+          <tr>
 
-                  <th scope="col" style="width: 100px;">Tarih</th>
-                  <th scope="col" style="width: 130px;">Borç</th>
-                  <th scope="col" style="width: 130px;">Alacak</th>
+              <th scope="col" style="width: 100px;">Tarih</th>
+              <th scope="col" style="width: 130px;">Borç</th>
+              <th scope="col" style="width: 130px;">Alacak</th>
 
-                  <th scope="col" style="width: 130px;">Gecikme Tutarı</th>
-                  <th scope="col" style="width: 70px;">Gecikme Günü</th>
-                  <th scope="col">Açıklama</th>
-                  <th scope="col" style="width: 100px;">Son Hesaplama Tarihi</th>
-                  <th scope="col" style="width: 130px;">Kalan Tutar</th>
-              </tr>
+              <th scope="col" style="width: 130px;">Gecikme Tutarı</th>
+              <th scope="col" style="width: 70px;">Gecikme Günü</th>
+              <th scope="col">Açıklama</th>
+              <th scope="col" style="width: 100px;">Son Hesaplama Tarihi</th>
+              <th scope="col" style="width: 130px;">Kalan Tutar</th>
+          </tr>
           </thead>
           <tbody>
-              @foreach (var f in fisList)
-                  {
-                      totalBorc = f.Borc != null ? totalBorc + (double)f.Borc : totalBorc;
-                      totalAlacak = f.Alacak != null ? totalAlacak + (double)f.Alacak : totalAlacak;
-                      totalGecikmeTutari = f.GecikmeTutari != null ? totalGecikmeTutari + (double)f.GecikmeTutari : totalGecikmeTutari;
-                      string selectedClass = "";
-                      if (!f.Odendi)
-                      {
-                          selectedClass = "white";
-                      }
-                      else
-                      {
-                          selectedClass = "green";
-                      }
+          @foreach (var f in fisList)
+          {
+              totalBorc = f.Borc != null ? totalBorc + (double)f.Borc : totalBorc;
+              totalAlacak = f.Alacak != null ? totalAlacak + (double)f.Alacak : totalAlacak;
+              totalGecikmeTutari = f.GecikmeTutari != null ? totalGecikmeTutari + (double)f.GecikmeTutari : totalGecikmeTutari;
+                      
+              string selectedClass = "";
+              if (!f.Odendi)
+              {
+                  selectedClass = "white";
+              }
+              else
+              {
+                  selectedClass = "green";
+              }
 
-          <tr bgcolor="@selectedClass">
-              <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
-              <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
-              <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
-              <td>@Convert.ToDouble(f.GecikmeTutari).ToString("n2")@(f.GecikmeTutari != null ? " ₺ " : "")</td>
-              <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
-              <td>@Html.DisplayFor(m => f.Aciklama)</td>
-              <td>
-                  @if (f.SonHesaplananGecikmeTarihi != null)
+              <tr bgcolor="@selectedClass">
+                  <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
+                  <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
+                  <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
+                  <td>@Convert.ToDouble(f.GecikmeTutari).ToString("n2")@(f.GecikmeTutari != null ? " ₺ " : "")</td>
+                  <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
+                  <td>@Html.DisplayFor(m => f.Aciklama)</td>
+                  <td>
+                      @if (f.SonHesaplananGecikmeTarihi != null)
                       {
-                      @Convert.ToDateTime(f.SonHesaplananGecikmeTarihi).ToString("dd.MM.yyyy")
+                          @Convert.ToDateTime(f.SonHesaplananGecikmeTarihi).ToString("dd.MM.yyyy")
                       }
-              </td>
-              <td>@Html.DisplayFor(m => f.KalanTutar)</td>
-          </tr>
-                  }
+                  </td>
+                  <td>@Html.DisplayFor(m => f.KalanTutar)</td>
+              </tr>
+              totalBakiye = totalBorc -
+                            totalAlacak;
+          }
+          
           </tbody>
-          <tfoot style="background-color: lightblue;width:100%">
-       
-              <tr>
-                  <td> Borç</td>
-                  <td> Alacak</td>
-                  <td> Gecikme</td>
-              </tr>
-              <tr>
-               
-                  <td>@totalBorc.ToString("n2") </td>
-
-                 
-                  <td>@totalAlacak.ToString("n2")</td>
-
-                  
-                  <td>@totalGecikmeTutari.ToString("n2")</td>
-              </tr>
-
-          </tfoot>
+     
       </table>
+      <br/>
+      <table style="background-color: lightblue;width:80%">
+                 
+                        <tr>
+                            <td style="padding: 10px"> Borç</td>
+                            <td style="padding: 10px"> Alacak </td>
+                            <td style="padding: 10px"> Bakiye</td>
+                            <td style="padding: 10px"> Gecikme</td>
+                        </tr>
+                        <tr>
+                         
+                            <td style="padding: 10px">@totalBorc.ToString("n2")@(totalBorc != null ? " ₺ " : "")</td>
+                           
+                            <td style="padding: 10px">@totalAlacak.ToString("n2")@(totalAlacak != null ? " ₺ " : "")</td>
+                            <td style="padding: 10px">@totalBakiye.ToString("n2")@(totalBakiye != null ? " ₺ " : "")</td>
+                            
+                            <td style="padding: 10px">@totalGecikmeTutari.ToString("n2")@(totalGecikmeTutari != null ? " ₺ " : "")</td>
+                        </tr>
+          
+                    </table>
+      
   </div>
 </div>
 

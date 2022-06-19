@@ -1,7 +1,7 @@
 ﻿{
   "Database": {
     "Type": "PostgreSql", //or MySql - Oracle - PostgreSql - MongoDb
-    "ConnectionString": "Host=192.168.1.54;Database=teknopark;Port=5433;Username=postgres;Password=192408a#"
+    "ConnectionString": "Host=192.168.1.56;Database=teknopark;Port=5433;Username=postgres;Password=192408a#"
 
   },
   "Cache": {

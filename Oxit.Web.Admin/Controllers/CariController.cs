@@ -94,9 +94,6 @@ namespace Oxit.Web.Admin.Controllers
             }
             
             var stream = new MemoryStream();
-            //required using OfficeOpenXml;
-            // If you use EPPlus in a noncommercial context
-            // according to the Polyform Noncommercial license:
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage(stream))
             {
@@ -105,7 +102,7 @@ namespace Oxit.Web.Admin.Controllers
                 package.Save();
             }
             stream.Position = 0;
-            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            string excelName = $"{list.First().FirmaAdi} - {DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
             return File(stream, "application/octet-stream", excelName);  
             //return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }

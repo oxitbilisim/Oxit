@@ -15,6 +15,7 @@ namespace Oxit.Domain.Models
         public Double GecikmeTutari  { get; set; }
         public Double ToplamGecikmeTutari  { get; set; }
         public Double ToplamAlacakTutari  { get; set; }
+        public Double Bakiye { get; set; }
         public Double Borc { get; set; }
         public Double Alacak { get; set; }
         public Double ToplamBorcTutari  { get; set; }
