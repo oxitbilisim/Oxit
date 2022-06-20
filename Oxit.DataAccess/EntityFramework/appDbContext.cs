@@ -25,6 +25,7 @@ namespace Oxit.DataAccess.EntityFramework
         }
 
         public virtual DbSet<Fis> Fis { get; set; }
+        public virtual DbSet<FisAlacakDetay> FisAlacakDetay { get; set; }
         public virtual DbSet<HesapPlani> HesapPlani { get; set; }
         public virtual DbSet<Kira> Kira { get; set; }
     }

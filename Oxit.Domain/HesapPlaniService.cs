@@ -26,28 +26,18 @@ namespace Oxit.Domain
             var gecikmeBaslamaTarihi = Convert.ToDateTime(_configuration.GetSection("gecikmeBaslamaTarihi").Value);
             
             List<Fis>? fisBorc;
-
+            List<Fis>? fisGecikme;
             var isHesapAktifmi = _dbContext.HesapPlani.Where(x => x.Aktif && x.Kod == hesapkodu);
            
             if (isHesapAktifmi.Count() > 0 )
             {  
-            if (string.IsNullOrEmpty(hesapkodu))
-            {
-                fisBorc = _dbContext.Fis
-                                        .Include(y => y.HesapPlani)
-                                        .Where(y => y.Borc > 0 && !y.Odendi && y.FisTur == "3" && y.Tarih >= gecikmeBaslamaTarihi)
-                                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
-                                        .ToList();
-            }
-            else
-            {
+              
                 fisBorc = _dbContext.Fis
                         .Include(y => y.HesapPlani)
                         .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0 && !y.Odendi && y.FisTur == "3")
                         .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                         .ToList();
-            }
-
+      
             foreach (var item in fisBorc)
             {
                 var AlacakT = _dbContext.Fis
@@ -59,13 +49,13 @@ namespace Oxit.Domain
                 if ( ((
                         AlacakT == null ?  DateTime.Now : (DateTime)AlacakT.Tarih) - (DateTime)item.Tarih).TotalDays > gecikmeGunu)
                 { 
-                var borcTutari = item.KalanTutar > 0 ? (double)item.KalanTutar : (double)item.Borc;
+                var borcTutari = item.KalanBorcTutar > 0 ? (double)item.KalanBorcTutar : (double)item.Borc;
                 var gecikmeGun = (DateTime.Now - (DateTime)item.Tarih).TotalDays;
 
                 if (gecikmeGun >= gecikmeGunu)
                 {
                     item.GeciktirilenAnaFaizTutar = (double)item.Borc;
-                    item.GeciktirilenTutar = item.KalanTutar;
+                    item.GeciktirilenTutar = item.KalanBorcTutar;
                     item.GecikmeGunu = (int)gecikmeGun;
                     item.GecikmeTutari = Math.Round(((borcTutari * (double)gecikmeOrani) / 30) * (int)gecikmeGun, 2) * 1.18;
                     item.SonHesaplananGecikmeTarihi = DateTime.Now;
@@ -73,7 +63,95 @@ namespace Oxit.Domain
                 _dbContext.SaveChanges();
                 }
             }
+            
+            // alacak tutarından borc ve gecikmeleri düş 
+            
+            
+            var fisAlacakList = _dbContext.Fis
+                .Include(y => y.HesapPlani)
+                .Where(y => y.HesapPlani.Kod == hesapkodu && y.Alacak > 0 && !y.Odendi)
+                .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                .ToList();
+
+
+            foreach (var itemsAlacaks in fisAlacakList)
+            {
+                double? itemAlacakTutari = itemsAlacaks.Alacak;
+               
+
+            #region Gecikmeleri hesapla
+
+            var fisGecikmes = _dbContext.Fis
+                .Include(y => y.HesapPlani)
+                .Where(y => y.HesapPlani.Kod == hesapkodu && y.GecikmeTutari > 0 && !y.Odendi )
+                .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                .ToList();
+
+            foreach (var itemGecikme in fisGecikmes)
+            {
+                if (itemAlacakTutari > itemGecikme.GecikmeTutari)
+                {
+                    itemAlacakTutari = itemAlacakTutari - itemGecikme.GecikmeTutari;
+                    itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari;
+                    itemsAlacaks.KalanAlacakTutar = itemsAlacaks.Alacak - itemGecikme.GecikmeTutari;
+                    //itemGecikme.Odendi = true;
+                }else
+                {
+                 
+                    itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari - itemAlacakTutari;
+                    itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
+                    itemAlacakTutari = 0;
+                }   
+                _dbContext.SaveChanges();
             }
+             #endregion
+             
+             #region Borcları hesapla
+
+             var fisBorcs = _dbContext.Fis
+                 .Include(y => y.HesapPlani)
+                 .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0 && !y.Odendi )
+                 .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                 .ToList();
+
+             foreach (var itemBorcs in fisBorcs)
+             {
+                 if (itemAlacakTutari > (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) ) )
+                 {
+                     itemAlacakTutari = itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 )  );
+                     itemBorcs.OdenenBorcTutar = (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ));
+                     itemsAlacaks.KalanAlacakTutar = itemAlacakTutari > (itemBorcs.Borc ) 
+                                           ? itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) )
+                                           : 0;
+                     
+                     itemBorcs.Odendi =  itemBorcs.Borc  == itemBorcs.OdenenBorcTutar ? true : false;
+                 }else
+                 {
+                 
+                     itemBorcs.OdenenBorcTutar = itemAlacakTutari;
+                     itemBorcs.KalanBorcTutar = itemBorcs.Borc - itemAlacakTutari;
+                     itemAlacakTutari = 0;
+                     itemsAlacaks.Odendi = true;
+                     itemBorcs.Odendi =  itemBorcs.Borc == itemBorcs.OdenenBorcTutar ? true : false;
+                 }
+
+                 itemsAlacaks.KalanBorcTutar = 0;
+                 _dbContext.SaveChanges();
+             }
+             #endregion
+            
+            }
+            
+          
+            
+            }
+            
+    
+
+            
+            
+            
+            
         }
         public void AlacaksizGecikmeHesapla(string? hesapkodu)
         {

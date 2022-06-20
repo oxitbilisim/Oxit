@@ -29,6 +29,12 @@ namespace Oxit.Domain.Models
         public DateTime? ZamanindaOdemeTarihi { get; set; }
         public Double? KalanTutar { get; set; }
         public FisTip? FisTip { get; set; }
+        
+        public Double? OdenenBorcTutar { get; set; }
+        public Double? OdenenGecikmeTutar { get; set; }
+        public Double? KalanAlacakTutar { get; set; }
+        public Double? KalanGecikmeTutar { get; set; }
+        public Double? KalanBorcTutar { get; set; }
 
         [ForeignKey("HesapPlaniId")]
         public virtual HesapPlani HesapPlani { get; set; }
