@@ -54,11 +54,32 @@ namespace Oxit.Domain
 
                 if (gecikmeGun >= gecikmeGunu)
                 {
-                    item.GeciktirilenAnaFaizTutar = (double)item.Borc;
-                    item.GeciktirilenTutar = item.KalanBorcTutar;
-                    item.GecikmeGunu = (int)gecikmeGun;
-                    item.GecikmeTutari = Math.Round(((borcTutari * (double)gecikmeOrani) / 30) * (int)gecikmeGun, 2) * 1.18;
-                    item.SonHesaplananGecikmeTarihi = DateTime.Now;
+                    Fis fis = new()
+                    {
+                        HesapPlaniId =item.HesapPlaniId,
+                       
+                        Tarih = (DateTime) item.Tarih,
+                        GecikmeTutari = Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                        1.18,
+                        GecikmeGunu = (int) gecikmeGun,
+                        Odendi = false,
+                        SonHesaplananGecikmeTarihi = DateTime.Now
+                    };
+                    _dbContext.Fis.Add(fis);
+                    _dbContext.SaveChanges();
+                    
+                    // item.GeciktirilenAnaFaizTutar = (double)item.Borc;
+                    // item.GeciktirilenTutar = item.KalanBorcTutar;
+                    // item.GecikmeGunu = (int)gecikmeGun;
+                    // // if (item.GecikmeTutari is null)
+                    //     item.GecikmeTutari =
+                    //         Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) * 1.18;
+                    // // else
+                    // //     item.KalanGecikmeTutar = (double) item.KalanBorcTutar != (double) item.Borc
+                    // //         ? Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) * 1.18
+                    // //         : 0;
+                    //
+                    // item.SonHesaplananGecikmeTarihi = DateTime.Now;
                 }
                 _dbContext.SaveChanges();
                 }
@@ -83,7 +104,7 @@ namespace Oxit.Domain
 
             var fisGecikmes = _dbContext.Fis
                 .Include(y => y.HesapPlani)
-                .Where(y => y.HesapPlani.Kod == hesapkodu && y.GecikmeTutari > 0 && !y.Odendi )
+                .Where(y => y.HesapPlani.Kod == hesapkodu && y.GecikmeTutari != y.OdenenGecikmeTutar )
                 .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                 .ToList();
 
@@ -93,7 +114,7 @@ namespace Oxit.Domain
                 {
                     itemAlacakTutari = itemAlacakTutari - itemGecikme.GecikmeTutari;
                     itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari;
-                    itemsAlacaks.KalanAlacakTutar = itemsAlacaks.Alacak - itemGecikme.GecikmeTutari;
+                    
                     //itemGecikme.Odendi = true;
                 }else
                 {
@@ -102,6 +123,7 @@ namespace Oxit.Domain
                     itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
                     itemAlacakTutari = 0;
                 }   
+                itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
                 _dbContext.SaveChanges();
             }
              #endregion
@@ -119,12 +141,13 @@ namespace Oxit.Domain
                  if (itemAlacakTutari > (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) ) )
                  {
                      itemAlacakTutari = itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 )  );
-                     itemBorcs.OdenenBorcTutar = (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ));
+                     itemBorcs.OdenenBorcTutar = itemBorcs.Borc;
                      itemsAlacaks.KalanAlacakTutar = itemAlacakTutari > (itemBorcs.Borc ) 
                                            ? itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) )
                                            : 0;
+                     itemBorcs.KalanBorcTutar = 0;
                      
-                     itemBorcs.Odendi =  itemBorcs.Borc  == itemBorcs.OdenenBorcTutar ? true : false;
+                     itemBorcs.Odendi =   true;
                  }else
                  {
                  
@@ -133,6 +156,9 @@ namespace Oxit.Domain
                      itemAlacakTutari = 0;
                      itemsAlacaks.Odendi = true;
                      itemBorcs.Odendi =  itemBorcs.Borc == itemBorcs.OdenenBorcTutar ? true : false;
+                     itemBorcs.KalanBorcTutar = itemBorcs.KalanBorcTutar == itemBorcs.OdenenBorcTutar
+                         ? 0
+                         : itemBorcs.KalanBorcTutar;
                  }
 
                  itemsAlacaks.KalanBorcTutar = 0;

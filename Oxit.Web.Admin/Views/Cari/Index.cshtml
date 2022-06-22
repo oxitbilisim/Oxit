@@ -58,18 +58,21 @@
               totalGecikmeTutari = f.GecikmeTutari != null ? totalGecikmeTutari + (double)f.GecikmeTutari : totalGecikmeTutari;
                       
               string selectedClass = "";
-              if (!f.Odendi)
+              if (!f.Odendi && f.GecikmeTutari< 0)
               {
                   selectedClass = "white";
               }
               else if (f.Borc> 0 )
               {
-                  selectedClass = "green";
-              }else 
-                  if (f.Alacak> 0)
+                  selectedClass = "#1CB243";
+              }else  if (f.Alacak> 0)
               {
                   selectedClass = "yellow";
               }
+                  else if (f.GecikmeTutari> 0 )
+                  {
+                      selectedClass = "#CC0000";
+                  }
 
               <tr bgcolor="@selectedClass">
                   <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
