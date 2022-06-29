@@ -8,6 +8,7 @@
     int page = (int)Model["page"];
     double totalBorc = 0.00;
     double totalBakiye = 0.00;
+    string Fistur = "";
 
     double totalAlacak = 0.00;
     double totalGecikmeTutari = 0.00;
@@ -33,7 +34,7 @@
       <table class="table table-striped table-hover printable">
           <thead>
           <tr>
-
+ <th scope="col" style="width: 70px;">Tür</th>
               <th scope="col" style="width: 70px;">Tarih</th>
               <th scope="col" style="width: 70px;">Borç</th>
               <th scope="col" style="width: 70px;">Alacak</th>
@@ -41,7 +42,7 @@
               <th scope="col" style="width: 70px;">Gecikme T.</th>
               <th scope="col" style="width: 70px;">Gecikme Gn</th>
               @* <th scope="col">Açıklama</th> *@
-              <th scope="col" style="width: 100px;">Hesap Tarihi</th>
+              <th scope="col" style="width: 80px;">Hesap Tarihi</th>
               <th scope="col" style="width: 80px;">Ödn Borc Tutar</th>
                         <th scope="col" style="width: 80px;">Kalan Borc Tutar</th>
               <th scope="col" style="width: 80px;">Odn Geckm Tutar</th>
@@ -56,7 +57,11 @@
               totalBorc = f.Borc != null ? totalBorc + (double)f.Borc : totalBorc;
               totalAlacak = f.Alacak != null ? totalAlacak + (double)f.Alacak : totalAlacak;
               totalGecikmeTutari = f.GecikmeTutari != null ? totalGecikmeTutari + (double)f.GecikmeTutari : totalGecikmeTutari;
-                      
+
+        
+                  
+             
+              
               string selectedClass = "";
               if (!f.Odendi && f.GecikmeTutari< 0)
               {
@@ -64,23 +69,29 @@
               }
               else if (f.Borc> 0 )
               {
-                  selectedClass = "#1CB243";
+                  selectedClass = "#55D43F";
+                  Fistur = "Borç";
+                  
+                  if (f.FisTur == "0")
+                      Fistur = "Açılış ";
               }else  if (f.Alacak> 0)
               {
-                  selectedClass = "yellow";
+                  selectedClass = "#3399FF";
+                  Fistur = "Alacak ";
               }
                   else if (f.GecikmeTutari> 0 )
                   {
-                      selectedClass = "#CC0000";
-                  }
+                      selectedClass = "#FF6600";
+                      Fistur = "Gecikme ";
 
+                  }
               <tr bgcolor="@selectedClass">
+               <td>@(Fistur)</td>
                   <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
                   <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.GecikmeTutari).ToString("n2")@(f.GecikmeTutari != null ? " ₺ " : "")</td>
                   <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
-                  @* <td>@Html.DisplayFor(m => f.Aciklama)</td> *@
                   <td>
                       @if (f.SonHesaplananGecikmeTarihi != null)
                       {

@@ -13,7 +13,7 @@ using Oxit.Domain;
 
 namespace Oxit.Scheduling.Jobs
 {
-    [DisallowConcurrentExecution, JobConfig("JobGetDataFromZirve", JobPeriod.Hour, 1, true)]
+    [DisallowConcurrentExecution, JobConfig("JobGetDataFromZirve", JobPeriod.Hour, 8, true)]
     public class JobGetDataFromZirve : IJob
     {
         private appDbContext appDbContext;
@@ -45,10 +45,10 @@ namespace Oxit.Scheduling.Jobs
                 {
                     HesapplaniEkle(cari);
                 }
-                else
-                {
-                    HesapplaniGuncelle(cari);
-                }
+                 else
+                 {
+                     HesapplaniGuncelle(cari);
+                 }
                 appDbContext.SaveChanges();
             }
             Console.WriteLine("Hesaplar Aktarıldı: done");
@@ -68,6 +68,10 @@ namespace Oxit.Scheduling.Jobs
                 _hesapPlaniService.GecikmeleriHesapla(cari.Kod);
             } 
             Console.WriteLine("Gecikmeler Hesaplandı.");
+            
+            
+            
+            
             return Task.CompletedTask;
         }
         private int HesapplaniGuncelle(Hesplan cari)
@@ -88,16 +92,6 @@ namespace Oxit.Scheduling.Jobs
                                                                          && c.Fistar > fisAktarilansonTarih).ToList())
             {
                 FisEkle(yevmiye, cr);
-                // var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih == yevmiye.Fistar && c.FisTur == yevmiye.Fistur 
-                //                                                && c.YevNo == yevmiye.Yevno && c.FisNo == yevmiye.Fisno);
-                // if (fis == null)
-                // {
-                //     FisEkle(yevmiye, cr);
-                // }
-                // else
-                // {
-                //     FisEkleGuncelle(fis, yevmiye);
-                // }
             }
             return cr.Id;
         }

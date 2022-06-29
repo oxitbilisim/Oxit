@@ -54,20 +54,23 @@ namespace Oxit.Domain
 
                 if (gecikmeGun >= gecikmeGunu)
                 {
+                    if (!_dbContext.Fis
+                        .Any(y => y.HesapPlaniId == item.HesapPlaniId &&  y.Tarih == item.Tarih  && gecikmeGunu > 0))
+                    {
                     Fis fis = new()
                     {
                         HesapPlaniId =item.HesapPlaniId,
-                       
                         Tarih = (DateTime) item.Tarih,
                         GecikmeTutari = Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
                                         1.18,
                         GecikmeGunu = (int) gecikmeGun,
                         Odendi = false,
+                        FisTur = "5",
                         SonHesaplananGecikmeTarihi = DateTime.Now
                     };
                     _dbContext.Fis.Add(fis);
                     _dbContext.SaveChanges();
-                    
+                    }
                     // item.GeciktirilenAnaFaizTutar = (double)item.Borc;
                     // item.GeciktirilenTutar = item.KalanBorcTutar;
                     // item.GecikmeGunu = (int)gecikmeGun;
@@ -81,7 +84,7 @@ namespace Oxit.Domain
                     //
                     // item.SonHesaplananGecikmeTarihi = DateTime.Now;
                 }
-                _dbContext.SaveChanges();
+               // _dbContext.SaveChanges();
                 }
             }
             
