@@ -110,7 +110,8 @@ namespace Oxit.Scheduling.Jobs
             
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod 
                                                                          && c.Fistur == "3"
-                                                                         && c.Fistar > fisAktarilansonTarih).ToList())
+                                                                         && c.Fistar > (fisAktarilansonTarih ?? DateTime.Now.AddYears(-1))
+                                                                         ).ToList())
             {
                 FisEkle(yevmiye, hesapplani);
                 // var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih );
