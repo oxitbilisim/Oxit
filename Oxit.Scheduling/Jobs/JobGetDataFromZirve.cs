@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Oxit.Domain;
 
 namespace Oxit.Scheduling.Jobs
@@ -57,14 +58,47 @@ namespace Oxit.Scheduling.Jobs
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Fistar == new DateTime(2022,1,1)).ToList())
             {
                 var cr = appDbContext.HesapPlani.Where(c => c.DbKey == yevmiye.Gmkod).FirstOrDefault();
-    
+            
                 if (cr!= null )
                     FisEkle(yevmiye, cr);
             }
+            
             Console.WriteLine("Acilis Fisi Aktarıldı: done");
+            
+            
+            
+            var lst = appDbContext.HesapPlani.Where(x=> x.Aktif).ToList();
+            
+            foreach (var item in lst)
+            {
+                var borc = appDbContext.Fis.Where(x=> x.HesapPlaniId == item.Id && x.Tarih <= new DateTime(2022,06,30) ).Sum(x=> x.Borc);
+                var alacak = appDbContext.Fis.Where(x=> x.HesapPlaniId == item.Id && x.Tarih <= new DateTime(2022,06,30)).Sum(x=> x.Alacak);
+                
+                if (item != null ) 
+                { 
+                    if (!appDbContext.Fis.Where(x=> x.HesapPlaniId == item.Id && x.FisTur == "6").Any())
+                    {  
+                    var Fis = new Fis
+                    {
+                        Aciklama = "Yıl Sonu Bakiye",
+                        FisTur = "6",
+                        Borc = borc > alacak ? borc - alacak : 0,
+                        Alacak = alacak > borc ? alacak: 0,
+                        FisNo = "9999",
+                        Tarih = new DateTime(2022,06,30) ,
+                        YevNo = 9999,
+                        HesapPlaniId = item.Id
+                    };
+                appDbContext.Fis.Add(Fis);
+                appDbContext.SaveChanges();
+                    }
+                }
+            }
+            Console.WriteLine("Haziran Sonu Bakiye Bilgileri Aktarıldı : done");
             
             foreach (var cari in teknoparkContext.Hesplans.Where(c => c.Kod.StartsWith("120 ")).ToList())
             {
+                _hesapPlaniService.GecikmeleriHesaplaBakiye(cari.Kod);
                 _hesapPlaniService.GecikmeleriHesapla(cari.Kod);
             } 
             Console.WriteLine("Gecikmeler Hesaplandı.");
@@ -89,7 +123,7 @@ namespace Oxit.Scheduling.Jobs
             
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod 
                                                                          && c.Fistur == "3"
-                                                                         && c.Fistar > fisAktarilansonTarih).ToList())
+                                                                         && c.Fistar >= fisAktarilansonTarih).ToList())
             {
                 FisEkle(yevmiye, cr);
             }
@@ -110,19 +144,10 @@ namespace Oxit.Scheduling.Jobs
             
             foreach (var yevmiye in teknoparkContext.Yevmiyes.Where(c => c.Gmkod == cari.Kod 
                                                                          && c.Fistur == "3"
-                                                                         && c.Fistar > (fisAktarilansonTarih ?? DateTime.Now.AddYears(-1))
+                                                                         && c.Fistar >= (fisAktarilansonTarih ?? DateTime.Now.AddYears(-2))
                                                                          ).ToList())
             {
                 FisEkle(yevmiye, hesapplani);
-                // var fis = appDbContext.Fis.FirstOrDefault(c => c.Tarih );
-                // if (fis == null)
-                // {
-                //     FisEkle(yevmiye, hesapplani);
-                // }
-                // else
-                // {
-                //     FisEkleGuncelle(fis, yevmiye);
-                // }
             }
             return hesapplani.Id;
         }

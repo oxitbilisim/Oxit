@@ -101,12 +101,13 @@ namespace Oxit.Core
         public static string TeknoparkConnectionstring = settingsJson.TeknoparkConnectionstring;
     }
 }
-
+//
 // using Newtonsoft.Json;
 //
 // namespace Oxit.Core
 // {
-//
+//     
+//     
 //     public static class Settings
 //     {
 //         public static bool IsDevelopment { get { return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"; } }
@@ -153,4 +154,4 @@ namespace Oxit.Core
 //
 //         public static string TeknoparkConnectionstring = "Server=WIN-HEN8F6S022B\\ZRV;Database=AANKARATEKNOPARKAŞ_2022;User Id=oxit;Password=oxit2022Ta;";
 //     }
-// }
+//}

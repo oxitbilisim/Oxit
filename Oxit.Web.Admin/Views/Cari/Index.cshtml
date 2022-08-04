@@ -12,6 +12,8 @@
 
     double totalAlacak = 0.00;
     double totalGecikmeTutari = 0.00;
+    double totalOdenenGecikmeTutari = 0.00;
+    double totalkalanGecikmeTutari = 0.00;
 
     ViewData["Title"] = "Şirketler | "+hesapPlani.Ad;
 }
@@ -23,9 +25,9 @@
 <div class="card text-center">
     <div class="card-header non-printable">
         @* <button class="btn btn-sm btn-light" type="button" id="gecikmeBorcHesapla" onclick="gecikmeBorcHesapla()">Borç Tutarı Gecikme Hesapla</button> *@
-         <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button>
-         <button class="btn btn-sm btn-danger" type="button" id="gecikmeHesapla" onclick="gecikmeleriSifirla()">Gecikmeleri Sıfırla</button>
-        <a class="btn btn-sm btn-info" href="@Url.Action("Edit","Cari",new {hesapId = hesapPlani.Id ,page = page})">Düzenle</a>
+        @*  <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button> *@
+        @*  <button class="btn btn-sm btn-danger" type="button" id="gecikmeHesapla" onclick="gecikmeleriSifirla()">Gecikmeleri Sıfırla</button> *@
+        @* <a class="btn btn-sm btn-info" href="@Url.Action("Edit","Cari",new {hesapId = hesapPlani.Id ,page = page})">Düzenle</a> *@
         @* <a class="btn btn-sm btn-warning" href="@Url.Action("Index","Companies")">Geri Dön</a> *@
         <button class="btn btn-sm btn-info float-end" type="button" onclick="window.print();">Yazdır</button>
         <a class="btn btn-sm btn-warning float-end me-1 ms-1" href="@Url.Action("DownloadExcel","Cari",new {hesapId = hesapPlani.Id })">Excel İndir</a>
@@ -54,14 +56,12 @@
           <tbody>
           @foreach (var f in fisList)
           {
-              totalBorc = f.Borc != null ? totalBorc + (double)f.Borc : totalBorc;
+              totalBorc = (f.Borc != null && f.FisTur != "6") ? totalBorc + (double)f.Borc : totalBorc;
               totalAlacak = f.Alacak != null ? totalAlacak + (double)f.Alacak : totalAlacak;
               totalGecikmeTutari = f.GecikmeTutari != null ? totalGecikmeTutari + (double)f.GecikmeTutari : totalGecikmeTutari;
+              totalOdenenGecikmeTutari = f.OdenenGecikmeTutar != null ? totalOdenenGecikmeTutari + (double)f.OdenenGecikmeTutar : totalOdenenGecikmeTutari;
+              totalkalanGecikmeTutari = f.KalanGecikmeTutar != null ? totalkalanGecikmeTutari + (double)f.KalanGecikmeTutar : totalkalanGecikmeTutari;
 
-        
-                  
-             
-              
               string selectedClass = "";
               if (!f.Odendi && f.GecikmeTutari< 0)
               {
@@ -69,20 +69,31 @@
               }
               else if (f.Borc> 0 )
               {
-                  selectedClass = "#55D43F";
+                  selectedClass = "#3399FF";
                   Fistur = "Borç";
                   
                   if (f.FisTur == "0")
                       Fistur = "Açılış ";
+                  if (f.FisTur == "6")
+                  {
+                      Fistur = " Bakiye ";
+                      selectedClass = "#97BFE8";
+                  }
               }else  if (f.Alacak> 0)
               {
-                  selectedClass = "#3399FF";
+                  selectedClass = "#00CC00";
                   Fistur = "Alacak ";
               }
                   else if (f.GecikmeTutari> 0 )
                   {
-                      selectedClass = "#FF6600";
+                      selectedClass = "FF9900";
                       Fistur = "Gecikme ";
+                      if (f.FisTur == "7") 
+                      {
+                          Fistur = " Gck - Bakiye ";
+                      selectedClass = "#FFA000";
+                      }   
+                      
 
                   }
               <tr bgcolor="@selectedClass">
@@ -106,8 +117,10 @@
      
                   
               </tr>
-              totalBakiye = totalBorc -
-                            totalAlacak;
+              totalBakiye = (totalBorc + totalGecikmeTutari) - totalAlacak;
+              //totalGecikmeTutari = totalOdenenGecikmeTutari >  totalGecikmeTutari ? totalOdenenGecikmeTutari - totalGecikmeTutari : 
+              //totalGecikmeTutari  - totalOdenenGecikmeTutari;
+
           }
           
           </tbody>
@@ -121,6 +134,8 @@
                             <td style="padding: 10px"> Alacak </td>
                             <td style="padding: 10px"> Bakiye</td>
                             <td style="padding: 10px"> Gecikme</td>
+                            <td style="padding: 10px">Ödenen Gecikme</td>
+                            <td style="padding: 10px">Kalan Gecikme</td>
                         </tr>
                         <tr>
                          
@@ -130,7 +145,9 @@
                             <td style="padding: 10px">@totalBakiye.ToString("n2")@(totalBakiye != null ? " ₺ " : "")</td>
                             
                             <td style="padding: 10px">@totalGecikmeTutari.ToString("n2")@(totalGecikmeTutari != null ? " ₺ " : "")</td>
-                        </tr>
+                            <td style="padding: 10px">@totalOdenenGecikmeTutari.ToString("n2")@(totalOdenenGecikmeTutari != null ? " ₺ " : "")</td>
+                            <td style="padding: 10px">@totalkalanGecikmeTutari.ToString("n2")@(totalkalanGecikmeTutari != null ? " ₺ " : "")</td>
+                            </tr>
           
                     </table>
       

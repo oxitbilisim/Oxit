@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -11,10 +11,8 @@
   "profiles": {
     "Oxit.API.Web.Panel": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5178",
+      "applicationUrl": "http://localhost:6228",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -15,8 +15,6 @@ namespace Oxit.Web.Admin.Controllers
         private readonly TeknoparkContext _db;
         private readonly IConfiguration _configuration;
         private readonly appDbContext _appDbContext;
-
-
         public HomeController(
             IConfiguration configuration,
             appDbContext appDbContext,
@@ -31,12 +29,13 @@ namespace Oxit.Web.Admin.Controllers
         public IActionResult Index()
         {
             var aktifFirmaSayi = _appDbContext.HesapPlani.Where(h => h.Aktif).Count();
-            var toplamBorc = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(b => b.Borc );
-            var toplamOdeme = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(b => b.Alacak);
+            var toplamBorc = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTur != "6").Sum(b => b.Borc );
+            var toplamOdeme = _appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTur != "6").Sum(b => b.Alacak);
             
             List<ChartLine> chartData = _appDbContext.Fis.AsEnumerable().GroupBy(f => String.Format("{0:MM yyyy}", f.Tarih))
                 .Select(cl => new ChartLine
             {
+              
                 Date = String.Format("{0:MM-yyyy}", cl.First().Tarih),
                 Alacak = cl.Sum(c => c.Alacak),
                 Borc = cl.Sum(c => c.Borc),
@@ -57,6 +56,7 @@ namespace Oxit.Web.Admin.Controllers
             List<HesapPlaniDto> gecikmesiOlanFirmalar = _appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && !f.Odendi)
                 .GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
             {
+                Id = cl.First().HesapPlani.Id,
                 Ad = cl.First().HesapPlani.Ad,
                 Kod = cl.First().HesapPlani.Kod,
                 GecikmeTutari = Math.Round(cl.Sum(c => c.GecikmeTutari).Value,2)
@@ -66,6 +66,7 @@ namespace Oxit.Web.Admin.Controllers
             
             
             Dictionary<string, object> model = new Dictionary<string, object>();
+            model["Id"] = aktifFirmaSayi;
             model["aktifFirmaSayi"] = aktifFirmaSayi;
             model["toplamBorc"] = toplamBorc;
             model["toplamOdeme"] = toplamOdeme;

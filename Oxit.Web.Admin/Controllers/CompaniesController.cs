@@ -33,13 +33,13 @@ namespace Oxit.Web.Admin.Controllers
                     Id = x.Id,
                     Ad = x.Ad,
                     Kod = x.Kod,
-                    Borc =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif).Sum(y => y.Borc)),
-                    Alacak =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif).Sum(y => y.Alacak)),
-                    Bakiye = Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif).Sum(y => y.Borc))  - Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id).Sum(y => y.Alacak)),
+                    Borc =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.FisTur != "6" && y.HesapPlani.Aktif).Sum(y => y.Borc)),
+                    Alacak =    Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif && y.FisTur != "6").Sum(y => y.Alacak)),
+                    Bakiye = Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif && y.FisTur != "6").Sum(y => y.Borc))  - Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.FisTur != "6").Sum(y => y.Alacak)),
                     GecikmeTutari = Convert.ToDouble(_appDbContext.Fis.Where(y => y.HesapPlaniId == x.Id && y.HesapPlani.Aktif).Sum(y => y.GecikmeTutari)),
                     ToplamGecikmeTutari = Convert.ToDouble(_appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(y => y.GecikmeTutari)),
-                    ToplamBorcTutari = Convert.ToDouble(_appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(y => y.Borc)),
-                    ToplamAlacakTutari = Convert.ToDouble(_appDbContext.Fis.Where(f => f.HesapPlani.Aktif).Sum(y => y.Alacak)),
+                    ToplamBorcTutari = Convert.ToDouble(_appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTur != "6").Sum(y => y.Borc)),
+                    ToplamAlacakTutari = Convert.ToDouble(_appDbContext.Fis.Where(f => f.HesapPlani.Aktif && f.FisTur != "6").Sum(y => y.Alacak)),
                     Aktif = x.Aktif
                 })
                 .OrderBy(h => h.Ad)

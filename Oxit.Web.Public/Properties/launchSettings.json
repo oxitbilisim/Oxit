@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -10,9 +10,8 @@
   "profiles": {
     "Oxit.Web.Public": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7015;http://localhost:5015",
+      "applicationUrl": "http://localhost:51744",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -56,7 +56,7 @@ namespace Oxit.Web.Admin.Controllers
             int skip = (page.Value * recordsPerPage) - recordsPerPage;
 
             List<Fis> fisList = _appDbContext.Fis
-                .Where(f => f.HesapPlani.Id == hesapId)
+                .Where(f => f.HesapPlani.Id == hesapId )
                 .OrderByDescending(h => h.Tarih)
                 .Skip(skip)
                 .Take(recordsPerPage)

@@ -6,4 +6,5 @@ public class ChartLine
     public Double? Borc { get; set; }
     public Double? Alacak { get; set; }
     public Double? Gecikme { get; set; }
+    public int? Id { get; set; }
 }
