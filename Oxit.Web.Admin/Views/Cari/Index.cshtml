@@ -36,7 +36,8 @@
       <table class="table table-striped table-hover printable">
           <thead>
           <tr>
- <th scope="col" style="width: 70px;">Tür</th>
+              <th scope="col" style="width: 70px;">Tür</th>
+              
               <th scope="col" style="width: 70px;">Tarih</th>
               <th scope="col" style="width: 70px;">Borç</th>
               <th scope="col" style="width: 70px;">Alacak</th>
@@ -78,6 +79,11 @@
                   {
                       Fistur = " Bakiye ";
                       selectedClass = "#97BFE8";
+                  }
+                  if (f.FisTur == "9")
+                  {
+                      Fistur = " Gecikme Ft. ";
+                      selectedClass = "#CA5CDD";
                   }
               }else  if (f.Alacak> 0)
               {
