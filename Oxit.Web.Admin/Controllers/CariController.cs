@@ -37,6 +37,11 @@ namespace Oxit.Web.Admin.Controllers
             return View(commonParams(hesapId, page));
         }
         
+        public IActionResult detailData(int alacakId)
+        {
+            return View(commonParamsDetails(alacakId));
+        }
+        
         [HttpPost]
         public EmptyResult SaveStatus(int fisId, int status)
         {
@@ -71,6 +76,27 @@ namespace Oxit.Web.Admin.Controllers
 
             return model;
         }
+        
+        
+        private Dictionary<string, object> commonParamsDetails(int? alacakId)
+        {
+           
+
+            List<Fis> fisList = _appDbContext.Fis
+                .Where(f => f.GecikmeFisId == alacakId)
+                .OrderByDescending(h => h.Tarih)
+   
+                .ToList();
+            
+          
+            Dictionary<string, object> model = new Dictionary<string, object>();
+       
+            model["fisList"] = fisList;
+     
+
+            return model;
+        }
+        
         
         public IActionResult DownloadExcel(int hesapId)
         {

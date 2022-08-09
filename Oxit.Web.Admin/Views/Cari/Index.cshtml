@@ -25,7 +25,7 @@
 <div class="card text-center">
     <div class="card-header non-printable">
         @* <button class="btn btn-sm btn-light" type="button" id="gecikmeBorcHesapla" onclick="gecikmeBorcHesapla()">Borç Tutarı Gecikme Hesapla</button> *@
-        @*  <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button> *@
+        @* <button class="btn btn-sm btn-success" type="button" id="gecikmeHesapla" onclick="gecikmeHesapla()">Gecikme Hesapla</button> *@
         @*  <button class="btn btn-sm btn-danger" type="button" id="gecikmeHesapla" onclick="gecikmeleriSifirla()">Gecikmeleri Sıfırla</button> *@
         @* <a class="btn btn-sm btn-info" href="@Url.Action("Edit","Cari",new {hesapId = hesapPlani.Id ,page = page})">Düzenle</a> *@
         @* <a class="btn btn-sm btn-warning" href="@Url.Action("Index","Companies")">Geri Dön</a> *@
@@ -47,10 +47,11 @@
               @* <th scope="col">Açıklama</th> *@
               <th scope="col" style="width: 80px;">Hesap Tarihi</th>
               <th scope="col" style="width: 80px;">Ödn Borc Tutar</th>
-                        <th scope="col" style="width: 80px;">Kalan Borc Tutar</th>
+              <th scope="col" style="width: 80px;">Kalan Borc Tutar</th>
               <th scope="col" style="width: 80px;">Odn Geckm Tutar</th>
               <th scope="col" style="width: 80px;">Kalan Gecikme Tutar</th>
               <th scope="col" style="width: 80px;">Kalan Alck Tutar</th>
+          
 
           </tr>
           </thead>
@@ -90,20 +91,20 @@
                   selectedClass = "#00CC00";
                   Fistur = "Alacak ";
               }
-                  else if (f.GecikmeTutari> 0 )
+              else if (f.GecikmeTutari> 0 )
+              {
+                  selectedClass = "FF9900";
+                  Fistur = "Gecikme ";
+                  if (f.FisTur == "7") 
                   {
-                      selectedClass = "FF9900";
-                      Fistur = "Gecikme ";
-                      if (f.FisTur == "7") 
-                      {
-                          Fistur = " Gck - Bakiye ";
+                      Fistur = " Gck - Bakiye ";
                       selectedClass = "#FFA000";
-                      }   
+                  }   
                       
 
-                  }
+              }
               <tr bgcolor="@selectedClass">
-               <td>@(Fistur)</td>
+                  <td>@(Fistur)</td>
                   <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
                   <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
@@ -120,19 +121,38 @@
                   <td>@Convert.ToDouble(f.OdenenGecikmeTutar).ToString("n2")@(f.OdenenGecikmeTutar != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.KalanGecikmeTutar).ToString("n2")@(f.KalanGecikmeTutar != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.KalanAlacakTutar).ToString("n2")@(f.KalanAlacakTutar != null ? " ₺ " : "")</td>
-     
-                  
+                      <td>
+                                      <a data-toggle="modal" data-target="#Deletemodal" title="delete" 
+                                         class="btn btn-danger btn-xs" onclick="Func_LoadPv(@f.GecikmeFisId)">Detay</a>
+                                  </td>
               </tr>
               totalBakiye = (totalBorc + totalGecikmeTutari) - totalAlacak;
-              //totalGecikmeTutari = totalOdenenGecikmeTutari >  totalGecikmeTutari ? totalOdenenGecikmeTutari - totalGecikmeTutari : 
-              //totalGecikmeTutari  - totalOdenenGecikmeTutari;
 
           }
           
           </tbody>
      
       </table>
+      <div id="Deletemodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Modal Header</h4>
+                  </div>
+                  <div alacakliId class="modal-body">
+                      tttttttttt
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+      
+          </div>
+         </div>
       <br/>
+      
+     
       <table style="background-color: lightblue;width:80%">
                  
                         <tr>
@@ -215,6 +235,22 @@ function gecikmeHesapla(){
             }
         });
     }
+    
+       function Func_LoadPv(alacakliId) {
+ 
+    
+        $.ajax({
+                 url: "/Cari/detailData/" + alacakliId,
+                 type: "Get",
+                 data: {}
+             }).done(function (result) {
+                 alert(result);
+                 
+                 $('#Deletemodal').modal('show');
+                 $('#bodyModal').html(result);
+             });
+          
+            }
     function gecikmeleriSifirla() {
         $.ajax({
             type: "get",

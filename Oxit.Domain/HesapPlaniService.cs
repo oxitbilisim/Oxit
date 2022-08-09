@@ -116,7 +116,7 @@ if (borcTutari>0)
             foreach (var itemsAlacaks in fisAlacakList)
             {
                 double? itemAlacakTutari = itemsAlacaks.Alacak;
-                if (itemsAlacaks.Tarih >= new DateTime(2022,08,01))
+                if (itemsAlacaks.Tarih >= new DateTime(2022,00,01))
                 {
                 //#region Bakiye Gecikmeleri hesapla 
                 var fisGecikmeBakiye = _dbContext.Fis
@@ -133,7 +133,7 @@ if (borcTutari>0)
                 {
                     itemAlacakTutari = itemAlacakTutari - fisGecikmeBakiye.GecikmeTutari;
                     fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari;
-                    
+                    fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
                     fisGecikmeBakiye.Odendi = true;
                 }else
                 {
@@ -141,6 +141,7 @@ if (borcTutari>0)
                     fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari - itemAlacakTutari;
                     itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
                     fisGecikmeBakiye.KalanAlacakTutar = 0;
+                    fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
                     itemAlacakTutari = 0;
                 }   
                 itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
@@ -165,12 +166,13 @@ if (borcTutari>0)
                 {
                     itemAlacakTutari = itemAlacakTutari - itemGecikme.GecikmeTutari;
                     itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari;
-                    
+                    itemGecikme.GecikmeFisId = itemsAlacaks.Id;
                     itemGecikme.Odendi = true;
                 }else
                 {
                     itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari - itemAlacakTutari;
                     itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
+                    itemGecikme.GecikmeFisId = itemsAlacaks.Id;
                     itemAlacakTutari = 0;
                 }   
                 itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
@@ -192,10 +194,11 @@ if (borcTutari>0)
                  {
                      itemAlacakTutari = itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 )  );
                      itemBorcs.OdenenBorcTutar = itemBorcs.Borc;
-                     itemsAlacaks.KalanAlacakTutar = itemAlacakTutari > (itemBorcs.Borc ) 
+                     itemsAlacaks.KalanAlacakTutar = itemAlacakTutari > (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) )
                                            ? itemAlacakTutari - (itemBorcs.Borc - (itemBorcs.OdenenBorcTutar ?? 0 ) )
                                            : 0;
                      itemBorcs.KalanBorcTutar = 0;
+                     itemBorcs.GecikmeFisId = itemsAlacaks.Id;
                      
                      itemBorcs.Odendi =   true;
                  }else
@@ -210,6 +213,7 @@ if (borcTutari>0)
                      itemBorcs.KalanBorcTutar = itemBorcs.KalanBorcTutar == itemBorcs.OdenenBorcTutar
                          ? 0
                          : itemBorcs.KalanBorcTutar;
+                     itemBorcs.GecikmeFisId = itemsAlacaks.Id;
                  }
 
                  itemsAlacaks.KalanBorcTutar = 0;
@@ -299,7 +303,6 @@ if (fisBorc is not null )
                 }
                 }
 }
-                
             }
         }
         public void AlacaksizGecikmeHesapla(string? hesapkodu)
