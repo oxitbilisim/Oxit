@@ -3,12 +3,6 @@ using Oxit.DataAccess.teknopark;
 using Oxit.Domain.Models;
 using Oxit.Scheduling.Core;
 using Quartz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Oxit.Domain;
 
 namespace Oxit.Scheduling.Jobs
@@ -161,15 +155,17 @@ namespace Oxit.Scheduling.Jobs
                         x.HesapPlaniId == cr.Id && x.FisNo == yevmiye.Fisno && x.FisTur == "9"))
                 {
                     var gecikmeTopBorc = teknoparkContext.Fisbils
-                        .Where(s => s.Fisno == yevmiye.Fisno && s.Ekaciklama == "Gecikme" && s.Btop >0 )
-                        .Sum(x => x.Btop);
-if (gecikmeTopBorc>0)
+                        .Where(s => s.Fisno == yevmiye.Fisno && s.Ekaciklama.Contains("Gecikme") && s.Btop >0 )
+                        .FirstOrDefault();
+                    if (gecikmeTopBorc!= null)
+         if (gecikmeTopBorc.Btop >0)
 {
                     var Fis = new Fis
                     {
                         Aciklama = yevmiye.Aciklama,
                         FisTur = "9",
-                        Borc = gecikmeTopBorc,
+                        EkAciklama = gecikmeTopBorc.Ekaciklama.Replace(" - ","").Replace("Satış Faturası",""),
+                        Borc = gecikmeTopBorc.Btop,
                         Alacak = 0,
                         FisNo = yevmiye.Fisno,
                         Tarih = yevmiye.Fistar,
@@ -213,15 +209,17 @@ if (gecikmeTopBorc>0)
                         x.HesapPlaniId == hesapplani.Id && x.FisNo == yevmiye.Fisno && x.FisTur == "9"))
                 {
                     var gecikmeTopBorc = teknoparkContext.Fisbils
-                        .Where(s => s.Fisno == yevmiye.Fisno && s.Ekaciklama == "Gecikme" && s.Btop >0)
-                        .Sum(x => x.Btop);
-                    if (gecikmeTopBorc>0)
-                    {
+                        .Where(s => s.Fisno == yevmiye.Fisno && s.Ekaciklama.Contains("Gecikme") && s.Btop >0 )
+                        .FirstOrDefault();
+                    if (gecikmeTopBorc!= null)
+                        if (gecikmeTopBorc.Btop >0)
+                        {
                     var Fis = new Fis
                     {
                         Aciklama = yevmiye.Aciklama,
                         FisTur = "9",
-                        Borc = gecikmeTopBorc,
+                        EkAciklama = gecikmeTopBorc.Ekaciklama.Replace(" - ","").Replace("Satış Faturası",""),
+                        Borc = gecikmeTopBorc.Btop,
                         Alacak = 0,
                         FisNo = yevmiye.Fisno,
                         Tarih = yevmiye.Fistar,
@@ -229,7 +227,7 @@ if (gecikmeTopBorc>0)
                         Odendi = true,
                         HesapPlaniId = hesapplani.Id
                     };
-
+                
                     appDbContext.Fis.Add(Fis);
                     appDbContext.SaveChanges();
                     } 
@@ -241,11 +239,14 @@ if (gecikmeTopBorc>0)
 
         private int FisEkle(Yevmiye yevmiye, HesapPlani hesapPlani)
         {
-            if (!appDbContext.Fis.Any(x => x.HesapPlaniId == hesapPlani.Id && x.FisNo == yevmiye.Fisno))
+            if (!appDbContext.Fis.Any(x => x.HesapPlaniId == hesapPlani.Id 
+                                           && x.RefNo == yevmiye.Refno && x.RefNo2 == yevmiye.Refno2))
             {
                 var Fis = new Fis
                 {
                     Aciklama = yevmiye.Aciklama,
+                    RefNo = yevmiye.Refno,
+                    RefNo2 = yevmiye.Refno2,
                     FisTur = yevmiye.Fistur,
                     Borc = yevmiye.Borclu,
                     Alacak = yevmiye.Alacakli,
@@ -259,22 +260,9 @@ if (gecikmeTopBorc>0)
 
                 return Fis.Id;
             }
-
             return 0;
         }
 
-        private int FisEkleGuncelle(Fis fis, Yevmiye yevmiye)
-        {
-            fis.FisTur = yevmiye.Fistur;
-            fis.FisNo = yevmiye.Fisno;
-            fis.FisTur = yevmiye.Fistur;
-            fis.Alacak = yevmiye.Alacakli;
-            fis.Borc = yevmiye.Borclu;
-            fis.Tarih = yevmiye.Fistar;
-            fis.YevNo = yevmiye.Yevno;
-
-            appDbContext.SaveChanges();
-            return fis.Id;
-        }
+      
     }
 }

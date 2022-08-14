@@ -8,6 +8,8 @@
   double kalanAlacak = (double)Model["kalanAlacak"];
   
   List<HesapPlaniDto> gecikmesiOlanFirmalar = (List<HesapPlaniDto>)Model["gecikmesiOlanFirmalar"];
+  List<HesapPlaniDto> gecikmesiTahsilFirmalar = (List<HesapPlaniDto>)Model["gecikmesiTahsilFirmalar"];
+  
   List<string> labels = (List<string>)Model["labels"];
   List<Int32> alacak = (List<Int32>)Model["alacak"];
   List<Int32> gecikme = (List<Int32>)Model["gecikme"];
@@ -91,41 +93,82 @@
     </div>
   </div>
   <div class="row">
-          <div class="col-12 mt-5">
-              <div class="card">
-                  <div class="card-header">
-                      Gecikmesi Olan Firmalar
-                  </div>
-                  <div class="card-body">
-                      <table class="table table-striped table-hover">
-                          <thead>
-                          <tr>
-                              <td>Kodu</td>
-                              <td>Firma Adı</td>
-                              <td>Gecikme Tutarı</td>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          @foreach (var f in gecikmesiOlanFirmalar)
-                          {
-                              <tr>
-                                  <td>@Html.DisplayFor(m => f.Kod)</td>
-                                  <td>@Html.DisplayFor(m => f.Ad)</td>
-                                  <td>@Html.DisplayFor(m => f.GecikmeTutari) ₺</td>
-                                      <td style="text-align: center;">
-                                                  <a class="btn btn-sm btn-danger" href="@Url.Action("index","Cari",new {hesapId=f.Id})">
-                                                      Detay
-                                                      <i class="fa fa-search"></i>
-                                                  </a>
-                                              </td>
-                              </tr>
-                          }
-                          </tbody>
+    <div class="col-6 mt-5">
+      <div class="card">
+        <div class="card-header">
+          Gecikmesi Tahsil Edilen Firmalar
+        </div>
+                
+                
+        <div class="card-body">
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <td>Kodu</td>
+              <td>Firma Adı</td>
+              <td>Gecikme Tutarı</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var f in gecikmesiTahsilFirmalar)
+            {
+              <tr>
+                <td>@Html.DisplayFor(m => f.Kod)</td>
+                <td>@Html.DisplayFor(m => f.Ad)</td>
+                <td>@Html.DisplayFor(m => f.GecikmeTutari) ₺</td>
+                <td style="text-align: center;">
+                  <a class="btn btn-sm btn-danger" href="@Url.Action("index","Cari",new {hesapId=f.Id})">
+                    Detay
+                    <i class="fa fa-search"></i>
+                  </a>
+                </td>
+              </tr>
+            }
+            </tbody>
   
+          </table>
+        </div>
+                
+      </div>
+    </div>
+        <div class="col-6 mt-5">
+                  <div class="card">
+                    <div class="card-header">
+                      Gecikmesi Olan Firmalar
+                    </div>
+                    
+                    
+                    <div class="card-body">
+                      <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                          <td>Kodu</td>
+                          <td>Firma Adı</td>
+                          <td>Gecikme Tutarı</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var f in gecikmesiOlanFirmalar)
+                        {
+                          <tr>
+                            <td>@Html.DisplayFor(m => f.Kod)</td>
+                            <td>@Html.DisplayFor(m => f.Ad)</td>
+                            <td>@Html.DisplayFor(m => f.GecikmeTutari) ₺</td>
+                            <td style="text-align: center;">
+                              <a class="btn btn-sm btn-danger" href="@Url.Action("index","Cari",new {hesapId=f.Id})">
+                                Detay
+                                <i class="fa fa-search"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        }
+                        </tbody>
+      
                       </table>
+                    </div>
+                    
                   </div>
               </div>
-          </div>
       </div>
   <img class="sidebar-brand-full mt-5" src="assets/img/teknopark-ankara-black.png" width="300" alt="Teknopark Ankara"/>
   <script src="vendors/chart.js/js/chart.min.js"></script>

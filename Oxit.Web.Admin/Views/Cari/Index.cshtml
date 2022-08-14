@@ -6,6 +6,7 @@
     List<Fis> fisList = (List<Fis>)Model["fisList"];
     int pageCount = (int)Model["pageCount"];
     int page = (int)Model["page"];
+    int alacakIdd = 0;
     double totalBorc = 0.00;
     double totalBakiye = 0.00;
     string Fistur = "";
@@ -41,7 +42,7 @@
               <th scope="col" style="width: 70px;">Tarih</th>
               <th scope="col" style="width: 70px;">Borç</th>
               <th scope="col" style="width: 70px;">Alacak</th>
-
+                <th scope="col" style="width: 70px;">Ek Aciklama</th>
               <th scope="col" style="width: 70px;">Gecikme T.</th>
               <th scope="col" style="width: 70px;">Gecikme Gn</th>
               @* <th scope="col">Açıklama</th> *@
@@ -95,11 +96,19 @@
               {
                   selectedClass = "FF9900";
                   Fistur = "Gecikme ";
+                  
+
+                  
                   if (f.FisTur == "7") 
                   {
-                      Fistur = " Gck - Bakiye ";
+                      Fistur = "Gck - Bakiye ";
                       selectedClass = "#FFA000";
                   }   
+                  if (f.Odendi)
+                  {
+                     
+                      selectedClass = "#FFC56D";
+                  }
                       
 
               }
@@ -108,6 +117,7 @@
                   <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
                   <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.Alacak).ToString("n2")@(f.Alacak != null ? " ₺ " : "")</td>
+                  <td>@Convert.ToDouble(f.EkAciklama).ToString()</td>
                   <td>@Convert.ToDouble(f.GecikmeTutari).ToString("n2")@(f.GecikmeTutari != null ? " ₺ " : "")</td>
                   <td>@Html.DisplayFor(m => f.GecikmeGunu)</td>
                   <td>
@@ -121,35 +131,38 @@
                   <td>@Convert.ToDouble(f.OdenenGecikmeTutar).ToString("n2")@(f.OdenenGecikmeTutar != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.KalanGecikmeTutar).ToString("n2")@(f.KalanGecikmeTutar != null ? " ₺ " : "")</td>
                   <td>@Convert.ToDouble(f.KalanAlacakTutar).ToString("n2")@(f.KalanAlacakTutar != null ? " ₺ " : "")</td>
-                      <td>
-                                      <a data-toggle="modal" data-target="#Deletemodal" title="delete" 
-                                         class="btn btn-danger btn-xs" onclick="Func_LoadPv(@f.GecikmeFisId)">Detay</a>
-                                  </td>
+                  <td>
+                       @if (f.Alacak > 0)
+                                            {
+                                                <a data-toggle="modal" data-target="#partialModal" title="delete"
+                                                   class="btn btn-danger btn-xs" onclick="Func_LoadPv(@f.Id)">Detay</a>
+                                            }
+                      
+                  </td>
               </tr>
-              totalBakiye = (totalBorc + totalGecikmeTutari) - totalAlacak;
+              totalBakiye = totalBorc - totalAlacak;
 
           }
           
           </tbody>
      
       </table>
-      <div id="Deletemodal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+  <div id="partialModal" class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog"  role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Modal Header</h4>
+                  
+                      <h5 class="modal-title">Alacak Borc Ödeme Form</h5>
+        
                   </div>
-                  <div alacakliId class="modal-body">
-                      tttttttttt
+                  <div class="modal-body">
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-info" id="closbtn" data-dismiss="modal">Close</button>
                   </div>
               </div>
-      
           </div>
-         </div>
+      </div>
       <br/>
       
      
@@ -218,6 +231,13 @@ function gecikmeHesapla(){
                  }
         });
 }
+
+
+
+  $("#closbtn").click(function () {  
+
+            $('#partialModal').modal('hide');  
+        });        
     function gecikmeBorcHesapla() {
         $.ajax({
             type: "get",
@@ -236,20 +256,48 @@ function gecikmeHesapla(){
         });
     }
     
-       function Func_LoadPv(alacakliId) {
+    $("partialModal").on('hide.bs.modal', function(){
+    	alert('asd');
  
-    
+    });
+              
+       function Func_LoadPv(_alacakliId) {
+   
+    //  $.ajax({
+    //                     type: "GET",
+    //                     url: "/Cari/detailData",
+    //                     data: '{alacakId: "' + alacakIdd + '" }',
+    //                     contentType: "application/json; charset=utf-8",
+    //                     dataType: "html",
+    //                     success: function (response) {
+    //                         alert(response);
+    //                         $("#partialModal").find(".modal-body").html(response);
+    //                         $("#partialModal").modal('show');
+    //                     },
+    //                     failure: function (response) {
+    //                         alert(response.responseText);
+    //                     },
+    //                     error: function (response) {
+    //                         alert(response.responseText);
+    //                     }
+    //                 });
+    //       
+    // // alert(_alacakliId);
+    alacakIdd = _alacakliId;
         $.ajax({
-                 url: "/Cari/detailData/" + alacakliId,
-                 type: "Get",
-                 data: {}
-             }).done(function (result) {
-                 alert(result);
-                 
-                 $('#Deletemodal').modal('show');
-                 $('#bodyModal').html(result);
-             });
-          
+
+                   type: "get",
+                             url: "@Url.Action("detailData","Cari")",
+                             dataType: "html",
+                              contentType: "application/json; charset=utf-8",
+                               data: { alacakId: alacakIdd },
+                               success: function (response) {
+                                                           $("#partialModal").find(".modal-body").html(response);
+                                                           $("#partialModal").modal('show');
+                                                       }
+
+            
+           });
             }
     function gecikmeleriSifirla() {
         $.ajax({

@@ -24,6 +24,14 @@ namespace Oxit.Web.Admin.Controllers
             _hesapPlaniService = hesapPlaniService;
         }
 
+        [HttpGet("GecikmeleriHesaplaBakiye")]
+        public EmptyResult GecikmeleriHesaplaBakiye(string hesapKodu)
+        {
+            _hesapPlaniService.GecikmeleriHesaplaBakiye(hesapKodu);
+
+            return new EmptyResult();
+        }
+        
         [HttpGet("GecikmeleriHesapla")]
         public EmptyResult GecikmeleriHesapla(string hesapKodu)
         {
@@ -56,6 +64,10 @@ namespace Oxit.Web.Admin.Controllers
                 item.GeciktirilenAnaFaizTutar = 0;
                 item.Odendi = false;
                 item.KalanTutar = 0;
+                
+                item.OdenenBorcTutar = 0;
+                item.KalanAlacakTutar = 0;
+                item.KalanBorcTutar = 0;
                 item.ZamanindaOdenenTutar = 0;
                 item.ZamanindaOdemeTarihi = null;
                 item.SonHesaplananGecikmeTarihi = null;

@@ -30,6 +30,9 @@ namespace Oxit.Domain.Models
         public Double? KalanTutar { get; set; }
         public FisTip? FisTip { get; set; }
         public int? GecikmeFisId { get; set; }
+        public int? RefNo { get; set; }
+        public string? EkAciklama { get; set; }
+        public int? RefNo2 { get; set; }
         public Double? OdenenBorcTutar { get; set; }
         public Double? OdenenGecikmeTutar { get; set; }
         public Double? KalanAlacakTutar { get; set; }

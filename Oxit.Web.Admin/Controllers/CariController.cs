@@ -80,20 +80,16 @@ namespace Oxit.Web.Admin.Controllers
         
         private Dictionary<string, object> commonParamsDetails(int? alacakId)
         {
-           
-
             List<Fis> fisList = _appDbContext.Fis
-                .Where(f => f.GecikmeFisId == alacakId)
+                .Where(f => f.GecikmeFisId == alacakId && f.Odendi)
                 .OrderByDescending(h => h.Tarih)
    
                 .ToList();
-            
           
             Dictionary<string, object> model = new Dictionary<string, object>();
        
             model["fisList"] = fisList;
      
-
             return model;
         }
         

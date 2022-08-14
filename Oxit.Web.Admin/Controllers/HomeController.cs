@@ -62,6 +62,16 @@ namespace Oxit.Web.Admin.Controllers
                 GecikmeTutari = Math.Round(cl.Sum(c => c.GecikmeTutari).Value,2)
                 
             }).ToList();
+            
+            List<HesapPlaniDto> gecikmesiTahsilFirmalar = _appDbContext.Fis.Where(f => f.GecikmeGunu > 0 && f.Odendi)
+                .GroupBy(f => f.HesapPlaniId).Select(cl => new HesapPlaniDto
+                {
+                    Id = cl.First().HesapPlani.Id,
+                    Ad = cl.First().HesapPlani.Ad,
+                    Kod = cl.First().HesapPlani.Kod,
+                    GecikmeTutari = Math.Round(cl.Sum(c => c.GecikmeTutari).Value,2)
+                
+                }).ToList();
 
             
             
@@ -76,6 +86,7 @@ namespace Oxit.Web.Admin.Controllers
             model["alacak"] = alacak;
             model["gecikme"] = gecikme;
             model["gecikmesiOlanFirmalar"] = gecikmesiOlanFirmalar;
+            model["gecikmesiTahsilFirmalar"] = gecikmesiTahsilFirmalar;
             return View(model);
         }
 
