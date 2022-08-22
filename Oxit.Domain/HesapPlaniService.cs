@@ -54,7 +54,7 @@ namespace Oxit.Domain
                         .TotalDays > gecikmeGunu)
                     {
                         var borcTutari = item.KalanBorcTutar > 0 ? (double) item.KalanBorcTutar : (double) item.Borc;
-                        int gecikmeGun = Convert.ToInt32((DateTime.Now - (DateTime) item.Tarih).TotalDays);
+                        int gecikmeGun = Convert.ToInt32((DateTime.Now - (DateTime)item.Tarih).TotalDays) -1;
                         if (borcTutari > 0)
                         {
                             if (gecikmeGun >= gecikmeGunu)
@@ -62,17 +62,20 @@ namespace Oxit.Domain
                                 if (item.FisTur != "6")
                                     if (_dbContext.Fis.Where(y => y.GecikmeFisId == item.Id).Any())
                                     {
-                                        _dbContext.Fis.Remove(_dbContext.Fis.Where(y => y.GecikmeFisId == item.Id)
-                                            .FirstOrDefault());
+                                        _dbContext.Fis.Remove(_dbContext.Fis.Where(y => y.GecikmeFisId == item.Id).FirstOrDefault());
                                         _dbContext.SaveChanges();
 
                                         Fis fis = new()
                                         {
                                             HesapPlaniId = item.HesapPlaniId,
                                             Tarih = (DateTime) item.Tarih,
+                                            // GecikmeTutari =
+                                            //     Math.Round(
+                                            //         ((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                            //     1.18,
                                             GecikmeTutari =
                                                 Math.Round(
-                                                    ((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                                    (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
                                                 1.18,
                                             GecikmeGunu = (int) gecikmeGun,
                                             Odendi = false,
@@ -91,7 +94,7 @@ namespace Oxit.Domain
                                             Tarih = (DateTime) item.Tarih,
                                             GecikmeTutari =
                                                 Math.Round(
-                                                    ((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                                    (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000) , 2) *
                                                 1.18,
                                             GecikmeGunu = (int) gecikmeGun,
                                             Odendi = false,
@@ -122,76 +125,6 @@ namespace Oxit.Domain
                 foreach (var itemsAlacaks in fisAlacakList)
                 {
                     double? itemAlacakTutari = itemsAlacaks.Alacak;
-      
-                    
-                    if (itemsAlacaks.Tarih >= new DateTime(2022, 08, 01))
-                    {
-                        //#region Bakiye Gecikmeleri hesapla 
-                        var fisGecikmeBakiye = _dbContext.Fis
-                            .Include(y => y.HesapPlani)
-                            .Where(y => y.HesapPlani.Kod == hesapkodu && y.FisTur == "7"
-                                                                      && y.GecikmeTutari != y.OdenenGecikmeTutar
-                            )
-                            .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
-                            .FirstOrDefault();
-                        if (fisGecikmeBakiye is not null)
-                        {
-                            if (itemAlacakTutari > fisGecikmeBakiye.GecikmeTutari)
-                            {
-                                itemAlacakTutari = itemAlacakTutari - fisGecikmeBakiye.GecikmeTutari;
-                                fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari;
-                                fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
-                                fisGecikmeBakiye.Odendi = true;
-                            }
-                            else
-                            {
-                                fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari - itemAlacakTutari;
-                                itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
-                                fisGecikmeBakiye.KalanAlacakTutar = 0;
-                                fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
-                                itemAlacakTutari = 0;
-                            }
-
-                            itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
-                            _dbContext.SaveChanges();
-                        }
-                    }
-
-
-                    // #endregion
-
-                    #region Gecikmeleri hesapla
-
-                    var fisGecikmes = _dbContext.Fis
-                        .Include(y => y.HesapPlani)
-                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Tarih >= gecikmeBaslamaTarihi &&
-                                    y.FisTur == "5" && y.GecikmeTutari != y.OdenenGecikmeTutar)
-                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
-                        .ToList();
-
-                    foreach (var itemGecikme in fisGecikmes)
-                    {
-                        if (itemAlacakTutari > itemGecikme.GecikmeTutari)
-                        {
-                            itemAlacakTutari = itemAlacakTutari - itemGecikme.GecikmeTutari;
-                            itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari;
-                            itemGecikme.GecikmeFisId = itemsAlacaks.Id;
-                            itemGecikme.Odendi = true;
-                        }
-                        else
-                        {
-                            itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari - itemAlacakTutari;
-                            itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
-                            itemGecikme.GecikmeFisId = itemsAlacaks.Id;
-                            itemAlacakTutari = 0;
-                        }
-
-                        itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
-                        _dbContext.SaveChanges();
-                    }
-
-                    #endregion
-
                     
                     #region BorcBakiye hesapla
 
@@ -240,6 +173,80 @@ namespace Oxit.Domain
                 
                     
                     #endregion
+                    
+                    #region Bakiye Gecikmeleri hesapla 
+                    if (BorcBakiyeState)
+                    {
+                    if (itemsAlacaks.Tarih >= new DateTime(2022, 08, 01))
+                    {
+                       
+                        var fisGecikmeBakiye = _dbContext.Fis
+                            .Include(y => y.HesapPlani)
+                            .Where(y => y.HesapPlani.Kod == hesapkodu && y.FisTur == "7"
+                                                                      && y.GecikmeTutari != y.OdenenGecikmeTutar
+                            )
+                            .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                            .FirstOrDefault();
+                        if (fisGecikmeBakiye is not null)
+                        {
+                            if (itemAlacakTutari > fisGecikmeBakiye.GecikmeTutari)
+                            {
+                                itemAlacakTutari = itemAlacakTutari - fisGecikmeBakiye.GecikmeTutari;
+                                fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari;
+                                fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
+                                fisGecikmeBakiye.Odendi = true;
+                            }
+                            else
+                            {
+                                fisGecikmeBakiye.OdenenGecikmeTutar = fisGecikmeBakiye.GecikmeTutari - itemAlacakTutari;
+                                itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
+                                fisGecikmeBakiye.KalanAlacakTutar = 0;
+                                fisGecikmeBakiye.GecikmeFisId = itemsAlacaks.Id;
+                                itemAlacakTutari = 0;
+                            }
+
+                            itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
+                            _dbContext.SaveChanges();
+                        }
+                    }
+                    }
+                     #endregion
+
+                    #region Gecikmeleri hesapla
+                    if (BorcBakiyeState)
+                    {
+                    var fisGecikmes = _dbContext.Fis
+                        .Include(y => y.HesapPlani)
+                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Tarih >= gecikmeBaslamaTarihi &&
+                                    y.FisTur == "5" && y.GecikmeTutari != y.OdenenGecikmeTutar)
+                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                        .ToList();
+
+                    foreach (var itemGecikme in fisGecikmes)
+                    {
+                        if (itemAlacakTutari > itemGecikme.GecikmeTutari)
+                        {
+                            itemAlacakTutari = itemAlacakTutari - itemGecikme.GecikmeTutari;
+                            itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari;
+                            itemGecikme.GecikmeFisId = itemsAlacaks.Id;
+                            itemGecikme.Odendi = true;
+                        }
+                        else
+                        {
+                            itemGecikme.OdenenGecikmeTutar = itemGecikme.GecikmeTutari - itemAlacakTutari;
+                            itemsAlacaks.KalanGecikmeTutar = itemsAlacaks.Alacak;
+                            itemGecikme.GecikmeFisId = itemsAlacaks.Id;
+                            itemAlacakTutari = 0;
+                        }
+
+                        itemsAlacaks.KalanAlacakTutar = itemAlacakTutari;
+                        _dbContext.SaveChanges();
+                    }
+                    }
+                    #endregion
+
+                    
+                
                     
                     #region Borcları hesapla
 if (BorcBakiyeState)
@@ -313,19 +320,34 @@ if (BorcBakiyeState)
                         .Include(y => y.HesapPlani)
                         .Where(y => y.HesapPlani.Kod == hesapkodu && y.Alacak > 0 &&
                                     y.Tarih >= gecikmeBaslamaTarihi && !y.Odendi &&
-                                    y.Tarih <= DateTime.Now
+                                    y.Tarih <= gecikmeBaslamaTarihi.AddDays(30)
                         )
                         .Sum(z => z.Alacak);
 
+                    var firstAlacakTutarTarihi = _dbContext.Fis
+                        .Include(y => y.HesapPlani)
+                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Alacak > 0 &&
+                                    y.Tarih >= gecikmeBaslamaTarihi && !y.Odendi &&
+                                    y.Tarih <= DateTime.Now
+                        )
+                        .FirstOrDefault();
+                    
+                    
                     //var borcTutari = (double)fisBorc.Borc - (double)alacakTutari;
                     var borcTutari = (double) (fisBorc.KalanBorcTutar > 0
                         ? fisBorc.KalanBorcTutar
                         : fisBorc.Borc - alacakTutari);
-                    int gecikmeGun = Convert.ToInt32((DateTime.Now - (DateTime) fisBorc.Tarih).TotalDays);
+                    
+                    int gecikmeGun = 
+                        firstAlacakTutarTarihi != null ? 
+                        Convert.ToInt32(((DateTime) firstAlacakTutarTarihi.Tarih - (DateTime) fisBorc.Tarih).TotalDays) -1 :
+                        Convert.ToInt32((DateTime.Now - (DateTime) fisBorc.Tarih).TotalDays) -1;
 
                     if (gecikmeGun >= gecikmeGunu)
                     {
-                        if (Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                        if ( 
+                            Math.Round(
+                                (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
                             1.18 > 0)
                         {
                             if (_dbContext.Fis.Where(y => y.GecikmeFisId == fisBorc.Id).Any())
@@ -339,7 +361,8 @@ if (BorcBakiyeState)
                                     HesapPlaniId = fisBorc.HesapPlaniId,
                                     Tarih = (DateTime) fisBorc.Tarih,
                                     GecikmeTutari =
-                                        Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                        Math.Round(
+                                            (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
                                         1.18,
                                     GecikmeGunu = (int) gecikmeGun,
                                     Odendi = false,
@@ -357,7 +380,8 @@ if (BorcBakiyeState)
                                     HesapPlaniId = fisBorc.HesapPlaniId,
                                     Tarih = (DateTime) fisBorc.Tarih,
                                     GecikmeTutari =
-                                        Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2) *
+                                        Math.Round(
+                                            (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
                                         1.18,
                                     GecikmeGunu = (int) gecikmeGun,
                                     Odendi = false,
@@ -410,10 +434,12 @@ if (BorcBakiyeState)
                     item.GeciktirilenAnaFaizTutar = (double) item.Borc;
                     item.GeciktirilenTutar = item.KalanTutar;
                     item.GecikmeGunu = (int) gecikmeGun;
-                    item.GecikmeTutari = Math.Round(((borcTutari * (double) gecikmeOrani) / 30) * (int) gecikmeGun, 2);
+                    item.GecikmeTutari =  
+                        Math.Round(
+                            (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
+                        1.18;
                     item.SonHesaplananGecikmeTarihi = DateTime.Now;
                 }
-
                 _dbContext.SaveChanges();
             }
         }

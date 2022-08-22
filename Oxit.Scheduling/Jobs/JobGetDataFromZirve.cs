@@ -249,6 +249,7 @@ namespace Oxit.Scheduling.Jobs
                     RefNo2 = yevmiye.Refno2,
                     FisTur = yevmiye.Fistur,
                     Borc = yevmiye.Borclu,
+                    EkAciklama = yevmiye.Borclu > 0 ? yevmiye.Evrakno : "",
                     Alacak = yevmiye.Alacakli,
                     FisNo = yevmiye.Fisno,
                     Tarih = yevmiye.Fistar,

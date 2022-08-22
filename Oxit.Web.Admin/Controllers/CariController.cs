@@ -81,7 +81,7 @@ namespace Oxit.Web.Admin.Controllers
         private Dictionary<string, object> commonParamsDetails(int? alacakId)
         {
             List<Fis> fisList = _appDbContext.Fis
-                .Where(f => f.GecikmeFisId == alacakId && f.Odendi)
+                .Where(f => f.GecikmeFisId == alacakId && (f.KalanBorcTutar != f.Borc  || f.OdenenGecikmeTutar > 0 ))
                 .OrderByDescending(h => h.Tarih)
    
                 .ToList();

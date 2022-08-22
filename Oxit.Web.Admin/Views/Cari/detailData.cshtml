@@ -8,7 +8,7 @@
     <thead>
     <tr>
         <th scope="col" style="width: 70px;">Tarih</th>
-        <th scope="col" style="width: 70px;">Borç</th>
+        <th scope="col" style="width: 70px;">Ödenen Borç</th>
     </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
     {
         <tr >
             <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
-            <td>@Convert.ToDouble(f.Borc).ToString("n2")@(f.Borc != null ? " ₺ " : "")</td>
+            <td>@Convert.ToDouble(f.OdenenBorcTutar).ToString("n2")@(f.OdenenBorcTutar != null ? " ₺ " : "")</td>
         </tr>
     }
     </tbody>
