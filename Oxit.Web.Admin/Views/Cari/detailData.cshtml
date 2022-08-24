@@ -7,16 +7,43 @@
 <table class="table table-striped table-hover printable">
     <thead>
     <tr>
+        <th scope="col" style="width: 70px;">Tip</th>
         <th scope="col" style="width: 70px;">Tarih</th>
-        <th scope="col" style="width: 70px;">Ödenen Borç</th>
+        <th scope="col" style="width: 70px;">Fatura No</th>
+        <th scope="col" style="width: 70px;">Ödenen Tutar</th>
+
     </tr>
     </thead>
     <tbody>
     @foreach (var f in fisList)
     {
         <tr >
+              <td>
+                             @if (f.OdenenBorcTutar > 0)
+                             {
+                                 @Convert.ToString("Borç")
+                             }
+                             else
+                                  {
+                                      @Convert.ToString("Gecikme")
+                                   }
+                            
+                            
+                        </td>
             <td>@Convert.ToDateTime(f.Tarih).ToString("dd.MM.yyyy")</td>
-            <td>@Convert.ToDouble(f.OdenenBorcTutar).ToString("n2")@(f.OdenenBorcTutar != null ? " ₺ " : "")</td>
+            <td>@f.EkAciklama</td>
+            <td>
+                @if (f.OdenenBorcTutar > 0)
+                {
+                    @Convert.ToDouble(f.OdenenBorcTutar).ToString("n2")@(f.OdenenBorcTutar != null ? " ₺ " : "")
+                }
+                else
+                {
+                    @Convert.ToDouble(f.OdenenGecikmeTutar).ToString("n2")@(f.OdenenGecikmeTutar != null ? " ₺ " : "")
+                }
+
+
+            </td>
         </tr>
     }
     </tbody>

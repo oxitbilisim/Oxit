@@ -77,13 +77,24 @@ namespace Oxit.Web.Admin.Controllers
             return model;
         }
         
+        // List<Fis> fisList = 
+        //     _appDbContext.Fis
+        //         .Where(f => f.GecikmeFisId == alacakId && (f.KalanBorcTutar != f.Borc  || f.OdenenGecikmeTutar > 0 ))
+        //         .OrderByDescending(h => h.Tarih)
+        //         .ToList();
+        //   
+        // Dictionary<string, object> model = new Dictionary<string, object>();
+        //
+        // model["fisList"] = fisList;
+
+        
         
         private Dictionary<string, object> commonParamsDetails(int? alacakId)
         {
-            List<Fis> fisList = _appDbContext.Fis
+            List<Fis> fisList = 
+                _appDbContext.Fis
                 .Where(f => f.GecikmeFisId == alacakId && (f.KalanBorcTutar != f.Borc  || f.OdenenGecikmeTutar > 0 ))
                 .OrderByDescending(h => h.Tarih)
-   
                 .ToList();
           
             Dictionary<string, object> model = new Dictionary<string, object>();
