@@ -3,6 +3,7 @@ using Oxit.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Oxit.DataAccess.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Oxit.DataAccess.teknopark;
 
 namespace Oxit.Domain
 {
@@ -35,8 +36,7 @@ namespace Oxit.Domain
                     .Include(y => y.HesapPlani)
                     .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0
                                                               && y.Tarih >= gecikmeBaslamaTarihi && !y.Odendi &&
-                                                              (y.FisTur == "3"
-                                                               || y.FisTur == "6"))
+                                                              ( y.FisTur == "3" || y.FisTur == "6"))
                     .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                     .ToList();
 
@@ -44,7 +44,7 @@ namespace Oxit.Domain
                 {
                     var AlacakT = _dbContext.Fis
                         .Include(y => y.HesapPlani)
-                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Tarih > item.Tarih && y.Alacak > 0 &&
+                        .Where(y => y.HesapPlani.Kod == hesapkodu && y.Tarih >= item.Tarih && y.Alacak > 0 &&
                                     !y.Odendi && y.FisTur == "3"
                                     && y.Tarih >= gecikmeBaslamaTarihi)
                         .OrderBy(y => y.Tarih).FirstOrDefault();
@@ -55,21 +55,23 @@ namespace Oxit.Domain
                     {
                         var borcTutari = item.KalanBorcTutar > 0 ? (double) item.KalanBorcTutar : (double) item.Borc;
                         int gecikmeGun = Convert.ToInt32((DateTime.Now - (DateTime)item.Tarih).TotalDays) -1;
+                        
                         if (borcTutari > 0)
                         {
                             if (gecikmeGun >= gecikmeGunu)
                             {
                                 if (item.FisTur != "6")
-                                    if (_dbContext.Fis.Where(y => y.GecikmeFisId == item.Id).Any())
+                                    if (_dbContext.Fis.Where(y => y.FisBorcId == item.Id && y.FisTur=="5" && !y.Odendi && y.HesapPlaniId == item.HesapPlaniId).Any())
                                     {
-                                        _dbContext.Fis.Remove(_dbContext.Fis.Where(y => y.GecikmeFisId == item.Id).FirstOrDefault());
+                                        _dbContext.Fis.Remove(_dbContext.Fis.Where(y => y.FisBorcId == item.Id && !y.Odendi && y.FisTur=="5" && 
+                                                                                                y.HesapPlaniId == item.HesapPlaniId).FirstOrDefault());
                                         _dbContext.SaveChanges();
 
                                         Fis fis = new()
                                         {
                                             HesapPlaniId = item.HesapPlaniId,
                                             Tarih = item.Tarih,
-                                           
+                                            FisBorcId = item.Id,
                                             GecikmeTutari =
                                                 Math.Round(
                                                     (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
@@ -89,6 +91,7 @@ namespace Oxit.Domain
                                         {
                                             HesapPlaniId = item.HesapPlaniId,
                                             Tarih = item.Tarih,
+                                            FisBorcId = item.Id,
                                             GecikmeTutari =
                                                 Math.Round(
                                                     (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000) , 2) *
@@ -107,9 +110,6 @@ namespace Oxit.Domain
                     }
                 }
 
-                // alacak tutarından borc ve gecikmeleri düş 
-
-
                 var fisAlacakList = _dbContext.Fis
                     .Include(y => y.HesapPlani)
                     .Where(y => y.HesapPlani.Kod == hesapkodu && y.Alacak > 0
@@ -123,7 +123,7 @@ namespace Oxit.Domain
                 {
                     double? itemAlacakTutari = itemsAlacaks.Alacak;
                     
-                   if  (itemsAlacaks.Tarih <= new DateTime(2022, 08, 01))
+                   if  (itemsAlacaks.Tarih < new DateTime(2022, 7, 31))
                    {
                      #region BorcBakiye hesapla
                    
@@ -132,7 +132,6 @@ namespace Oxit.Domain
                         .Where(y => y.HesapPlani.Kod == hesapkodu && y.Borc > 0 &&
                                     y.FisTur == "6" && y.Tarih >= gecikmeBaslamaTarihi &&
                                     !y.Odendi)
-                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
                         .FirstOrDefault();
 
                     if (fisBorcBakiyes is not null )
@@ -174,7 +173,7 @@ namespace Oxit.Domain
                                 .Where(y => y.HesapPlani.Kod == hesapkodu && y.FisTur == "7"
                                                                           && y.GecikmeTutari != y.OdenenGecikmeTutar
                                 )
-                                .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                              
                                 .FirstOrDefault();
                             if (fisGecikmeBakiye is not null)
                             {
@@ -248,7 +247,8 @@ namespace Oxit.Domain
                                    
                                     y.FisTur == "3"  && y.Tarih >= gecikmeBaslamaTarihi &&
                                     !y.Odendi)
-                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                        .OrderBy(y => y.Id)
+                      //  .ThenBy(n => n.Id)
                         .ToList();
 
                     foreach (var itemBorcs in fisBorcs)
@@ -296,7 +296,8 @@ namespace Oxit.Domain
                                         y.Tarih >= itemsAlacaks.Tarih &&
                                         y.FisTur == "5" && y.GecikmeTutari != y.OdenenGecikmeTutar) 
 
-                            .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                            .OrderBy(y => y.Id)
+                            //  .ThenBy(n => n.Id)
                             .ToList();
 
                         foreach (var itemGecikme in fisGecikmes)
@@ -332,7 +333,9 @@ namespace Oxit.Domain
                                  
                                     y.FisTur == "3"  && y.Tarih >= gecikmeBaslamaTarihi &&
                                     !y.Odendi)
-                        .OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                        //.OrderBy(y => y.Tarih).ThenBy(n => n.Id)
+                        .OrderBy(y => y.Id)
+                        //  .ThenBy(n => n.Id)
                         .ToList();
 
                     foreach (var itemBorcs in fisBorcs45)
@@ -428,9 +431,14 @@ namespace Oxit.Domain
                                 (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
                             1.18 > 0)
                         {
-                            if (_dbContext.Fis.Where(y => y.GecikmeFisId == fisBorc.Id).Any())
+                            
+                           if  (!_dbContext.Fis.Where(y =>  y.FisTur=="7" && y.Odendi && y.HesapPlaniId == fisBorc.HesapPlaniId ).Any())
+                           {
+                            
+                            
+                            if (_dbContext.Fis.Where(y => y.FisBorcId == fisBorc.Id && y.FisTur=="7"  && y.HesapPlaniId == fisBorc.HesapPlaniId ).Any())
                             {
-                                _dbContext.Fis.Remove(_dbContext.Fis.Where(y => y.GecikmeFisId == fisBorc.Id)
+                                _dbContext.Fis.Remove(_dbContext.Fis.Where(y=> y.FisBorcId == fisBorc.Id && y.FisTur=="7"  && y.HesapPlaniId == fisBorc.HesapPlaniId)
                                     .FirstOrDefault());
                                 _dbContext.SaveChanges();
 
@@ -438,6 +446,7 @@ namespace Oxit.Domain
                                 {
                                     HesapPlaniId = fisBorc.HesapPlaniId,
                                     Tarih = (DateTime) fisBorc.Tarih,
+                                    FisBorcId = fisBorc.Id,
                                     GecikmeTutari =
                                         Math.Round(
                                             (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
@@ -445,7 +454,7 @@ namespace Oxit.Domain
                                     GecikmeGunu = (int) gecikmeGun,
                                     Odendi = false,
                                     FisTur = "7",
-                                    GecikmeFisId = fisBorc.Id,
+                                    //GecikmeFisId = fisBorc.Id,
                                     SonHesaplananGecikmeTarihi = DateTime.Now
                                 };
                                 _dbContext.Fis.Add(fis);
@@ -457,6 +466,7 @@ namespace Oxit.Domain
                                 {
                                     HesapPlaniId = fisBorc.HesapPlaniId,
                                     Tarih = (DateTime) fisBorc.Tarih,
+                                    FisBorcId = fisBorc.Id,
                                     GecikmeTutari =
                                         Math.Round(
                                             (((borcTutari * (double)gecikmeOrani) * (int)gecikmeGun) / 36000)  , 2) *
@@ -464,12 +474,13 @@ namespace Oxit.Domain
                                     GecikmeGunu = (int) gecikmeGun,
                                     Odendi = false,
                                     FisTur = "7",
-                                    GecikmeFisId = fisBorc.Id,
+                                    //GecikmeFisId = fisBorc.Id,
                                     SonHesaplananGecikmeTarihi = DateTime.Now
                                 };
                                 _dbContext.Fis.Add(fis);
                                 _dbContext.SaveChanges();
                             }
+                        }
                         }
                     }
                 }

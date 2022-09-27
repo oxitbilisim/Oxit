@@ -11,7 +11,8 @@ namespace Oxit.Domain.Models
     public class Fis : BaseSimpleModel<int>
     {
         public string? DbKey { get; set; }
-        public int HesapPlaniId { get; set; }
+         public int HesapPlaniId { get; set; }
+         public int FisBorcId { get; set; }
         public DateTime? Tarih { get; set; }
         public string? FisTur { get; set; }
         public string? FisNo { get; set; }
